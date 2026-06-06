@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Dale Ledger — A Survey of Scarsdale Property</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Syne:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f1f0ec; --paper-2:#e9e8e2; --vignette:#e3e2db;
+    --ink:#16161a; --ink-2:#54534e; --faint:#9d9b93;
+    --ivy:#16161a; --ivy-2:#3a3a37; --claret:#e23b1e; --brass:#e23b1e;
+    --line:#dad9d2; --line-2:#c5c4ba; --rule:#16161a;
+    --card:#f8f7f3; --up:#1f7a4d; --down:#e23b1e;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:radial-gradient(130% 100% at 50% -5%, #f9f8f5 0%, var(--paper) 52%, var(--vignette) 100%) fixed;
+    color:var(--ink); font-family:'Archivo','Helvetica Neue',Arial,sans-serif; font-size:16px; line-height:1.5;
+    min-height:100vh; -webkit-font-smoothing:antialiased; letter-spacing:-.005em;
+  }
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
+  .wrap{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:0 24px 70px}
+  ::selection{background:var(--claret);color:#fff}
+
+  /* masthead */
+  header.mast{padding:30px 0 12px;text-align:center}
+  .eyebrow{display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;
+    font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
+    border-bottom:1px solid var(--rule);padding-bottom:7px}
+  .eyebrow .l,.eyebrow .r{flex:1}.eyebrow .r{text-align:right}.eyebrow .c{color:var(--claret)}
+  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(48px,10vw,104px);
+    line-height:.86;letter-spacing:-.04em;color:var(--ink);margin:18px 0 6px;text-transform:none}
+  h1.title::after{content:".";color:var(--claret)}
+  .subhead{font-family:'Newsreader',serif;font-style:italic;font-size:clamp(14px,2.4vw,18px);
+    color:var(--ink-2);letter-spacing:0}
+  .mast-rule{margin:16px 0 0;border:0;border-top:2px solid var(--rule)}
+  .mast-rule.thin{border-top:1px solid var(--line-2);margin-top:4px}
+
+  /* nav */
+  nav.sections{display:flex;justify-content:center;gap:2px;flex-wrap:wrap;padding:10px 0 0}
+  nav.sections button{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;
+    padding:7px 16px;border-bottom:2px solid transparent;transition:.15s}
+  nav.sections button:hover{color:var(--ink)}
+  nav.sections button[aria-current="true"]{color:var(--claret);border-bottom-color:var(--claret)}
+  .yearpick{display:flex;justify-content:center;gap:0;margin:14px auto 0;width:max-content;
+    border:1px solid var(--line-2);border-radius:2px;overflow:hidden;background:var(--card)}
+  .yearpick button{font-family:'DM Mono',monospace;font-size:13px;padding:6px 18px;border:none;
+    background:none;color:var(--ink-2);cursor:pointer;border-right:1px solid var(--line);letter-spacing:.05em}
+  .yearpick button:last-child{border-right:none}
+  .yearpick button[aria-pressed="true"]{background:var(--ivy);color:#fff}
+
+  .panel{display:none;animation:fade .25s ease}.panel.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+
+  /* search */
+  .searchwrap{margin:22px auto 0;max-width:760px}
+  .sbox{position:relative}
+  .sbox input{width:100%;font-family:'Archivo',sans-serif;font-size:20px;font-weight:500;color:var(--ink);
+    padding:16px 18px 16px 50px;background:var(--card);border:1.5px solid var(--line-2);border-radius:3px;
+    outline:none;box-shadow:0 1px 0 #fff8,0 16px 36px -26px #16161a40}
+  .sbox input:focus{border-color:var(--ivy-2);box-shadow:0 0 0 3px #e23b1e26,0 16px 36px -26px #16161a40}
+  .sbox svg{position:absolute;left:17px;top:50%;transform:translateY(-50%);color:var(--brass)}
+  .hints{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.03em;
+    margin:8px 4px 0;line-height:1.7}
+  .hints b{color:var(--claret);font-weight:400}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;min-height:0}
+  .chip{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--ivy);
+    color:#fff;padding:4px 9px;border-radius:2px}
+  .chip.x{background:none;color:var(--ink-2);border:1px solid var(--line-2);cursor:pointer}
+  .statline{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;
+    font-family:'DM Mono',monospace;font-size:11px;color:var(--ink-2);letter-spacing:.04em;
+    margin:16px 0 4px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  .demo-flag{color:var(--claret)}
+
+  /* parcel card */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;padding:15px 18px;margin-top:11px;
+    cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s;
+    box-shadow:0 1px 0 #fff8,0 14px 30px -28px #16161a40}
+  .card:hover{transform:translateY(-1px);border-color:var(--line-2);box-shadow:0 1px 0 #fff8,0 20px 40px -28px #16161a55}
+  .ctop{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
+  .addr{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--ivy);line-height:1.05;letter-spacing:-.025em}
+  .owner{font-size:15px;color:var(--ink-2);margin-top:2px}.owner b{color:var(--ink);font-weight:500}
+  .tagline{display:flex;gap:7px;align-items:center;margin-top:6px;flex-wrap:wrap}
+  .tag{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    padding:2px 7px;border-radius:2px;border:1px solid var(--line-2);color:var(--ink-2)}
+  .tag.school{border-color:var(--ink);color:var(--ink);background:transparent;font-weight:500}
+  .pid{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);white-space:nowrap;text-align:right}
+  .vals{display:flex;gap:24px;margin-top:13px;align-items:flex-end;flex-wrap:wrap}
+  .v .lab{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--faint);display:block}
+  .v .num{font-family:'Syne',sans-serif;font-weight:500;font-size:22px;color:var(--ink);line-height:1.1}
+  .v .num.big{font-size:25px;color:var(--ivy)}
+  .delta{margin-left:auto;font-family:'DM Mono',monospace;font-size:13px;text-align:right}
+  .delta.up{color:var(--up)}.delta.down{color:var(--down)}.delta.flat{color:var(--ink-2)}
+
+  /* detail w/ chart */
+  .detail{margin-top:14px;padding-top:14px;border-top:1px dashed var(--rule);display:grid;
+    grid-template-columns:280px 1fr;gap:24px;align-items:start}
+  .chartbox{background:#fffdf6;border:1px solid var(--line);border-radius:3px;padding:12px 12px 6px}
+  .chartbox h4{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--faint);margin-bottom:4px}
+  .yeartbl .row{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;border-bottom:1px dotted var(--line)}
+  .yeartbl .row .k{color:var(--ink-2)}.yeartbl .row .val{font-weight:500;font-feature-settings:"tnum"}
+  .yeartbl .row.head{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--line)}
+  .meta-extra{grid-column:1/-1;font-family:'DM Mono',monospace;font-size:12px;color:var(--ink-2);
+    display:flex;gap:20px;flex-wrap:wrap;padding-top:4px}.meta-extra b{color:var(--ink)}
+
+  /* honor roll */
+  .hr-intro{text-align:center;max-width:680px;margin:18px auto 6px;font-family:'Newsreader',serif;
+    font-style:italic;font-size:17px;color:var(--ink-2);line-height:1.5}
+  .hr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0;margin-top:18px;
+    border-top:1px solid var(--rule)}
+  .award{padding:20px 22px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+  .award .medal{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--claret)}
+  .award h3{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:var(--ink);line-height:1;letter-spacing:-.03em;margin:6px 0 3px}
+  .award .winner{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--ivy)}
+  .award .stat{font-family:'DM Mono',monospace;font-size:13px;color:var(--ink-2);margin-top:1px}
+  .award .quip{font-style:italic;font-size:15px;color:var(--ink-2);margin-top:8px;line-height:1.45}
+  .award .runner{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);margin-top:9px;border-top:1px dotted var(--line);padding-top:7px}
+
+  /* browse / facets */
+  .facets{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+  .facet-set{margin-bottom:6px}
+  .facet-set .flab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:14px 0 7px;display:block}
+  .fbtn{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.03em;background:var(--card);
+    border:1px solid var(--line-2);color:var(--ink-2);padding:6px 12px;border-radius:2px;cursor:pointer;transition:.12s}
+  .fbtn:hover{border-color:var(--ivy-2);color:var(--ink)}
+  .fbtn[aria-pressed="true"]{background:var(--ivy);color:#fff;border-color:var(--ivy)}
+  .group{margin-top:16px;border-top:1px solid var(--line)}
+  .group h3{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--ivy);
+    display:flex;justify-content:space-between;align-items:baseline;padding:12px 2px 4px;cursor:pointer}
+  .group h3 .gstat{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);font-weight:400}
+  .group .glist{display:none}.group.open .glist{display:block}
+  .group h3 .caret{font-family:'DM Mono',monospace;color:var(--brass);font-size:13px}
+
+  /* notices / ads */
+  .notice{margin-top:16px;background:repeating-linear-gradient(45deg,#fff9,#fff9 9px,#f1ead9 9px,#f1ead9 18px);
+    border:1px solid var(--line-2);border-radius:3px;min-height:92px;display:flex;align-items:center;justify-content:center;
+    text-align:center;position:relative;overflow:hidden}
+  .notice[data-filled="true"]{background:var(--card)}
+  .notice .tag-ad{position:absolute;top:5px;left:9px;font-family:'DM Mono',monospace;font-size:8.5px;
+    letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+  .notice a{display:block;padding:20px 24px;text-decoration:none;color:var(--ivy)}
+  .notice a b{font-family:'Syne',sans-serif;font-size:21px;display:block}
+  .notice a span{font-family:'Newsreader',serif;font-style:italic;font-size:14px;color:var(--ink-2)}
+
+  .empty{text-align:center;padding:54px 20px;color:var(--ink-2)}
+  .empty .lead{font-family:'Syne',sans-serif;font-size:27px;color:var(--ivy);margin-bottom:6px}
+  .more-note{text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);padding:20px 0 0}
+
+  /* footer + seal */
+  footer{margin-top:46px;padding-top:20px;border-top:3px double var(--rule);text-align:center}
+  .seal{margin:6px auto 12px;width:128px;height:128px;display:block}
+  .colophon{font-family:'Newsreader',serif;font-style:italic;font-size:14px;color:var(--ink-2)}
+  .fineprint{font-family:'DM Mono',monospace;font-size:10.5px;color:var(--faint);letter-spacing:.03em;
+    line-height:1.7;max-width:680px;margin:12px auto 0}
+  .fineprint a{color:var(--ivy-2)}
+
+  @media(max-width:680px){
+    .detail{grid-template-columns:1fr}
+    .eyebrow .c{display:none}
+    .vals{gap:16px}
+    .hr-grid{grid-template-columns:1fr}
+    .award{border-right:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">
+      <span class="l">Vol. III · No. <span id="ebYear">26</span></span>
+      <span class="c">— Non Sibi, But Make It Real Estate —</span>
+      <span class="r" id="ebParcels">SWIS 555000</span>
+    </div>
+    <h1 class="title">The Dale Ledger</h1>
+    <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
+    <hr class="mast-rule"><hr class="mast-rule thin">
+    <nav class="sections">
+      <button data-panel="lookup" aria-current="true">Lookup</button>
+      <button data-panel="honor">The Honor Roll</button>
+      <button data-panel="browse">Browse the Roll</button>
+    </nav>
+    <div class="yearpick" role="group" aria-label="Roll year">
+      <button data-year="2026" aria-pressed="true">2026</button>
+      <button data-year="2025" aria-pressed="false">2025</button>
+      <button data-year="2024" aria-pressed="false">2024</button>
+    </div>
+  </header>
+
+  <!-- ============ LOOKUP ============ -->
+  <section class="panel on" id="panel-lookup">
+    <div class="searchwrap">
+      <div class="sbox">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="Try: heathcote over 3m · Rakower · School Lane · vacant land · biggest">
+      </div>
+      <div class="hints">Understands plain phrases — <b>over 3m</b>, <b>under 1.5m</b>, <b>2m-4m</b> · a school zone (<b>heathcote</b>, <b>edgewood</b>…) · a street · a class (<b>vacant</b>, <b>commercial</b>, <b>condo</b>) · a name · or <b>biggest</b> / <b>cheapest</b>. Stack them.</div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="statline"><span id="statL">Start typing to search the roll.</span><span id="statR"></span></div>
+    <div id="results"></div>
+  </section>
+
+  <!-- ============ HONOR ROLL ============ -->
+  <section class="panel" id="panel-honor">
+    <p class="hr-intro">Superlatives drawn entirely from the public roll, awarded without the consent or knowledge of the recipients. No purchase necessary. Void where assessed.</p>
+    <div class="hr-grid" id="honorGrid"></div>
+    <div class="notice" data-filled="false" style="margin-top:20px"><span class="tag-ad">Classified</span>
+      <a href="#" onclick="return false"><b>This space is for let.</b><span>Reach every homeowner in the dale. Inquire within.</span></a></div>
+  </section>
+
+  <!-- ============ BROWSE ============ -->
+  <section class="panel" id="panel-browse">
+    <div class="facet-set">
+      <span class="flab">Slice the roll by</span>
+      <div class="facets" id="groupFacets">
+        <button class="fbtn" data-group="street" aria-pressed="true">Street</button>
+        <button class="fbtn" data-group="school">School zone</button>
+        <button class="fbtn" data-group="band">Value band</button>
+        <button class="fbtn" data-group="class">Property class</button>
+      </div>
+    </div>
+    <div class="statline"><span id="bStatL"></span><span id="bStatR"></span></div>
+    <div id="groups"></div>
+  </section>
+
+  <footer>
+    <svg class="seal" viewBox="0 0 200 200" id="seal" aria-label="Made with heart in the dale"></svg>
+    <div class="colophon">Set in Syne &amp; Archivo. Compiled from the public record. Made with <span style="color:var(--claret)">&#9829;</span> in the dale.</div>
+    <div class="fineprint">
+      Source: Village of Scarsdale Assessor, Tentative &amp; Final Assessment Rolls (<a href="https://www.scarsdale.gov/833/Assessment-Rolls" target="_blank" rel="noopener">scarsdale.gov</a>). Official parcel lookup: <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>. School zones are a best-effort seed and must be verified against the district boundary map; they are not authoritative. Owner names appear exactly as published in the roll. This is an independent, unofficial tool — confirm any figure before relying on it.
+    </div>
+  </footer>
+</div>
+
+<script>
+/* =====================================================================
+   DATA — fetches data/2026.json, data/2025.json, data/2024.json
+   (output of extract.py). Falls back to the embedded demo so the page
+   works standalone. Each file: {meta:{year,uniform_pct_of_value,...},parcels:[...]}
+   ===================================================================== */
+const DEMO2026 = [
+  {parcel_id:"01.01.1",address:"4 SCHOOL LA",owner:"RAKOWER MICHAEL",co_owner:"RAKOWER SALI",class_code:"210",class_desc:"1 FAMILY RES",land:875000,assessed:1425000,full_market:2129726,acreage:0.27},
+  {parcel_id:"01.01.2",address:"6 SCHOOL LA",owner:"GORDON DAVID",co_owner:"HORWITZ ERICA",class_code:"210",class_desc:"1 FAMILY RES",land:950000,assessed:1128000,full_market:1685846,acreage:0.34},
+  {parcel_id:"01.01.3",address:"8 SCHOOL LA",owner:"SUN NING",co_owner:null,class_code:"210",class_desc:"1 FAMILY RES",land:925000,assessed:1350000,full_market:2017635,acreage:0.36},
+  {parcel_id:"01.01.4",address:"10 SCHOOL LA",owner:"LIMOUZI QUENTIN",co_owner:"LIMOUZI MIHO",class_code:"210",class_desc:"1 FAMILY RES",land:925000,assessed:1525000,full_market:2279180,acreage:0.38},
+  {parcel_id:"01.01.5",address:"12 SCHOOL LA",owner:"HARRIS SCOTT B",co_owner:"HARRIS JILL KALISH",class_code:"210",class_desc:"1 FAMILY RES",land:950000,assessed:1997500,full_market:2985353,acreage:0.41},
+  {parcel_id:"01.01.6",address:"2 WINSLOW PL",owner:"HIRSCH MARK",co_owner:null,class_code:"210",class_desc:"1 FAMILY RES",land:950000,assessed:1312250,full_market:1961216,acreage:0.23},
+  {parcel_id:"01.01.6A",address:"4 WINSLOW PL",owner:"HASSAN ELIZABETH A",co_owner:null,class_code:"210",class_desc:"1 FAMILY RES",land:1025000,assessed:1300000,full_market:1942908,acreage:0.28},
+  {parcel_id:"01.01.7",address:"20 SCHOOL LA",owner:"LEVIN DAVID A",co_owner:"DUGGAN MARY F",class_code:"312",class_desc:"RES LND INCL. SM. IM",land:275000,assessed:275000,full_market:410999,acreage:0.38},
+  {parcel_id:"01.01.7A",address:"3 WINSLOW PL",owner:"SIEGEL STEVEN R",co_owner:"SIEGEL JODI L",class_code:"210",class_desc:"1 FAMILY RES",land:1225000,assessed:2225000,full_market:3325362,acreage:0.43},
+  {parcel_id:"01.02.1",address:"28 OVERHILL RD",owner:"MAHORNEY GRECIA",co_owner:"MAHORNEY REID H",class_code:"210",class_desc:"1 FAMILY RES",land:925000,assessed:1175000,full_market:1756090,acreage:0.29},
+  {parcel_id:"01.02.10",address:"5 CIRCLE RD",owner:"DIAMOND PAUL",co_owner:"DIAMOND MICHELE",class_code:"210",class_desc:"1 FAMILY RES",land:825000,assessed:1270000,full_market:1898072,acreage:0.25},
+  {parcel_id:"01.02.12A",address:"2 OVERHILL RD",owner:"OVERHILL RD ASSOCIATES",co_owner:null,class_code:"464",class_desc:"OFFICE BUILDING",land:10000000,assessed:13453440,full_market:20106770,acreage:0.46}
+];
+const DEMO = {
+  2026:{meta:{year:2026,uniform_pct_of_value:66.91,demo:true},parcels:DEMO2026},
+  2025:{meta:{year:2025,uniform_pct_of_value:70.12,demo:true},parcels:DEMO2026.map(p=>({...p,assessed:Math.round(p.assessed*.94/1e3)*1e3,land:Math.round(p.land*.96/1e3)*1e3,full_market:Math.round(p.assessed*.94/.7012)}))},
+  2024:{meta:{year:2024,uniform_pct_of_value:74.94,demo:true},parcels:DEMO2026.map(p=>({...p,assessed:Math.round(p.assessed*.88/1e3)*1e3,land:Math.round(p.land*.91/1e3)*1e3,full_market:Math.round(p.assessed*.88/.7494)}))}
+};
+
+/* =====================================================================
+   SCHOOL ZONES — EDIT ME. street (UPPERCASE, no number) -> school.
+   Seed only; verify against the district boundary map before trusting.
+   Anything unmatched falls into "Unzoned" so you can see what's left.
+   ===================================================================== */
+const SCHOOL_BY_STREET = {
+  // Edgewood (demo streets sit here)
+  "SCHOOL LA":"Edgewood","SCHOOL LANE":"Edgewood","WINSLOW PL":"Edgewood","WINSLOW PLACE":"Edgewood",
+  "OVERHILL RD":"Edgewood","CIRCLE RD":"Edgewood","EDGEWOOD RD":"Edgewood","WAYSIDE LA":"Edgewood",
+  // (add the rest as you verify them — see README for the source)
+  // "FOX MEADOW RD":"Fox Meadow","CARTHAGE RD":"Fox Meadow","TOMPKINS RD":"Fox Meadow",
+  // "HEATHCOTE RD":"Heathcote","PALMER AVE":"Heathcote","WALWORTH AVE":"Heathcote",
+  // "WEAVER ST":"Quaker Ridge","COHAWNEY RD":"Quaker Ridge","SPRAGUE RD":"Quaker Ridge",
+  // "HUNTINGTON AVE":"Greenacres","SAGE TER":"Greenacres","MONTGOMERY AVE":"Greenacres"
+};
+const SCHOOLS = ["Edgewood","Fox Meadow","Greenacres","Heathcote","Quaker Ridge"];
+
+const YEARS=[2026,2025,2024];
+const store={}, index={}; let curYear=2026, anyDemo=false;
+
+/* ---- helpers ---- */
+const fmtUSD=n=>n==null?"—":"$"+Math.round(n).toLocaleString("en-US");
+const fmtShort=n=>n==null?"—":n>=1e6?"$"+(n/1e6).toFixed(n>=1e7?1:2)+"M":n>=1e3?"$"+Math.round(n/1e3)+"k":"$"+n;
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const titleCase=s=>(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Ny|Llc|Iii|Ii)\b/g,m=>m.toUpperCase());
+function streetOf(addr){ if(!addr) return ""; return addr.replace(/^\s*\d+[A-Z]?\s+/,"").trim().toUpperCase(); }
+function schoolOf(addr){ const s=streetOf(addr); return SCHOOL_BY_STREET[s] || "Unzoned"; }
+function classOf(p){
+  const c=p.class_code||""; const d=(p.class_desc||"").toUpperCase();
+  if(c.startsWith("2")&&c!=="210"&&d.includes("FAMILY")) return "Multi-family";
+  if(c==="210"||d.includes("1 FAMILY")) return "Single-family";
+  if(c==="411"||c.startsWith("41")||c.startsWith("44")||c.startsWith("46")||d.includes("OFFICE")||d.includes("COMM")) return "Commercial";
+  if(c.startsWith("31")||d.includes("VAC")||d.includes("RES LND")) return "Vacant / land";
+  if(d.includes("CONDO")||c==="411C") return "Condo";
+  return "Other";
+}
+
+async function loadYear(y){
+  try{const r=await fetch(`data/${y}.json`,{cache:"no-store"});if(!r.ok)throw 0;
+    const j=await r.json();if(!j.parcels||!j.parcels.length)throw 0;return j;}
+  catch(e){anyDemo=true;return DEMO[y];}
+}
+async function boot(){
+  for(const y of YEARS) store[y]=await loadYear(y);
+  for(const y of YEARS) for(const p of store[y].parcels){(index[p.parcel_id]||={})[y]=p;}
+  for(const pid in index){
+    const e=index[pid]; const a=e[2026]||e[2025]||e[2024];
+    e._pid=pid; e._addr=a.address||""; e._street=streetOf(a.address);
+    e._school=schoolOf(a.address); e._class=classOf(a);
+    e._search=`${pid} ${a.address||""} ${a.owner||""} ${a.co_owner||""} ${e._school} ${e._class}`.toLowerCase();
+  }
+  buildSeal();
+  setYear(2026,true); renderLookup(""); renderHonor(); renderBrowse();
+}
+function updateMeta(){
+  const m=store[curYear].meta, n=store[curYear].parcels.length;
+  document.getElementById('ebYear').textContent=String(curYear).slice(2);
+  document.getElementById('ebParcels').textContent=`${n.toLocaleString()} parcels · uniform ${m.uniform_pct_of_value}%`;
+}
+function setYear(y,silent){curYear=y;
+  document.querySelectorAll('.yearpick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.year==String(y)));
+  updateMeta(); if(!silent){renderLookup(document.getElementById('q').value); renderHonor(); renderBrowse();}}
+
+/* ---- deterministic query parser (no model) ---- */
+function parseQuery(raw){
+  let q=(raw||"").trim().toLowerCase(); const f={text:[],min:null,max:null,school:null,cls:null,sort:null,chips:[]};
+  if(!q) return f;
+  // value ranges
+  const num=s=>{s=s.replace(/[$,\s]/g,""); let m=s.match(/^([\d.]+)(m|k)?$/); if(!m)return null;
+    let v=parseFloat(m[1]); if(m[2]==="m")v*=1e6; else if(m[2]==="k")v*=1e3; else if(v<100)v*=1e6; return v;}
+  let m;
+  if(m=q.match(/(\$?[\d.,]+\s*[mk]?)\s*[-–to]+\s*(\$?[\d.,]+\s*[mk]?)/)){
+    f.min=num(m[1]); f.max=num(m[2]); f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");}
+  if(m=q.match(/(?:over|above|>|more than|\bgt\b)\s*\$?([\d.,]+\s*[mk]?)/)){f.min=num(m[1]);f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
+  if(m=q.match(/(?:under|below|<|less than|\blt\b)\s*\$?([\d.,]+\s*[mk]?)/)){f.max=num(m[1]);f.chips.push(`under ${fmtShort(f.max)}`);q=q.replace(m[0],"");}
+  if(m=q.match(/\$?([\d.]+)\s*m\+/)){f.min=num(m[1]+"m");f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
+  // school
+  for(const sc of SCHOOLS){ if(q.includes(sc.toLowerCase())){f.school=sc;f.chips.push(sc);q=q.replace(sc.toLowerCase(),"");}}
+  if(q.includes("unzoned")){f.school="Unzoned";f.chips.push("Unzoned");q=q.replace("unzoned","");}
+  // class
+  const clsmap={vacant:"Vacant / land",land:"Vacant / land",commercial:"Commercial",office:"Commercial",
+    condo:"Condo",house:"Single-family","single family":"Single-family","multi":"Multi-family"};
+  for(const k in clsmap){ if(q.includes(k)){f.cls=clsmap[k];f.chips.push(clsmap[k]);q=q.replace(k,"");break;}}
+  // sort
+  if(/\b(biggest|highest|priciest|most expensive|top)\b/.test(q)){f.sort="desc";f.chips.push("biggest first");q=q.replace(/\b(biggest|highest|priciest|most expensive|top)\b/,"");}
+  if(/\b(cheapest|lowest|smallest)\b/.test(q)){f.sort="asc";f.chips.push("cheapest first");q=q.replace(/\b(cheapest|lowest|smallest)\b/,"");}
+  f.text=q.split(/\s+/).map(t=>t.trim()).filter(Boolean);
+  return f;
+}
+function applyQuery(list,f){
+  let out=list.filter(e=>{
+    const p=e[curYear]; const fmv=p?.full_market;
+    if(f.school && e._school!==f.school) return false;
+    if(f.cls && e._class!==f.cls) return false;
+    if(f.min!=null && !(fmv>=f.min)) return false;
+    if(f.max!=null && !(fmv<=f.max)) return false;
+    if(f.text.length && !f.text.every(t=>e._search.includes(t))) return false;
+    return true;
+  });
+  out.sort((a,b)=>{const pa=a[curYear],pb=b[curYear]; if(!!pa!==!!pb)return pa?-1:1;
+    const va=pa?.full_market||0, vb=pb?.full_market||0;
+    return f.sort==="asc"? va-vb : vb-va;});
+  return out;
+}
+
+/* ---- 3-year chart ---- */
+function chartSVG(e){
+  const pts=YEARS.slice().reverse().map(y=>({y,v:e[y]?.assessed??null}));
+  const vals=pts.filter(p=>p.v!=null).map(p=>p.v); if(vals.length<2) return "<div style='font-size:13px;color:var(--faint);font-style:italic'>Not enough years to chart.</div>";
+  const W=256,H=92,pad=8,bot=H-18,top=10; const min=Math.min(...vals),max=Math.max(...vals);
+  const span=(max-min)||1; const x=i=>pad+i*((W-2*pad)/(pts.length-1));
+  const yv=v=>bot-((v-min)/span)*(bot-top);
+  let line="",dots="",labs="",area="";
+  pts.forEach((p,i)=>{ if(p.v==null)return; const cx=x(i),cy=yv(p.v);
+    line+=(line?"L":"M")+cx.toFixed(1)+" "+cy.toFixed(1)+" ";
+    dots+=`<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3" fill="${p.y===curYear?'var(--claret)':'var(--ivy)'}"/>`;
+    labs+=`<text x="${cx.toFixed(1)}" y="${H-5}" text-anchor="middle" font-family="DM Mono,monospace" font-size="9" fill="var(--faint)">${p.y}</text>`;
+    labs+=`<text x="${cx.toFixed(1)}" y="${(cy-7).toFixed(1)}" text-anchor="middle" font-family="DM Mono,monospace" font-size="9.5" fill="${p.y===curYear?'var(--claret)':'var(--ink-2)'}">${fmtShort(p.v)}</text>`;
+  });
+  const first=pts.findIndex(p=>p.v!=null), last=pts.length-1;
+  area=`M ${x(first)} ${bot} `+line.replace(/^M/,"L").replace(/L/, "L")+`L ${x(last)} ${bot} Z`;
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%"><path d="${line}" fill="none" stroke="var(--ivy)" stroke-width="1.5"/>${dots}${labs}</svg>`;
+}
+
+/* ---- render: lookup ---- */
+let CAP=80;
+function cardHTML(e,withInline){
+  const p=e[curYear];
+  const schoolTag=e._school!=="Unzoned"?`<span class="tag school">${e._school}</span>`:"";
+  if(!p){const a=e[2026]||e[2025]||e[2024];
+    return `<div class="card" data-pid="${e._pid}"><div class="ctop"><div><div class="addr">${esc(titleCase(a.address))}</div><div class="owner">Not on the ${curYear} roll</div></div><div class="pid">${e._pid}</div></div></div>`;}
+  const cur=p.assessed, prevY=curYear===2024?null:curYear+1, prev=prevY?e[prevY]?.assessed:null;
+  let dh=""; if(cur!=null&&prev){const pct=(cur-prev)/prev*100,dir=pct>.05?"up":pct<-.05?"down":"flat";
+    dh=`<div class="delta ${dir}">${pct>0?"+":""}${pct.toFixed(1)}%<br><span style="font-size:10px;color:var(--faint)">vs ${prevY}</span></div>`;}
+  const owner=p.owner?`<div class="owner"><b>${esc(titleCase(p.owner))}</b>${p.co_owner?" · "+esc(titleCase(p.co_owner)):""}</div>`:"";
+  return `<div class="card" data-pid="${e._pid}"><div class="ctop"><div>
+      <div class="addr">${esc(titleCase(p.address))}</div>${owner}
+      <div class="tagline">${schoolTag}<span class="tag">${e._class}</span></div></div>
+    <div class="pid">${e._pid}</div></div>
+    <div class="vals">
+      <div class="v"><span class="lab">Full Market Value</span><span class="num big">${fmtUSD(p.full_market)}</span></div>
+      <div class="v"><span class="lab">Assessed</span><span class="num">${fmtUSD(p.assessed)}</span></div>
+      <div class="v"><span class="lab">Land</span><span class="num">${fmtUSD(p.land)}</span></div>
+      ${dh}</div></div>`;
+}
+function detailHTML(e){
+  const rows=YEARS.map(y=>{const p=e[y]; if(!p)return `<div class="row"><span class="k">${y}</span><span class="val" style="color:var(--faint);font-style:italic">not on roll</span></div>`;
+    return `<div class="row"><span class="k">${y}${y===curYear?" ◂":""}</span><span class="val">${fmtUSD(p.full_market)} <span style="color:var(--faint);font-size:12px">fmv</span></span></div>`;}).join("");
+  const a=e[curYear]||e[2026]||e[2025]||e[2024];
+  return `<div class="detail">
+    <div class="chartbox"><h4>Assessed value, 3-year</h4>${chartSVG(e)}</div>
+    <div class="yeartbl"><div class="row head"><span class="k">Year</span><span class="val">Full market value</span></div>${rows}</div>
+    <div class="meta-extra">
+      ${e._school!=="Unzoned"?`<span>Zone <b>${e._school}</b></span>`:`<span style="color:var(--faint)">Zone unmapped</span>`}
+      <span>Class <b>${a.class_code||""} ${esc(titleCase(a.class_desc||""))}</b></span>
+      ${a.acreage!=null?`<span>Lot <b>${a.acreage} ac</b></span>`:""}
+      ${a.acct?`<span>Acct <b>${a.acct}</b></span>`:""}
+    </div></div>`;
+}
+function renderLookup(raw){
+  const f=parseQuery(raw); const box=document.getElementById('results');
+  let list=applyQuery(Object.values(index),f);
+  // chips
+  document.getElementById('chips').innerHTML=f.chips.map(c=>`<span class="chip">${esc(c)}</span>`).join("");
+  const total=list.length;
+  document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${Object.keys(index).length.toLocaleString()} parcels on file — start typing.`;
+  document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA — run extract.py for the full roll</span>`:"";
+  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;return;}
+  const shown=list.slice(0,CAP);
+  box.innerHTML=shown.map((e,i)=>{let c=cardHTML(e);
+    if(i===4)c+=`<div class="notice" data-filled="false"><span class="tag-ad">Advertisement</span><a href="#" onclick="return false"><b>Advertise to the dale.</b><span>This unit is available — local realtors, counsel, contractors.</span></a></div>`;
+    return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more — narrow your search.</div>`:"");
+}
+
+/* ---- render: Honor Roll ---- */
+function renderHonor(){
+  const ents=Object.values(index).filter(e=>e[curYear]); const g=document.getElementById('honorGrid');
+  if(!ents.length){g.innerHTML="";return;}
+  const cur=e=>e[curYear];
+  const yoy=e=>{const c=cur(e).assessed, pY=curYear===2024?null:curYear+1, p=pY?e[pY]?.assessed:null; return (c!=null&&p)?(c-p)/p*100:null;};
+  const byMax=fn=>ents.filter(e=>fn(e)!=null).sort((a,b)=>fn(b)-fn(a));
+  const byMin=fn=>ents.filter(e=>fn(e)!=null).sort((a,b)=>fn(a)-fn(b));
+  const nm=e=>titleCase(cur(e).address);
+
+  const fmv=e=>cur(e).full_market, acre=e=>cur(e).acreage, perAcre=e=>acre(e)?fmv(e)/acre(e):null,
+    landpct=e=>cur(e).full_market&&cur(e).land?cur(e).land/cur(e).assessed:null;
+
+  const topVal=byMax(fmv), jumps=byMax(yoy), drops=byMin(yoy), lots=byMax(acre),
+    pfp=byMax(e=>perAcre(e)), comm=byMax(e=>e._class==="Commercial"?fmv(e):null),
+    steady=ents.filter(e=>yoy(e)!=null).sort((a,b)=>Math.abs(yoy(a))-Math.abs(yoy(b)));
+
+  const awards=[];
+  const W=(medal,h3,e,statTxt,quip,runners)=>{ if(!e)return;
+    awards.push(`<div class="award"><div class="medal">${medal}</div><h3>${h3}</h3>
+      <div class="winner">${esc(nm(e))}</div><div class="stat">${statTxt}</div>
+      <div class="quip">${quip}</div>${runners?`<div class="runner">${runners}</div>`:""}</div>`);};
+  const runlist=(arr,fmt)=>arr.slice(1,4).map((e,i)=>`${i+2}. ${esc(nm(e))} — ${fmt(e)}`).join(" · ");
+
+  if(topVal[0])W("№ 1 · Most Valuable","The Crown Jewel",topVal[0],
+    `${fmtUSD(fmv(topVal[0]))} full market value`,
+    `Assessed like a small sovereign nation. The rest of the village rounds up for street parking.`,
+    runlist(topVal,e=>fmtShort(fmv(e))));
+  if(jumps[0]&&yoy(jumps[0])>0)W("Largest increase","Most Improved, Allegedly",jumps[0],
+    `+${yoy(jumps[0]).toFixed(1)}% over ${curYear-1}`,
+    `The Assessor noticed something. Congratulations are not, strictly speaking, in order.`,
+    runlist(jumps,e=>"+"+yoy(e).toFixed(1)+"%"));
+  if(drops[0]&&yoy(drops[0])<0)W("Largest decrease","The Market Speaks",drops[0],
+    `${yoy(drops[0]).toFixed(1)}% over ${curYear-1}`,
+    `Down year over year. Somewhere, a grievance attorney is quietly taking credit.`,
+    runlist(drops,e=>yoy(e).toFixed(1)+"%"));
+  if(lots[0])W("Largest parcel","The Land Baron",lots[0],
+    `${acre(lots[0])} acres`,
+    `More acreage than the rest of the block combined, and we mean that admiringly.`,
+    runlist(lots,e=>acre(e)+" ac"));
+  if(pfp[0])W("Value per acre","Pound for Pound",pfp[0],
+    `${fmtShort(perAcre(pfp[0]))} per acre`,
+    `Smallest footprint, biggest ambitions. Manhattan math, Westchester zip code.`,
+    runlist(pfp,e=>fmtShort(perAcre(e))+"/ac"));
+  if(comm[0])W("Top commercial","The Corner Office",comm[0],
+    `${fmtUSD(fmv(comm[0]))} · ${esc(titleCase(cur(comm[0]).class_desc||""))}`,
+    `Proof that someone in the dale actually works for a living, taxably so.`,
+    runlist(comm,e=>fmtShort(fmv(e))));
+  if(steady[0])W("Least changed","Steady Eddie",steady[0],
+    `${yoy(steady[0])>=0?"+":""}${yoy(steady[0]).toFixed(2)}% over ${curYear-1}`,
+    `Three years, barely a flinch. The Assessor's most reliably boring success story.`,
+    "");
+  g.innerHTML=awards.join("");
+}
+
+/* ---- render: Browse / groupings ---- */
+let groupMode="street";
+function renderBrowse(){
+  const ents=Object.values(index).filter(e=>e[curYear]); const wrap=document.getElementById('groups');
+  const keyFn={
+    street:e=>e._street||"(no street)",
+    school:e=>e._school,
+    class:e=>e._class,
+    band:e=>{const v=e[curYear].full_market; if(v==null)return "Unknown";
+      const b=[[0,1e6,"Under $1M"],[1e6,2e6,"$1M – $2M"],[2e6,3e6,"$2M – $3M"],[3e6,5e6,"$3M – $5M"],[5e6,1e7,"$5M – $10M"],[1e7,1/0,"$10M +"]];
+      for(const[lo,hi,lab]of b)if(v>=lo&&v<hi)return lab; return "$10M +";}
+  }[groupMode];
+  const groups={};
+  for(const e of ents){const k=keyFn(e);(groups[k]||={list:[],sum:0}); groups[k].list.push(e); groups[k].sum+=e[curYear].full_market||0;}
+  const bandOrder=["Under $1M","$1M – $2M","$2M – $3M","$3M – $5M","$5M – $10M","$10M +","Unknown"];
+  let keys=Object.keys(groups);
+  if(groupMode==="band") keys.sort((a,b)=>bandOrder.indexOf(a)-bandOrder.indexOf(b));
+  else keys.sort((a,b)=>groups[b].list.length-groups[a].list.length||a.localeCompare(b));
+  document.getElementById('bStatL').textContent=`${keys.length} ${groupMode==="band"?"bands":groupMode+"s"} · ${ents.length.toLocaleString()} parcels`;
+  document.getElementById('bStatR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA</span>`:"";
+  wrap.innerHTML=keys.map((k,gi)=>{const G=groups[k];const avg=G.sum/G.list.length;
+    const list=G.list.slice().sort((a,b)=>(b[curYear].full_market||0)-(a[curYear].full_market||0));
+    const inner=list.slice(0,60).map(e=>cardHTML(e)).join("")+(list.length>60?`<div class="more-note">${list.length-60} more in this group</div>`:"");
+    return `<div class="group${gi===0?" open":""}" data-k="${esc(k)}"><h3>${esc(titleCase(k===k.toUpperCase()?k:k))} <span class="gstat">${G.list.length} parcels · ${fmtShort(G.sum)} total · ${fmtShort(avg)} avg <span class="caret">▸</span></span></h3><div class="glist">${inner}</div></div>`;
+  }).join("");
+}
+
+/* ---- seal (hand-built emblem) ---- */
+function buildSeal(){
+  const s=document.getElementById('seal');
+  const ring=[];
+  const txt="· MADE WITH HEART IN THE DALE · THE DALE LEDGER ";
+  // circular text
+  const R=78, cx=100, cy=100; const N=txt.length;
+  for(let i=0;i<N;i++){const ch=txt[i]; const ang=(i/N)*Math.PI*2 - Math.PI/2;
+    const x=cx+Math.cos(ang)*R, y=cy+Math.sin(ang)*R; const rot=(ang*180/Math.PI)+90;
+    ring.push(`<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-family="DM Mono,monospace" font-size="8.5" fill="#16161a" text-anchor="middle" transform="rotate(${rot.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})">${ch===" "?"&#160;":ch}</text>`);}
+  s.innerHTML=`
+    <circle cx="100" cy="100" r="92" fill="none" stroke="#16161a" stroke-width="1.2"/>
+    <circle cx="100" cy="100" r="88" fill="none" stroke="#16161a" stroke-width="0.6"/>
+    <circle cx="100" cy="100" r="62" fill="none" stroke="#16161a" stroke-width="0.8"/>
+    ${ring.join("")}
+    <!-- the dale: two hills + valley -->
+    <path d="M44 118 Q72 78 100 108 Q128 78 156 118" fill="none" stroke="#16161a" stroke-width="2" stroke-linecap="round"/>
+    <!-- sun over the dale -->
+    <circle cx="100" cy="84" r="9" fill="none" stroke="#e23b1e" stroke-width="1.6"/>
+    ${Array.from({length:8}).map((_,i)=>{const a=i/8*Math.PI*2;return `<line x1="${100+Math.cos(a)*12}" y1="${84+Math.sin(a)*12}" x2="${100+Math.cos(a)*16}" y2="${84+Math.sin(a)*16}" stroke="#e23b1e" stroke-width="1.2"/>`}).join("")}
+    <!-- heart nestled in the valley -->
+    <path d="M100 132 C92 122 80 124 80 134 C80 143 92 148 100 156 C108 148 120 143 120 134 C120 124 108 122 100 132 Z" fill="#e23b1e"/>
+    <text x="100" y="173" text-anchor="middle" font-family="Syne,sans-serif" font-size="11" letter-spacing="2" fill="#16161a">EST. MMXXVI</text>`;
+}
+
+/* ---- events ---- */
+let tmr;
+document.getElementById('q').addEventListener('input',e=>{clearTimeout(tmr);CAP=80;tmr=setTimeout(()=>renderLookup(e.target.value),100);});
+document.querySelectorAll('nav.sections button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('nav.sections button').forEach(x=>x.setAttribute('aria-current',x===b));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('panel-'+b.dataset.panel).classList.add('on');
+}));
+document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
+document.querySelectorAll('#groupFacets .fbtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  groupMode=b.dataset.group; renderBrowse();}));
+function bindCardClicks(container){container.addEventListener('click',e=>{
+  const card=e.target.closest('.card'); if(!card||!container.contains(card))return;
+  const ent=index[card.dataset.pid]; if(!ent)return;
+  const open=card.querySelector('.detail'); if(open){open.remove();return;}
+  container.querySelectorAll('.detail').forEach(d=>d.remove());
+  card.insertAdjacentHTML('beforeend',detailHTML(ent));});}
+bindCardClicks(document.getElementById('results'));
+bindCardClicks(document.getElementById('groups'));
+document.getElementById('groups').addEventListener('click',e=>{
+  const h=e.target.closest('.group > h3'); if(h)h.parentElement.classList.toggle('open');});
+
+boot();
+</script>
+</body>
+</html>
