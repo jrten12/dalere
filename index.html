@@ -190,7 +190,6 @@
     <div class="yearpick" role="group" aria-label="Roll year">
       <button data-year="2026" aria-pressed="true">2026</button>
       <button data-year="2025" aria-pressed="false">2025</button>
-      <button data-year="2024" aria-pressed="false">2024</button>
     </div>
   </header>
 
@@ -242,7 +241,7 @@
 
 <script>
 /* =====================================================================
-   DATA — fetches data/2026.json, data/2025.json, data/2024.json
+   DATA — fetches data/2026.json, data/2025.json
    (output of extract.py). Falls back to the embedded demo so the page
    works standalone. Each file: {meta:{year,uniform_pct_of_value,...},parcels:[...]}
    ===================================================================== */
@@ -262,8 +261,7 @@ const DEMO2026 = [
 ];
 const DEMO = {
   2026:{meta:{year:2026,uniform_pct_of_value:66.91,demo:true},parcels:DEMO2026},
-  2025:{meta:{year:2025,uniform_pct_of_value:70.12,demo:true},parcels:DEMO2026.map(p=>({...p,assessed:Math.round(p.assessed*.94/1e3)*1e3,land:Math.round(p.land*.96/1e3)*1e3,full_market:Math.round(p.assessed*.94/.7012)}))},
-  2024:{meta:{year:2024,uniform_pct_of_value:74.94,demo:true},parcels:DEMO2026.map(p=>({...p,assessed:Math.round(p.assessed*.88/1e3)*1e3,land:Math.round(p.land*.91/1e3)*1e3,full_market:Math.round(p.assessed*.88/.7494)}))}
+  2025:{meta:{year:2025,uniform_pct_of_value:70.12,demo:true},parcels:DEMO2026.map(p=>({...p,assessed:Math.round(p.assessed*.94/1e3)*1e3,land:Math.round(p.land*.96/1e3)*1e3,full_market:Math.round(p.assessed*.94/.7012)}))}
 };
 
 /* =====================================================================
@@ -283,7 +281,7 @@ const SCHOOL_BY_STREET = {
 };
 const SCHOOLS = ["Edgewood","Fox Meadow","Greenacres","Heathcote","Quaker Ridge"];
 
-const YEARS=[2026,2025,2024];
+const YEARS=[2026,2025];
 const store={}, index={}; let curYear=2026, anyDemo=false;
 
 /* ---- helpers ---- */
@@ -314,7 +312,7 @@ async function boot(){
   for(const y of YEARS) store[y].parcels=store[y].parcels.filter(p=>classOf(p)!=="Commercial");
   for(const y of YEARS) for(const p of store[y].parcels){(index[p.parcel_id]||={})[y]=p;}
   for(const pid in index){
-    const e=index[pid]; const a=e[2026]||e[2025]||e[2024];
+    const e=index[pid]; const a=e[2026]||e[2025];
     e._pid=pid; e._addr=a.address||""; e._street=streetOf(a.address);
     e._school=schoolOf(a.address); e._class=classOf(a);
     e._search=`${pid} ${a.address||""} ${a.owner||""} ${a.co_owner||""} ${e._school} ${e._class}`.toLowerCase();
@@ -397,9 +395,9 @@ let CAP=80;
 function cardHTML(e,withInline){
   const p=e[curYear];
   const schoolTag=e._school!=="Unzoned"?`<span class="tag school">${e._school}</span>`:"";
-  if(!p){const a=e[2026]||e[2025]||e[2024];
+  if(!p){const a=e[2026]||e[2025];
     return `<div class="card" data-pid="${e._pid}"><div class="ctop"><div><div class="addr">${esc(titleCase(a.address))}</div><div class="owner">Not on the ${curYear} roll</div></div><div class="pid">${e._pid}</div></div></div>`;}
-  const cur=p.assessed, prevY=curYear===2024?null:curYear+1, prev=prevY?e[prevY]?.assessed:null;
+  const cur=p.assessed, prevY=curYear+1, prev=prevY?e[prevY]?.assessed:null;
   let dh=""; if(cur!=null&&prev){const pct=(cur-prev)/prev*100,dir=pct>.05?"up":pct<-.05?"down":"flat";
     dh=`<div class="delta ${dir}">${pct>0?"+":""}${pct.toFixed(1)}%<br><span style="font-size:10px;color:var(--faint)">vs ${prevY}</span></div>`;}
   const owner=p.owner?`<div class="owner"><b>${esc(titleCase(p.owner))}</b>${p.co_owner?" · "+esc(titleCase(p.co_owner)):""}</div>`:"";
@@ -416,7 +414,7 @@ function cardHTML(e,withInline){
 function detailHTML(e){
   const rows=YEARS.map(y=>{const p=e[y]; if(!p)return `<div class="row"><span class="k">${y}</span><span class="val" style="color:var(--faint);font-style:italic">not on roll</span></div>`;
     return `<div class="row"><span class="k">${y}${y===curYear?" ◂":""}</span><span class="val">${fmtUSD(p.full_market)} <span style="color:var(--faint);font-size:12px">fmv</span></span></div>`;}).join("");
-  const a=e[curYear]||e[2026]||e[2025]||e[2024];
+  const a=e[curYear]||e[2026]||e[2025];
   return `<div class="detail">
     <div class="chartbox"><h4>Assessed value, 3-year</h4>${chartSVG(e)}</div>
     <div class="yeartbl"><div class="row head"><span class="k">Year</span><span class="val">Full market value</span></div>${rows}</div>
@@ -447,7 +445,7 @@ function renderHonor(){
   const ents=Object.values(index).filter(e=>e[curYear]); const g=document.getElementById('honorGrid');
   if(!ents.length){g.innerHTML="";return;}
   const cur=e=>e[curYear];
-  const yoy=e=>{const c=cur(e).assessed, pY=curYear===2024?null:curYear+1, p=pY?e[pY]?.assessed:null; return (c!=null&&p)?(c-p)/p*100:null;};
+  const yoy=e=>{const c=cur(e).assessed, pY=curYear+1, p=pY?e[pY]?.assessed:null; return (c!=null&&p)?(c-p)/p*100:null;};
   const byMax=fn=>ents.filter(e=>fn(e)!=null).sort((a,b)=>fn(b)-fn(a));
   const byMin=fn=>ents.filter(e=>fn(e)!=null).sort((a,b)=>fn(a)-fn(b));
   const nm=e=>titleCase(cur(e).address);
