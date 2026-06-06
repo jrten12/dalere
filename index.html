@@ -9,11 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Syne:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --paper:#f1f0ec; --paper-2:#e9e8e2; --vignette:#e3e2db;
-    --ink:#16161a; --ink-2:#54534e; --faint:#9d9b93;
-    --ivy:#16161a; --ivy-2:#3a3a37; --claret:#e23b1e; --brass:#e23b1e;
-    --line:#dad9d2; --line-2:#c5c4ba; --rule:#16161a;
-    --card:#f8f7f3; --up:#1f7a4d; --down:#e23b1e;
+    --paper:#f4f2ed; --paper-2:#ebe9e2; --vignette:#e4e2da;
+    --ink:#1a1a1f; --ink-2:#4f4e48; --faint:#9a9890;
+    --ivy:#1a1a1f; --ivy-2:#3d3d38; --claret:#A51C30; --brass:#8b6914;
+    --line:#d8d6ce; --line-2:#c4c2b8; --rule:#1a1a1f;
+    --card:#faf9f5; --up:#1f7a4d; --down:#A51C30;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
@@ -24,20 +24,22 @@
   }
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
-  .wrap{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:0 24px 70px}
+  .wrap{position:relative;z-index:1;max-width:1020px;margin:0 auto;padding:0 24px 70px;overflow:visible}
   ::selection{background:var(--claret);color:#fff}
 
   /* masthead */
-  header.mast{padding:30px 0 12px;text-align:center}
+  header.mast{padding:30px 0 16px;text-align:center;overflow:visible}
   .eyebrow{display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;
     font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
     border-bottom:1px solid var(--rule);padding-bottom:7px}
   .eyebrow .l,.eyebrow .r{flex:1}.eyebrow .r{text-align:right}.eyebrow .c{color:var(--claret)}
-  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(48px,10vw,104px);
-    line-height:.86;letter-spacing:-.04em;color:var(--ink);margin:18px 0 6px;text-transform:none}
+  .title-wrap{padding:0 0 18px;margin:20px 0 0;overflow:visible;line-height:1}
+  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(42px,8.5vw,92px);
+    line-height:1.25;letter-spacing:-.03em;color:var(--ink);margin:0;text-transform:none;
+    padding:0 0 8px;display:block;overflow:visible;position:relative;z-index:1}
   h1.title::after{content:".";color:var(--claret)}
   .subhead{font-family:'Newsreader',serif;font-style:italic;font-size:clamp(14px,2.4vw,18px);
-    color:var(--ink-2);letter-spacing:0}
+    color:var(--ink-2);letter-spacing:0;margin-top:4px}
   .mast-rule{margin:16px 0 0;border:0;border-top:2px solid var(--rule)}
   .mast-rule.thin{border-top:1px solid var(--line-2);margin-top:4px}
 
@@ -64,7 +66,7 @@
   .sbox input{width:100%;font-family:'Archivo',sans-serif;font-size:20px;font-weight:500;color:var(--ink);
     padding:16px 18px 16px 50px;background:var(--card);border:1.5px solid var(--line-2);border-radius:3px;
     outline:none;box-shadow:0 1px 0 #fff8,0 16px 36px -26px #16161a40}
-  .sbox input:focus{border-color:var(--ivy-2);box-shadow:0 0 0 3px #e23b1e26,0 16px 36px -26px #16161a40}
+  .sbox input:focus{border-color:var(--ivy-2);box-shadow:0 0 0 3px #A51C3026,0 16px 36px -26px #16161a40}
   .sbox svg{position:absolute;left:17px;top:50%;transform:translateY(-50%);color:var(--brass)}
   .hints{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.03em;
     margin:8px 4px 0;line-height:1.7}
@@ -114,13 +116,18 @@
   .hr-intro{text-align:center;max-width:680px;margin:18px auto 6px;font-family:'Newsreader',serif;
     font-style:italic;font-size:17px;color:var(--ink-2);line-height:1.5}
   .hr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0;margin-top:18px;
-    border-top:1px solid var(--rule)}
-  .award{padding:20px 22px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
-  .award .medal{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--claret)}
-  .award h3{font-family:'Syne',sans-serif;font-weight:800;font-size:26px;color:var(--ink);line-height:1;letter-spacing:-.03em;margin:6px 0 3px}
+    border-top:2px solid var(--rule)}
+  .award{padding:20px 22px 22px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);
+    position:relative;background:linear-gradient(180deg,#fffdf9 0%,var(--card) 100%)}
+  .award-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:4px}
+  .award-icon{flex-shrink:0;width:36px;height:36px;margin-top:2px}
+  .award-icon.trophy{color:var(--claret)}
+  .award-icon.ribbon{color:var(--brass)}
+  .award .medal{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--claret);margin-bottom:2px}
+  .award h3{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;color:var(--ink);line-height:1.05;letter-spacing:-.03em;margin:0 0 3px}
   .award .winner{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--ivy)}
   .award .stat{font-family:'DM Mono',monospace;font-size:13px;color:var(--ink-2);margin-top:1px}
-  .award .quip{font-style:italic;font-size:15px;color:var(--ink-2);margin-top:8px;line-height:1.45}
+  .award .quip{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--ink-2);margin-top:8px;line-height:1.45}
   .award .runner{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);margin-top:9px;border-top:1px dotted var(--line);padding-top:7px}
 
   /* browse / facets */
@@ -179,7 +186,7 @@
       <span class="c">— Non Sibi, But Make It Real Estate —</span>
       <span class="r" id="ebParcels">SWIS 555000</span>
     </div>
-    <h1 class="title">The Dale Ledger</h1>
+    <div class="title-wrap"><h1 class="title">The Dale Ledger</h1></div>
     <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
     <hr class="mast-rule"><hr class="mast-rule thin">
     <nav class="sections">
@@ -209,7 +216,7 @@
 
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor">
-    <p class="hr-intro">Superlatives drawn entirely from the public roll, awarded without the consent or knowledge of the recipients. No purchase necessary. Void where assessed.</p>
+    <p class="hr-intro">Ten superlatives drawn entirely from the public residential roll, awarded without the consent or knowledge of the recipients. Trophies for wealth; ribbons for character. No purchase necessary. Void where assessed.</p>
     <div class="hr-grid" id="honorGrid"></div>
     <div class="notice" data-filled="false" style="margin-top:20px"><span class="tag-ad">Classified</span>
       <a href="#" onclick="return false"><b>This space is for let.</b><span>Reach every homeowner in the dale. Inquire within.</span></a></div>
@@ -256,12 +263,13 @@ const DEMO2026 = [
   {parcel_id:"01.01.7",address:"20 SCHOOL LA",owner:"LEVIN DAVID A",co_owner:"DUGGAN MARY F",class_code:"312",class_desc:"RES LND INCL. SM. IM",land:275000,assessed:275000,full_market:410999,acreage:0.38},
   {parcel_id:"01.01.7A",address:"3 WINSLOW PL",owner:"SIEGEL STEVEN R",co_owner:"SIEGEL JODI L",class_code:"210",class_desc:"1 FAMILY RES",land:1225000,assessed:2225000,full_market:3325362,acreage:0.43},
   {parcel_id:"01.02.1",address:"28 OVERHILL RD",owner:"MAHORNEY GRECIA",co_owner:"MAHORNEY REID H",class_code:"210",class_desc:"1 FAMILY RES",land:925000,assessed:1175000,full_market:1756090,acreage:0.29},
-  {parcel_id:"01.02.10",address:"5 CIRCLE RD",owner:"DIAMOND PAUL",co_owner:"DIAMOND MICHELE",class_code:"210",class_desc:"1 FAMILY RES",land:825000,assessed:1270000,full_market:1898072,acreage:0.25},
-  {parcel_id:"01.02.12A",address:"2 OVERHILL RD",owner:"OVERHILL RD ASSOCIATES",co_owner:null,class_code:"464",class_desc:"OFFICE BUILDING",land:10000000,assessed:13453440,full_market:20106770,acreage:0.46}
+  {parcel_id:"01.02.10",address:"5 CIRCLE RD",owner:"DIAMOND PAUL",co_owner:"DIAMOND MICHELE",class_code:"210",class_desc:"1 FAMILY RES",land:825000,assessed:1270000,full_market:1898072,acreage:0.25}
 ];
 const DEMO = {
   2026:{meta:{year:2026,uniform_pct_of_value:66.91,demo:true},parcels:DEMO2026},
-  2025:{meta:{year:2025,uniform_pct_of_value:70.12,demo:true},parcels:DEMO2026.map(p=>({...p,assessed:Math.round(p.assessed*.94/1e3)*1e3,land:Math.round(p.land*.96/1e3)*1e3,full_market:Math.round(p.assessed*.94/.7012)}))}
+  2025:{meta:{year:2025,uniform_pct_of_value:70.12,demo:true},parcels:DEMO2026.map(p=>{
+    const assessed=Math.round(p.assessed*.94/1e3)*1e3, land=Math.round(p.land*.96/1e3)*1e3;
+    return {...p,assessed,land,full_market:Math.round(assessed/.7012)};})}
 };
 
 /* =====================================================================
@@ -295,10 +303,24 @@ function classOf(p){
   const c=p.class_code||""; const d=(p.class_desc||"").toUpperCase();
   if(c.startsWith("2")&&c!=="210"&&d.includes("FAMILY")) return "Multi-family";
   if(c==="210"||d.includes("1 FAMILY")) return "Single-family";
-  if(c==="411"||c.startsWith("41")||c.startsWith("44")||c.startsWith("46")||d.includes("OFFICE")||d.includes("COMM")) return "Commercial";
+  if(c==="411"||c.startsWith("41")||c.startsWith("44")||c.startsWith("45")||c.startsWith("46")
+    ||d.includes("OFFICE")||d.includes("COMM")||d.includes("RETAIL")||d.includes("STORE")
+    ||d.includes("INDUST")||d.includes("WAREHOUSE")||d.includes("HOTEL")||d.includes("GARAGE")
+    ||d.includes("PARKING")||d.includes("BANK")||d.includes("RESTAURANT")) return "Commercial";
   if(c.startsWith("31")||d.includes("VAC")||d.includes("RES LND")) return "Vacant / land";
   if(d.includes("CONDO")||c==="411C") return "Condo";
   return "Other";
+}
+const LEDGER_CLASSES=new Set(["Single-family","Multi-family","Vacant / land","Condo"]);
+function inLedger(p){ return LEDGER_CLASSES.has(classOf(p)); }
+function isHome(p){ const c=classOf(p); return c==="Single-family"||c==="Multi-family"||c==="Condo"; }
+function normalizeParcel(p,uniformPct){
+  if(!p) return p;
+  const u=uniformPct?uniformPct/100:null;
+  if(p.full_market==null&&p.assessed!=null&&u) p.full_market=Math.round(p.assessed/u);
+  if(p.assessed==null&&p.full_market!=null&&u) p.assessed=Math.round(p.full_market*u);
+  if(p.land!=null&&p.assessed!=null&&p.land>p.assessed) p.land=Math.min(p.land,p.assessed);
+  return p;
 }
 
 async function loadYear(y){
@@ -308,8 +330,11 @@ async function loadYear(y){
 }
 async function boot(){
   for(const y of YEARS) store[y]=await loadYear(y);
-  // Commercial parcels are excluded from the ledger entirely — residential roll only.
-  for(const y of YEARS) store[y].parcels=store[y].parcels.filter(p=>classOf(p)!=="Commercial");
+  // Residential roll only — no commercial, parkways, exempt infrastructure, or municipal parcels.
+  for(const y of YEARS){
+    const u=store[y].meta?.uniform_pct_of_value;
+    store[y].parcels=store[y].parcels.filter(p=>inLedger(p)).map(p=>normalizeParcel(p,u));
+  }
   for(const y of YEARS) for(const p of store[y].parcels){(index[p.parcel_id]||={})[y]=p;}
   for(const pid in index){
     const e=index[pid]; const a=e[2026]||e[2025];
@@ -441,53 +466,96 @@ function renderLookup(raw){
 }
 
 /* ---- render: Honor Roll ---- */
+const ICON_TROPHY=`<svg class="award-icon trophy" viewBox="0 0 36 36" aria-hidden="true"><path fill="currentColor" d="M10 4h16v3.2c0 3.6 2.2 6.8 5.5 8.1L28 18v2H8v-2l3.5-2.7C14.8 14 17 10.8 17 7.2V4h-7z"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="M12 20v3.5c0 1.4 1.1 2.5 2.5 2.5h7c1.4 0 2.5-1.1 2.5-2.5V20"/><rect fill="currentColor" x="13" y="26" width="10" height="2.5" rx=".5"/><path fill="none" stroke="currentColor" stroke-width="1.2" d="M8 6H6.5C5.1 6 4 7.1 4 8.5V9c0 2.2 1.8 4 4 4M28 6h1.5C30.9 6 32 7.1 32 8.5V9c0 2.2-1.8 4-4 4"/></svg>`;
+const ICON_RIBBON=`<svg class="award-icon ribbon" viewBox="0 0 36 36" aria-hidden="true"><circle cx="18" cy="14" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="14" r="5.5" fill="currentColor" opacity=".15"/><path fill="currentColor" d="M13 22.5 10 32l8-5 8 5-3-9.5z"/></svg>`;
+
 function renderHonor(){
-  const ents=Object.values(index).filter(e=>e[curYear]); const g=document.getElementById('honorGrid');
+  const ents=Object.values(index).filter(e=>e[curYear]);
+  const homes=ents.filter(e=>isHome(e));
+  const g=document.getElementById('honorGrid');
   if(!ents.length){g.innerHTML="";return;}
   const cur=e=>e[curYear];
   const yoy=e=>{const c=cur(e).assessed, pY=curYear+1, p=pY?e[pY]?.assessed:null; return (c!=null&&p)?(c-p)/p*100:null;};
-  const byMax=fn=>ents.filter(e=>fn(e)!=null).sort((a,b)=>fn(b)-fn(a));
-  const byMin=fn=>ents.filter(e=>fn(e)!=null).sort((a,b)=>fn(a)-fn(b));
+  const byMax=(fn,pool=ents)=>pool.filter(e=>fn(e)!=null&&!isNaN(fn(e))).sort((a,b)=>fn(b)-fn(a));
+  const byMin=(fn,pool=ents)=>pool.filter(e=>fn(e)!=null&&!isNaN(fn(e))).sort((a,b)=>fn(a)-fn(b));
   const nm=e=>titleCase(cur(e).address);
 
-  const fmv=e=>cur(e).full_market, acre=e=>cur(e).acreage, perAcre=e=>acre(e)?fmv(e)/acre(e):null,
-    landpct=e=>cur(e).full_market&&cur(e).land?cur(e).land/cur(e).assessed:null;
+  const fmv=e=>cur(e).full_market, acre=e=>cur(e).acreage,
+    land=e=>cur(e).land, assessed=e=>cur(e).assessed,
+    perAcre=e=>(acre(e)&&acre(e)>=0.15)?fmv(e)/acre(e):null,
+    improve=e=>(fmv(e)!=null&&land(e)!=null)?fmv(e)-land(e):null;
 
-  const topVal=byMax(fmv), jumps=byMax(yoy), drops=byMin(yoy), lots=byMax(acre),
-    pfp=byMax(e=>perAcre(e)),
-    steady=ents.filter(e=>yoy(e)!=null).sort((a,b)=>Math.abs(yoy(a))-Math.abs(yoy(b)));
+  const topVal=byMax(fmv,homes), topAssessed=byMax(assessed,homes), topLand=byMax(land,homes),
+    topImprove=byMax(improve,homes), jumps=byMax(yoy,homes), drops=byMin(yoy,homes),
+    lots=byMax(acre), pfp=byMax(perAcre,homes),
+    steady=homes.filter(e=>yoy(e)!=null).sort((a,b)=>Math.abs(yoy(a))-Math.abs(yoy(b)));
+
+  // Street dynasty: street with highest combined home FMV
+  const streetTotals={};
+  for(const e of homes){const s=e._street||""; if(!s) continue;
+    streetTotals[s]=(streetTotals[s]||0)+(fmv(e)||0);}
+  const topStreet=Object.entries(streetTotals).sort((a,b)=>b[1]-a[1])[0];
+  const streetWinner=topStreet?homes.filter(e=>e._street===topStreet[0]).sort((a,b)=>(fmv(b)||0)-(fmv(a)||0))[0]:null;
 
   const awards=[];
-  const W=(medal,h3,e,statTxt,quip,runners)=>{ if(!e)return;
-    awards.push(`<div class="award"><div class="medal">${medal}</div><h3>${h3}</h3>
+  const W=(kind,medal,h3,e,statTxt,quip,runners)=>{ if(!e)return;
+    const icon=kind==="trophy"?ICON_TROPHY:ICON_RIBBON;
+    awards.push(`<div class="award"><div class="award-head">${icon}<div>
+      <div class="medal">${medal}</div><h3>${h3}</h3></div></div>
       <div class="winner">${esc(nm(e))}</div><div class="stat">${statTxt}</div>
       <div class="quip">${quip}</div>${runners?`<div class="runner">${runners}</div>`:""}</div>`);};
   const runlist=(arr,fmt)=>arr.slice(1,4).map((e,i)=>`${i+2}. ${esc(nm(e))} — ${fmt(e)}`).join(" · ");
 
-  if(topVal[0])W("№ 1 · Most Valuable","The Crown Jewel",topVal[0],
+  if(topVal[0])W("trophy","№ 1 · Most Valuable","The Crown Jewel",topVal[0],
     `${fmtUSD(fmv(topVal[0]))} full market value`,
     `Assessed like a small sovereign nation. The rest of the village rounds up for street parking.`,
     runlist(topVal,e=>fmtShort(fmv(e))));
-  if(jumps[0]&&yoy(jumps[0])>0)W("Largest increase","Most Improved, Allegedly",jumps[0],
-    `+${yoy(jumps[0]).toFixed(1)}% over ${curYear-1}`,
-    `The Assessor noticed something. Congratulations are not, strictly speaking, in order.`,
-    runlist(jumps,e=>"+"+yoy(e).toFixed(1)+"%"));
-  if(drops[0]&&yoy(drops[0])<0)W("Largest decrease","The Market Speaks",drops[0],
-    `${yoy(drops[0]).toFixed(1)}% over ${curYear-1}`,
-    `Down year over year. Somewhere, a grievance attorney is quietly taking credit.`,
-    runlist(drops,e=>yoy(e).toFixed(1)+"%"));
-  if(lots[0])W("Largest parcel","The Land Baron",lots[0],
-    `${acre(lots[0])} acres`,
+
+  if(topAssessed[0])W("trophy","№ 2 · Highest Assessed","The Tax Bill",topAssessed[0],
+    `${fmtUSD(assessed(topAssessed[0]))} assessed · ${fmtUSD(fmv(topAssessed[0]))} FMV`,
+    `What the Assessor actually bills against. Not necessarily what Zillow thinks — but close enough to start an argument.`,
+    runlist(topAssessed,e=>fmtShort(assessed(e))));
+
+  if(topLand[0])W("trophy","№ 3 · Land Value","The Dirt Premium",topLand[0],
+    `${fmtUSD(land(topLand[0]))} in land alone`,
+    `They bought the dirt and the dirt bought them a seat at every zoning meeting.`,
+    runlist(topLand,e=>fmtShort(land(e))));
+
+  if(topImprove[0])W("trophy","№ 4 · Improvement Value","Above Grade",topImprove[0],
+    `${fmtUSD(improve(topImprove[0]))} in improvements`,
+    `The structure on top of the dirt costs more than most people's entire net worth. Non sibi, sed structura.`,
+    runlist(topImprove,e=>fmtShort(improve(e))));
+
+  if(lots[0])W("trophy","№ 5 · Acreage","The Land Baron",lots[0],
+    `${acre(lots[0])} acres · ${fmtUSD(fmv(lots[0]))} FMV`,
     `More acreage than the rest of the block combined, and we mean that admiringly.`,
     runlist(lots,e=>acre(e)+" ac"));
-  if(pfp[0])W("Value per acre","Pound for Pound",pfp[0],
-    `${fmtShort(perAcre(pfp[0]))} per acre`,
+
+  if(pfp[0])W("trophy","№ 6 · Per Acre","Pound for Pound",pfp[0],
+    `${fmtShort(perAcre(pfp[0]))} per acre on ${acre(pfp[0])} ac`,
     `Smallest footprint, biggest ambitions. Manhattan math, Westchester zip code.`,
     runlist(pfp,e=>fmtShort(perAcre(e))+"/ac"));
-  if(steady[0])W("Least changed","Steady Eddie",steady[0],
+
+  if(streetWinner&&topStreet)W("ribbon","Street Honor","Street Dynasty",streetWinner,
+    `${titleCase(topStreet[0])} · ${fmtShort(topStreet[1])} combined FMV`,
+    `The most expensive block party invitation list in the village. This parcel leads the parade.`,
+    "");
+
+  if(jumps[0]&&yoy(jumps[0])>0)W("ribbon","YoY · Increase","Most Improved, Allegedly",jumps[0],
+    `+${yoy(jumps[0]).toFixed(1)}% assessed over ${curYear-1}`,
+    `The Assessor noticed something. Congratulations are not, strictly speaking, in order.`,
+    runlist(jumps,e=>"+"+yoy(e).toFixed(1)+"%"));
+
+  if(drops[0]&&yoy(drops[0])<0)W("ribbon","YoY · Decrease","The Market Speaks",drops[0],
+    `${yoy(drops[0]).toFixed(1)}% assessed over ${curYear-1}`,
+    `Down year over year. Somewhere, a grievance attorney is quietly taking credit.`,
+    runlist(drops,e=>yoy(e).toFixed(1)+"%"));
+
+  if(steady[0])W("ribbon","YoY · Stability","Steady Eddie",steady[0],
     `${yoy(steady[0])>=0?"+":""}${yoy(steady[0]).toFixed(2)}% over ${curYear-1}`,
     `Three years, barely a flinch. The Assessor's most reliably boring success story.`,
-    "");
+    runlist(steady.slice(1,4),e=>(yoy(e)>=0?"+":"")+yoy(e).toFixed(2)+"%"));
+
   g.innerHTML=awards.join("");
 }
 
@@ -536,10 +604,10 @@ function buildSeal(){
     <!-- the dale: two hills + valley -->
     <path d="M44 118 Q72 78 100 108 Q128 78 156 118" fill="none" stroke="#16161a" stroke-width="2" stroke-linecap="round"/>
     <!-- sun over the dale -->
-    <circle cx="100" cy="84" r="9" fill="none" stroke="#e23b1e" stroke-width="1.6"/>
-    ${Array.from({length:8}).map((_,i)=>{const a=i/8*Math.PI*2;return `<line x1="${100+Math.cos(a)*12}" y1="${84+Math.sin(a)*12}" x2="${100+Math.cos(a)*16}" y2="${84+Math.sin(a)*16}" stroke="#e23b1e" stroke-width="1.2"/>`}).join("")}
+    <circle cx="100" cy="84" r="9" fill="none" stroke="#A51C30" stroke-width="1.6"/>
+    ${Array.from({length:8}).map((_,i)=>{const a=i/8*Math.PI*2;return `<line x1="${100+Math.cos(a)*12}" y1="${84+Math.sin(a)*12}" x2="${100+Math.cos(a)*16}" y2="${84+Math.sin(a)*16}" stroke="#A51C30" stroke-width="1.2"/>`}).join("")}
     <!-- heart nestled in the valley -->
-    <path d="M100 132 C92 122 80 124 80 134 C80 143 92 148 100 156 C108 148 120 143 120 134 C120 124 108 122 100 132 Z" fill="#e23b1e"/>
+    <path d="M100 132 C92 122 80 124 80 134 C80 143 92 148 100 156 C108 148 120 143 120 134 C120 124 108 122 100 132 Z" fill="#A51C30"/>
     <text x="100" y="173" text-anchor="middle" font-family="Syne,sans-serif" font-size="11" letter-spacing="2" fill="#16161a">EST. MMXXVI</text>`;
 }
 
