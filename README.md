@@ -35,7 +35,7 @@ Vercel, Cloudflare Pages, or Railway static.
 The Lookup box parses plain phrases and stacks them with AND:
   - price:   over 3m · under 1.5m · 2m-4m · 5m+
   - school:  heathcote · edgewood · greenacres · fox meadow · quaker ridge · unzoned
-  - class:   vacant · commercial · office · condo · house
+  - class:   vacant · condo · house
   - sort:    biggest · cheapest
   - name / street / parcel id: anything else is matched as text
 Matched filters show as chips so it's transparent what it understood.
@@ -58,6 +58,9 @@ Honor Roll page. Set data-filled="true" and replace the inner <a> with your crea
 or an ad-network tag.
 
 ## Notes
+- Commercial parcels (offices, stores, and other non-residential classes) are filtered
+  out on load — the ledger is residential-only, so superlatives like the Crown Jewel
+  reflect actual homes, never an office building.
 - Uniform % of value differs by year (2026 66.91%, 2024 74.94%); read per-roll, not recomputed.
 - Owner names are public record, shown as published.
 - Unofficial tool. Verify against the official roll / PROS before relying on figures.

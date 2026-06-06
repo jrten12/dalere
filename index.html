@@ -201,7 +201,7 @@
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="Try: heathcote over 3m · Rakower · School Lane · vacant land · biggest">
       </div>
-      <div class="hints">Understands plain phrases — <b>over 3m</b>, <b>under 1.5m</b>, <b>2m-4m</b> · a school zone (<b>heathcote</b>, <b>edgewood</b>…) · a street · a class (<b>vacant</b>, <b>commercial</b>, <b>condo</b>) · a name · or <b>biggest</b> / <b>cheapest</b>. Stack them.</div>
+      <div class="hints">Understands plain phrases — <b>over 3m</b>, <b>under 1.5m</b>, <b>2m-4m</b> · a school zone (<b>heathcote</b>, <b>edgewood</b>…) · a street · a class (<b>vacant</b>, <b>condo</b>) · a name · or <b>biggest</b> / <b>cheapest</b>. Stack them.</div>
       <div class="chips" id="chips"></div>
     </div>
     <div class="statline"><span id="statL">Start typing to search the roll.</span><span id="statR"></span></div>
@@ -310,6 +310,8 @@ async function loadYear(y){
 }
 async function boot(){
   for(const y of YEARS) store[y]=await loadYear(y);
+  // Commercial parcels are excluded from the ledger entirely — residential roll only.
+  for(const y of YEARS) store[y].parcels=store[y].parcels.filter(p=>classOf(p)!=="Commercial");
   for(const y of YEARS) for(const p of store[y].parcels){(index[p.parcel_id]||={})[y]=p;}
   for(const pid in index){
     const e=index[pid]; const a=e[2026]||e[2025]||e[2024];
@@ -346,7 +348,7 @@ function parseQuery(raw){
   for(const sc of SCHOOLS){ if(q.includes(sc.toLowerCase())){f.school=sc;f.chips.push(sc);q=q.replace(sc.toLowerCase(),"");}}
   if(q.includes("unzoned")){f.school="Unzoned";f.chips.push("Unzoned");q=q.replace("unzoned","");}
   // class
-  const clsmap={vacant:"Vacant / land",land:"Vacant / land",commercial:"Commercial",office:"Commercial",
+  const clsmap={vacant:"Vacant / land",land:"Vacant / land",
     condo:"Condo",house:"Single-family","single family":"Single-family","multi":"Multi-family"};
   for(const k in clsmap){ if(q.includes(k)){f.cls=clsmap[k];f.chips.push(clsmap[k]);q=q.replace(k,"");break;}}
   // sort
@@ -454,7 +456,7 @@ function renderHonor(){
     landpct=e=>cur(e).full_market&&cur(e).land?cur(e).land/cur(e).assessed:null;
 
   const topVal=byMax(fmv), jumps=byMax(yoy), drops=byMin(yoy), lots=byMax(acre),
-    pfp=byMax(e=>perAcre(e)), comm=byMax(e=>e._class==="Commercial"?fmv(e):null),
+    pfp=byMax(e=>perAcre(e)),
     steady=ents.filter(e=>yoy(e)!=null).sort((a,b)=>Math.abs(yoy(a))-Math.abs(yoy(b)));
 
   const awards=[];
@@ -484,10 +486,6 @@ function renderHonor(){
     `${fmtShort(perAcre(pfp[0]))} per acre`,
     `Smallest footprint, biggest ambitions. Manhattan math, Westchester zip code.`,
     runlist(pfp,e=>fmtShort(perAcre(e))+"/ac"));
-  if(comm[0])W("Top commercial","The Corner Office",comm[0],
-    `${fmtUSD(fmv(comm[0]))} · ${esc(titleCase(cur(comm[0]).class_desc||""))}`,
-    `Proof that someone in the dale actually works for a living, taxably so.`,
-    runlist(comm,e=>fmtShort(fmv(e))));
   if(steady[0])W("Least changed","Steady Eddie",steady[0],
     `${yoy(steady[0])>=0?"+":""}${yoy(steady[0]).toFixed(2)}% over ${curYear-1}`,
     `Three years, barely a flinch. The Assessor's most reliably boring success story.`,
