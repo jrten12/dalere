@@ -263,11 +263,9 @@
   .hr-insight p{margin:0;font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink);line-height:1.5}
   .hr-insight.span2{grid-column:span 2}
   .hr-insight-chart{padding-bottom:14px}
-  .hr-dist-svg{display:block;width:100%;max-width:420px;margin:4px 0 10px;color:var(--ink)}
-  .hr-dist-svg .fill{fill:var(--claret);opacity:.12}
-  .hr-dist-svg .line{fill:none;stroke:var(--claret);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-  .hr-dist-svg .axis{font-family:'Archivo',sans-serif;font-size:9px;fill:var(--ink-muted);letter-spacing:.04em}
-  .hr-dist-svg .midline{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
+  .hr-bell{display:block;width:100%;max-width:280px;margin:8px auto 12px;color:var(--claret)}
+  .hr-bell .fill{fill:currentColor;opacity:.11}
+  .hr-bell .line{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
   .hr-civic{margin-top:24px;border:1px solid var(--line);border-top:3px solid var(--claret);
     background:var(--sheet);padding:22px 24px}
   .hr-civic-label{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
@@ -1123,66 +1121,19 @@ function chartSVG(e){
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Assessed value from ${pts[0].y} to ${pts[pts.length-1].y}"><path d="${d.trim()}" fill="none" stroke="${CHART.ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>${marks}</svg>`;
 }
 
-function pctileOf(sorted, p){
-  const n=sorted.length;
-  if(!n) return null;
-  const i=Math.min(n-1, Math.max(0, Math.floor(p/100*n)));
-  return sorted[i];
+function rollBellCurveSVG(){
+  return `<svg class="hr-bell" viewBox="0 0 300 64" aria-hidden="true">`+
+    `<path class="fill" d="M 14 50 C 36 50 58 48 82 36 C 106 20 126 12 148 12 C 178 12 220 26 286 50 L 286 50 L 14 50 Z"/>`+
+    `<path class="line" d="M 14 50 C 36 50 58 48 82 36 C 106 20 126 12 148 12 C 178 12 220 26 286 50" fill="none"/>`+
+    `</svg>`;
 }
 
-function fmvDistributionSVG(perc, maxP){
-  const W=340, H=96, pad={l:34,r:10,t:8,b:24};
-  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
-  const n=perc.length;
-  const top=pad.t, base=pad.t+ih;
-  const pts=perc.map((p,i)=>{
-    const x=pad.l+(i+0.5)/n*iw;
-    const y=base-(p/(maxP||1))*ih;
-    return [x,y];
-  });
-  let area=`M ${pad.l.toFixed(1)} ${base} `;
-  pts.forEach(([x,y])=>{area+=`L ${x.toFixed(1)} ${y.toFixed(1)} `;});
-  area+=`L ${(pad.l+iw).toFixed(1)} ${base} Z`;
-  let line=`M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-  for(let i=1;i<pts.length;i++) line+=` L ${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
-  const midX=pad.l+iw*0.5;
-  const ticks=[["lower",0.12],["typical",0.5],["upper",0.88]];
-  const xl=ticks.map(([lab,t])=>{
-    const x=pad.l+t*iw;
-    return `<line x1="${x.toFixed(1)}" y1="${base}" x2="${x.toFixed(1)}" y2="${base+4}" stroke="currentColor" stroke-width="1" opacity=".35"/>`+
-      `<text class="axis" x="${x.toFixed(1)}" y="${H-4}" text-anchor="middle">${lab}</text>`;
-  }).join("");
-  const yticks=[0, Math.round(maxP/2), Math.round(maxP)].map(p=>{
-    const y=base-(p/(maxP||1))*ih;
-    return `<text class="axis" x="${pad.l-6}" y="${(y+3).toFixed(1)}" text-anchor="end">${p}%</text>`;
-  }).join("");
-  return `<svg class="hr-dist-svg" viewBox="0 0 ${W} ${H}" aria-hidden="true">`+
-    `<path class="fill" d="${area}"/><path class="line" d="${line}"/>`+
-    `<line class="midline" x1="${midX.toFixed(1)}" y1="${top}" x2="${midX.toFixed(1)}" y2="${base}"/>`+
-    yticks+xl+`</svg>`;
-}
-
-function fmvDistributionInsight(values){
-  const n=values.length;
-  if(n<40) return null;
-  const sorted=values.slice().sort((a,b)=>a-b);
-  const p25=pctileOf(sorted,25), p75=pctileOf(sorted,75);
-  const midShare=values.filter(v=>v>=p25&&v<=p75).length/n*100;
-  const topDecile=values.filter(v=>v>=pctileOf(sorted,90)).length/n*100;
-  const bins=22;
-  const logLo=Math.log(Math.max(sorted[0],1)), logHi=Math.log(sorted[n-1]);
-  const hist=Array(bins).fill(0);
-  for(const v of values){
-    const t=(Math.log(v)-logLo)/(logHi-logLo||1);
-    hist[Math.min(bins-1, Math.floor(t*bins))]++;
-  }
-  const perc=hist.map(c=>Math.round(c/n*1000)/10);
-  const maxP=Math.max(...perc, 1);
+function fmvDistributionInsight(){
   return {
     label:"The shape of the roll",
     wide:true,
-    text:`Full market value clusters toward the middle, with a long right tail, as rolls do. About ${Math.round(midShare)}% of homes sit between the 25th and 75th percentile. Roughly ${Math.round(topDecile)}% land in the top tenth. Percentiles, not price tags: the relation matters more than any single FMV figure.`,
-    chart:fmvDistributionSVG(perc, maxP),
+    text:"The roll is centered around a typical home-value range, with fewer homes at the extremes and a longer upper tail of higher-value properties. Percentiles show where a property sits relative to the rest of the village, not the exact dollar distance between homes.",
+    chart:rollBellCurveSVG(),
   };
 }
 
@@ -1436,10 +1387,7 @@ function buildHonor(year){
       text:`About ${Math.round(unchanged/matched.length*100)}% of homes show no change in assessed value year over year on this roll. After two revaluations in two years, the village has earned a quiet one.`});
   }
   const fmvAll=homes.map(fmv).filter(v=>v!=null&&!isNaN(v));
-  if(fmvAll.length){
-    const dist=fmvDistributionInsight(fmvAll);
-    if(dist) insights.push(dist);
-  }
+  if(fmvAll.length) insights.push(fmvDistributionInsight());
   if(pfp[0]&&acre(pfp[0])){
     const allPer=homes.map(e=>perAcre(e)).filter(v=>v!=null&&!isNaN(v)).sort((a,b)=>a-b);
     const val=perAcre(pfp[0]);
