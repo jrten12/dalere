@@ -69,13 +69,16 @@ RE_FULLMKT = re.compile(r'FULL MKT VAL\s+([\d,]+)')
 RE_COUNTY  = re.compile(r'COUNTY TAXABLE\s+([\d,]+)')
 RE_SCHOOLTAX = re.compile(r'SCHOOL TAXABLE\s+([\d,]+)')
 RE_PID    = re.compile(r'\b(\d{2}\.\d{2}\.[0-9A-Za-z]{1,6})\b')
-RE_TOTALAV = re.compile(r'(?:FRNT\s+[\d.]+\s+DPTH\s+[\d.]+|DEED BK[\s\dPG]+?)\s+([\d,]{4,})')
+RE_TOTALAV = re.compile(r'(?:FRNT\s+[\d.]+\s+DPTH\s+[\d.]+)\s+([\d,]{5,})')
 RE_LAND    = re.compile(SCHOOL + r'\s+([\d,]+)')
 RE_ACREAGE = re.compile(r'ACREAGE\s+([\d.]+)')
 RE_FRNT    = re.compile(r'FRNT\s+([\d.]+)\s+DPTH\s+([\d.]+)')
 RE_ACCT    = re.compile(r'ACCT:\s*(\d+)')
 RE_CLASS   = re.compile(r'\b(\d{3})\s+([A-Z0-9][A-Z0-9 .,&/\'-]+?)\s+'
-                        r'(?:COUNTY TAXABLE|TOWN TAXABLE|WHOLLY EXEMPT)')
+                        r'(?:COUNTY TAXABLE|TOWN TAXABLE|WHOLLY EXEMPT|' + SCHOOL + r'|ACREAGE|CONTIGUOUS|PRIVATE ROAD)')
+RE_CLASS_LOOSE = re.compile(r'\b(\d{3})\s+(1 FAMILY RES|2 FAMILY RES|RES LND[^A]*|CONDO[^A]*|'
+                            r'OFFICE BUILDING|STORE[^A]*|VAC[^A]*)\s+'
+                            r'(?:' + SCHOOL + r'|ACREAGE|CONTIGUOUS|COUNTY TAXABLE)')
 RE_LOC     = re.compile(r'^(.*?)\s+ACCT:', re.S)
 RE_OWNER   = re.compile(r'(?:COUNTY TAXABLE|WHOLLY EXEMPT)\s+[\d,]+\s+'
                         r'([A-Z][A-Z0-9 .,&/%\'-]+?)\s+' + SCHOOL)
@@ -108,19 +111,79 @@ def normalize_roll_text(text):
 def pick_assessed(body, full_market, uniform):
     """Prefer SCHOOL TAXABLE when it matches full_market * uniform%."""
     derived = round(full_market * uniform / 100.0) if (full_market and uniform) else None
+    floor = max(10_000, int((full_market or 0) * 0.25)) if full_market else 10_000
+
+    def ok(v):
+        if v is None or v < floor:
+            return False
+        if full_market and v > full_market * 1.05:
+            return False
+        return True
+
     best = None
     for grp in RE_SCHOOLTAX.findall(body):
         v = mny(grp)
-        if v and derived and abs(v - derived) <= max(2000, derived * 0.01):
+        if not ok(v):
+            continue
+        if derived and abs(v - derived) <= max(2000, derived * 0.02):
             if best is None or abs(v - derived) < abs(best - derived):
                 best = v
     if best is not None:
         return best
+    for grp in RE_SCHOOLTAX.findall(body):
+        v = mny(grp)
+        if ok(v):
+            return v
     cnty = RE_COUNTY.search(body)
     if cnty:
-        return mny(cnty.group(1))
+        v = mny(cnty.group(1))
+        if ok(v):
+            return v
     tot = RE_TOTALAV.search(body)
-    return mny(tot.group(1)) if tot else derived
+    if tot:
+        v = mny(tot.group(1))
+        if ok(v):
+            return v
+    return derived if ok(derived) else None
+
+def pick_class(body):
+    """Return (code, desc) from roll body; 2025 Final uses SCARSDALE CENTRAL after class."""
+    RES_CODES = {"210", "220", "230", "280", "311", "312", "314", "321", "330"}
+
+    def clean(m):
+        code, desc = m.group(1), ws(m.group(2))
+        if not code or not desc:
+            return None
+        if re.match(r'COUNTY TAXABLE|TOWN TAXABLE|VILLAGE TAXABLE|SCHOOL TAXABLE', desc, re.I):
+            return None
+        desc = re.split(r'\s+(?:ACREAGE|FRNT|DEED BK|FULL MKT VAL|CONTIGUOUS)\b', desc)[0].strip()
+        desc = re.split(r'\s+\d{1,3}(?:,\d{3})+\s*$', desc)[0].strip()
+        return (code, desc) if desc else None
+
+    m = RE_CLASS.search(body)
+    if m:
+        got = clean(m)
+        if got:
+            return got
+    m = RE_CLASS_LOOSE.search(body)
+    if m:
+        got = clean(m)
+        if got and got[0] in RES_CODES:
+            return got
+    return None, None
+
+def extend_body_for_tax(text, end, full_market, uniform):
+    """2025 column layout: SCHOOL TAXABLE for a parcel may appear just past the next pid."""
+    tail = text[end:min(len(text), end + 1200)]
+    if not tail or not RE_SCHOOLTAX.search(tail):
+        return ""
+    derived = round(full_market * uniform / 100.0) if (full_market and uniform) else None
+    for m in RE_SCHOOLTAX.finditer(tail):
+        v = mny(m.group(1))
+        if v and v >= max(10_000, (full_market or 0) * 0.25):
+            if derived is None or abs(v - derived) <= max(5000, derived * 0.05):
+                return tail[:m.end()]
+    return tail[:800] if RE_SCHOOLTAX.search(tail[:800]) else ""
 
 def pick_address(prefix, body):
     from collections import Counter
@@ -140,7 +203,7 @@ def parse_block(pid, body, section, uniform=None, prefix=""):
             addr = re.sub(r'\b' + re.escape(pid) + r'\b', '', addr)
             addr = re.sub(r'^\s*[A-Z]{2}\s+', '', addr)
             addr = ws(addr)
-    cls   = RE_CLASS.search(body)
+    cls_code, cls_desc = pick_class(body)
     own   = RE_OWNER.search(body) or RE_OWNER_ALT.search(body)
     own2  = RE_OWNER2.search(body)
     co    = ws(own2.group(1)) if own2 else None
@@ -167,8 +230,8 @@ def parse_block(pid, body, section, uniform=None, prefix=""):
         "address":    addr,
         "owner":      ws(own.group(1)) if own else None,
         "co_owner":   co,
-        "class_code": cls.group(1) if cls else None,
-        "class_desc": ws(cls.group(2)) if cls else None,
+        "class_code": cls_code,
+        "class_desc": cls_desc,
         "land":       land_val,
         "assessed":   assessed,
         "full_market":full_market,
@@ -177,6 +240,15 @@ def parse_block(pid, body, section, uniform=None, prefix=""):
         "exemptions": exempt or None,
     }
 
+def is_acct_pid_ref(text, start):
+    """Skip parcel ids that are ACCT cross-refs, not roll parcel headers."""
+    window = text[max(0, start - 12):start]
+    if "ACCT:" not in window and not window.rstrip().endswith("ACCT"):
+        return False
+    # Real 2025 headers look like "ACCT: 01.02.1 28 OVERHILL RD ..."; cross-refs are "ACCT: 01.01.7 ACCT: 010007000"
+    after = text[start:start + 100]
+    return not RE_STREET.search(after)
+
 def parse_via_ids(text, uniform):
     """Fallback for rolls without star-delimited parcel ids (2025 Final layout)."""
     section = 1
@@ -184,16 +256,21 @@ def parse_via_ids(text, uniform):
     ids = list(RE_PID.finditer(text))
     for i, m in enumerate(ids):
         pid = m.group(1)
+        if is_acct_pid_ref(text, m.start()):
+            continue
         start = m.end()
         end = ids[i + 1].start() if i + 1 < len(ids) else len(text)
-        prefix = text[max(0, m.start() - 100):m.start()]
+        prefix = text[max(0, m.start() - 200):m.start()]
         seg = text[start:end]
         if not RE_FULLMKT.search(seg) or pid in seen:
             continue
         sec_m = SECTION.search(text[max(0, m.start() - 200):m.start()])
         if sec_m:
             section = int(sec_m.group(2))
-        rec = parse_block(pid, seg, section, uniform, prefix)
+        fmkt = RE_FULLMKT.search(seg)
+        fmv = mny(fmkt.group(1)) if fmkt else None
+        tail = extend_body_for_tax(text, end, fmv, uniform)
+        rec = parse_block(pid, seg + tail, section, uniform, prefix)
         if rec["assessed"] is None and rec["full_market"] is None and not rec["exemptions"]:
             continue
         seen.add(pid)

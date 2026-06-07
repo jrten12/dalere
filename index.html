@@ -7,11 +7,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Dale Ledger">
-<title>The Dale Ledger — A Survey of Scarsdale Property</title>
-<meta name="description" content="Search Scarsdale assessment rolls, estimated property taxes, school zones, and the Honor Roll — an unofficial residential property almanac for the dale.">
+<title>The Dale Ledger: A Survey of Scarsdale Property</title>
+<meta name="description" content="Search Scarsdale assessment rolls, estimated property taxes, school zones, and the Honor Roll, an unofficial residential property almanac for the dale.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Dale Ledger — Scarsdale Property Almanac">
-<meta property="og:description" content="Search the residential roll, estimated taxes, elementary zones, and editorial superlatives. Unofficial — confirm figures on PROS.">
+<meta property="og:title" content="The Dale Ledger, a Scarsdale Property Almanac">
+<meta property="og:description" content="Search the residential roll, estimated taxes, elementary zones, and editorial superlatives. Unofficial. Confirm figures on PROS.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The Dale Ledger">
@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    /* warm newsprint — soft white, never clinical #fff */
+    /* warm newsprint, soft white, never clinical #fff */
     --newsprint:#f8f6f1;
     --newsprint-deep:#f0ece4;
     --sheet:#fffcf8;
@@ -63,7 +63,7 @@
     font-optical-sizing:auto;
     overflow-x:clip;overflow-y:visible;
   }
-  /* faint newsprint tooth — not noisy */
+  /* faint newsprint tooth, not noisy */
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.22;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")}
   .wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 28px 72px;overflow:visible}
@@ -150,10 +150,23 @@
     padding:11px 18px;border-bottom:1px dotted var(--line);font-size:15px;line-height:1.4;
   }
   .hr-modal-list li:last-child{border-bottom:none}
-  .hr-modal-list .rk{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;color:var(--claret);min-width:1.6em}
+  .hr-modal-list .rk{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;color:var(--ink-muted);min-width:1.9em;text-align:center}
   .hr-modal-list .nm{font-family:'Newsreader',Georgia,serif;font-weight:600;color:var(--ink);flex:1}
   .hr-modal-list .val{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:var(--ink-muted);
     text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .hr-modal-list .hr-medal{flex-shrink:0;width:1.9em;display:flex;justify-content:center;align-items:center}
+  .hr-modal-list .medal-svg{width:22px;height:auto;display:block;filter:drop-shadow(0 1px 1px rgba(31,29,26,.25))}
+  .hr-modal-list li.podium{padding-top:13px;padding-bottom:13px}
+  .hr-modal-list li.podium .nm{font-weight:700}
+  .hr-modal-list li.podium-gold{background:rgba(212,175,55,.10)}
+  .hr-modal-list li.podium-silver{background:rgba(160,165,173,.12)}
+  .hr-modal-list li.podium-bronze{background:rgba(173,122,74,.12)}
+  @media (prefers-reduced-motion: no-preference){
+    .hr-modal.open .medal-svg{animation:medalPop .42s cubic-bezier(.34,1.56,.64,1) both}
+    .hr-modal-list li.podium-silver .medal-svg{animation-delay:.06s}
+    .hr-modal-list li.podium-bronze .medal-svg{animation-delay:.12s}
+    @keyframes medalPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  }
 
   .chartbox svg{display:block;width:100%;height:auto;min-height:96px;max-height:128px;overflow:visible}
   .panel{display:none}.panel.on{display:block}
@@ -180,7 +193,7 @@
     margin:20px 0 6px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
   .demo-flag{color:var(--claret);font-weight:500}
 
-  /* parcel card — classified listing */
+  /* parcel card, classified listing */
   .card{background:var(--sheet);border:1px solid var(--line);border-radius:2px;padding:18px 20px;margin-top:12px;
     cursor:pointer;transition:border-color .12s,background .12s;
     box-shadow:0 1px 0 rgba(255,255,255,.6)}
@@ -239,6 +252,26 @@
   .award .winner{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:19px;color:var(--ink);line-height:1.25;margin-top:4px}
   .award .stat{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:var(--ink-muted);margin-top:4px;font-variant-numeric:tabular-nums}
   .award .quip{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:16px;color:var(--ink-2);margin-top:10px;line-height:1.55}
+  .hr-nonsibi{text-align:center;max-width:640px;margin:0 auto 4px;font-family:'Newsreader',Georgia,serif;
+    font-size:15px;color:var(--ink-2);line-height:1.55}
+  .hr-nonsibi b{color:var(--claret);font-weight:700;letter-spacing:.01em}
+  .hr-insights{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin:20px 0 4px;
+    background:var(--line);border:1px solid var(--line)}
+  .hr-insight{background:var(--sheet);padding:16px 18px}
+  .hr-insight-label{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--claret);margin-bottom:6px}
+  .hr-insight p{margin:0;font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink);line-height:1.5}
+  .hr-civic{margin-top:24px;border:1px solid var(--line);border-top:3px solid var(--claret);
+    background:var(--sheet);padding:22px 24px}
+  .hr-civic-label{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--claret);margin-bottom:6px}
+  .hr-civic h3{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:22px;color:var(--ink);margin:0 0 12px;line-height:1.2}
+  .hr-civic ul{margin:0;padding:0;list-style:none}
+  .hr-civic li{font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink-2);line-height:1.55;
+    padding:9px 0;border-bottom:1px dotted var(--line)}
+  .hr-civic li:last-child{border-bottom:none}
+  .hr-civic li b{color:var(--ink);font-weight:700}
+  .hr-civic-note{margin:14px 0 0;font-family:'Archivo',sans-serif;font-size:12px;color:var(--ink-muted);line-height:1.5}
 
   /* browse / facets */
   .facets{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
@@ -331,7 +364,7 @@
         max(16px,env(safe-area-inset-right));
     }
 
-    /* hide broadsheet masthead — app chrome replaces it */
+    /* hide broadsheet masthead, app chrome replaces it */
     .mast-body,.mast-rule{display:none}
     header.mast{padding:0;border:none}
 
@@ -392,7 +425,7 @@
 
     .app-main{padding-top:6px}
 
-    /* search — iOS field */
+    /* search, iOS field */
     .searchwrap{margin-top:8px}
     .sbox input{
       font-size:17px;font-weight:400;
@@ -433,7 +466,7 @@
       border:none;background:transparent;
     }
 
-    /* parcel cards — grouped list */
+    /* parcel cards, grouped list */
     .card{
       border-radius:var(--ios-radius);padding:16px;margin-top:10px;
       background:var(--sheet);border-color:var(--line);
@@ -472,7 +505,7 @@
     .meta-extra{flex-direction:column;gap:8px;font-size:13px}
     .chip{font-size:12px;padding:6px 12px;border-radius:999px}
 
-    /* honor roll — card stack */
+    /* honor roll, card stack */
     .hr-intro{
       font-size:16px;line-height:1.5;text-align:left;margin:10px 0 6px;padding:0;
       color:var(--ink-2);
@@ -481,6 +514,13 @@
       display:flex;flex-direction:column;gap:12px;
       margin-top:12px;border:none;
     }
+    .hr-insights{grid-template-columns:1fr;gap:10px;background:none;border:none;margin:14px 0 4px}
+    .hr-insight{border-radius:var(--ios-radius);border:1px solid var(--line);box-shadow:var(--ios-shadow)}
+    .hr-insight p{font-size:15px}
+    .hr-nonsibi{text-align:left;font-size:14px;margin:8px 0 4px}
+    .hr-civic{border-radius:var(--ios-radius);box-shadow:var(--ios-shadow);padding:18px 16px;margin-top:18px}
+    .hr-civic h3{font-size:20px}
+    .hr-civic li{font-size:15px}
     .award{
       border-radius:var(--ios-radius);border:1px solid var(--line);
       border-right:1px solid var(--line);
@@ -578,7 +618,7 @@
     <div class="mast-body">
       <div class="eyebrow">
         <span class="l">Vol. III · No. <span id="ebYear">26</span></span>
-        <span class="c">— Non Sibi, But Make It Real Estate —</span>
+        <span class="c">A Survey of the Public Roll</span>
         <span class="r" id="ebParcels">SWIS 555000</span>
       </div>
       <div class="title-wrap">
@@ -616,7 +656,7 @@
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input id="q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Search address, owner, zone…">
       </div>
-      <div class="hints">Plain English works — <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>biggest tax</b> · a street like <b>palmer ave</b> · owner name</div>
+      <div class="hints">Plain English works. Try <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>biggest tax</b> · a street like <b>palmer ave</b> · owner name</div>
       <p class="mobile-hint">Try <b>heathcote over 3m</b>, a street name, owner, or <b>biggest</b></p>
       <div class="quickpick" id="quickpick">
         <span class="qplab">Schools</span>
@@ -627,7 +667,7 @@
         <button type="button" data-q="quaker ridge">Quaker Ridge</button>
         <span class="qplab" style="margin-left:8px">Value</span>
         <button type="button" data-q="over 3m">Over $3M</button>
-        <button type="button" data-q="1m to 2m">$1M–$2M</button>
+        <button type="button" data-q="1m to 2m">$1M to $2M</button>
         <button type="button" data-q="under 1m">Under $1M</button>
       </div>
       <div class="chips" id="chips"></div>
@@ -638,9 +678,22 @@
 
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor">
-    <p class="hr-intro">Twelve superlatives drawn entirely from the public residential roll, awarded without the consent or knowledge of the recipients. Trophies for wealth; ribbons for character. No purchase necessary. Void where assessed.</p>
+    <p class="hr-intro">Fourteen superlatives pulled straight from the public assessment roll, the same roll the whole village has argued about since the revaluations of 2014 and 2016. These figures are already public record. Nothing here is meant to flatter anyone or put them on the spot. It is just Scarsdale, counted up, with a few asides from someone who clearly grew up fetching the mail on Chase Road.</p>
+    <p class="hr-nonsibi"><b>Non Sibi.</b> Not for oneself alone. Before the rankings, a word on what the village gives back, further down the page.</p>
+    <div class="hr-insights" id="hrInsights"></div>
     <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
+    <aside class="hr-civic" aria-label="What the village gives back">
+      <div class="hr-civic-label">Non Sibi, not for oneself alone</div>
+      <h3>What the village gives back</h3>
+      <ul>
+        <li><b>The Scarsdale Foundation</b>, nearly a century old, has given roughly $1 million in need based college scholarships over the past decade, including $229,000 to 48 students for 2025 to 2026.</li>
+        <li><b>The Scarsdale Volunteer Ambulance Corps</b> has been all volunteer for more than 50 years, usually on scene within four minutes. In 2022 alone it administered close to 20,000 COVID tests and vaccines, including free shots for homebound residents.</li>
+        <li><b>The Scarsdale Adult School</b>, founded in 1938, fills close to 10,000 seats a year and is open to anyone regardless of where they live, with tuition kept low so all can attend.</li>
+        <li><b>The Scarsdale Bowl</b>, awarded every year since 1943, honors a resident who has given unselfishly of time and effort to the civic welfare of the community.</li>
+      </ul>
+      <p class="hr-civic-note">Built entirely from public assessment records and shared out of local curiosity, not to crown anyone or send anyone a bill.</p>
+    </aside>
     <div class="notice" data-filled="false" style="margin-top:20px"><span class="tag-ad">Classified</span>
       <a href="#" onclick="return false"><b>This space is for let.</b><span>Reach every homeowner in the dale. Inquire within.</span></a></div>
   </section>
@@ -659,7 +712,7 @@
     </div>
     <div id="browseQuick" class="browse-quick"></div>
     <div class="street-filter" id="streetFilterWrap" style="display:none">
-      <input id="streetFilter" type="text" placeholder="Filter streets — heathcote, post…" autocomplete="off" spellcheck="false">
+      <input id="streetFilter" type="text" placeholder="Filter streets: heathcote, post…" autocomplete="off" spellcheck="false">
     </div>
     <div class="statline"><span id="bStatL"></span><span id="bStatR"></span></div>
     <div id="groups"></div>
@@ -696,14 +749,14 @@
     <svg class="seal" viewBox="0 0 200 200" id="seal" aria-label="Made with heart in the dale"></svg>
     <div class="colophon">Set in Newsreader. Compiled from the public record. Made with <span style="color:var(--claret)">&#9829;</span> in the dale.</div>
     <div class="fineprint">
-      Source: Village of Scarsdale Assessor, Tentative &amp; Final Assessment Rolls (<a href="https://www.scarsdale.gov/833/Assessment-Rolls" target="_blank" rel="noopener">scarsdale.gov</a>). Official parcel lookup: <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>. Elementary zones mapped from NCES attendance boundaries (<a href="https://www.scarsdaleschools.org/registration" target="_blank" rel="noopener">district map</a>) — confirm with the registrar before relying on them. Owner names appear exactly as published in the roll. This is an independent, unofficial tool — confirm any figure before relying on it.
+      Source: Village of Scarsdale Assessor, Tentative &amp; Final Assessment Rolls (<a href="https://www.scarsdale.gov/833/Assessment-Rolls" target="_blank" rel="noopener">scarsdale.gov</a>). Official parcel lookup: <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>. Elementary zones mapped from NCES attendance boundaries (<a href="https://www.scarsdaleschools.org/registration" target="_blank" rel="noopener">district map</a>). Confirm with the registrar before relying on them. Owner names appear exactly as published in the roll. This is an independent, unofficial tool. Confirm any figure before relying on it.
     </div>
   </footer>
 </div>
 
 <script>
 /* =====================================================================
-   DATA — fetches data/2026.json, data/2025.json, data/2024.json
+   DATA, fetches data/2026.json, data/2025.json, data/2024.json
    (output of extract.py). Falls back to the embedded demo so the page
    works standalone. Each file: {meta:{year,uniform_pct_of_value,...},parcels:[...]}
    ===================================================================== */
@@ -731,7 +784,7 @@ const DEMO = {
 };
 
 /* =====================================================================
-   SCHOOL ZONES — loaded from data/schools.json (build_schools.py)
+   SCHOOL ZONES, loaded from data/schools.json (build_schools.py)
    ===================================================================== */
 let SCHOOL_MAP={}, SCHOOL_RANGES=[];
 const SCHOOLS = ["Edgewood","Fox Meadow","Greenacres","Heathcote","Quaker Ridge"];
@@ -744,16 +797,16 @@ const SCHOOL_ALIASES=[
 ];
 const VALUE_BANDS=[
   {id:"Under $1M",label:"Under $1M",desc:"Full market under $1 million",min:0,max:1e6},
-  {id:"$1M – $2M",label:"$1M – $2M",desc:"$1M to $2M full market",min:1e6,max:2e6},
-  {id:"$2M – $3M",label:"$2M – $3M",desc:"$2M to $3M full market",min:2e6,max:3e6},
-  {id:"$3M – $5M",label:"$3M – $5M",desc:"$3M to $5M full market",min:3e6,max:5e6},
-  {id:"$5M – $10M",label:"$5M – $10M",desc:"$5M to $10M full market",min:5e6,max:1e7},
+  {id:"$1M – $2M",label:"$1M to $2M",desc:"$1M to $2M full market",min:1e6,max:2e6},
+  {id:"$2M – $3M",label:"$2M to $3M",desc:"$2M to $3M full market",min:2e6,max:3e6},
+  {id:"$3M – $5M",label:"$3M to $5M",desc:"$3M to $5M full market",min:3e6,max:5e6},
+  {id:"$5M – $10M",label:"$5M to $10M",desc:"$5M to $10M full market",min:5e6,max:1e7},
   {id:"$10M +",label:"$10M+",desc:"$10 million and up",min:1e7,max:Infinity},
 ];
 async function loadSchools(){
   try{const r=await fetch("data/schools.json",{cache:"no-store"});if(!r.ok)throw 0;
     const j=await r.json();SCHOOL_MAP=j.by_street||{};SCHOOL_RANGES=j.ranges||[];}
-  catch(e){console.warn("schools.json missing — run build_schools.py");}
+  catch(e){console.warn("schools.json missing, run build_schools.py");}
 }
 
 const TAX_FALLBACK={
@@ -775,7 +828,7 @@ const STAR_ENH=new Set(["41834","41836","41844","41846"]);
 async function loadTaxRates(){
   try{const r=await fetch("data/tax_rates.json",{cache:"no-store"});if(!r.ok)throw 0;
     const j=await r.json(); for(const y of YEARS) if(j[y]) TAX_RATES[y]=j[y];}
-  catch(e){console.warn("tax_rates.json missing — using embedded rates");}
+  catch(e){console.warn("tax_rates.json missing, using embedded rates");}
 }
 function starSchoolExempt(exemptions,rates){
   const ex=(exemptions||[]).filter(c=>c!=="10583"&&c!=="10543");
@@ -801,7 +854,7 @@ function taxBreakdownHTML(t){
     <div class="row"><span class="k">School${t.star?` (after STAR)`:""}</span><span class="val">${fmtUSD(t.school)}</span></div>
     <div class="row"><span class="k">Village</span><span class="val">${fmtUSD(t.village)}</span></div>
     <div class="row"><span class="k">Estimated total</span><span class="val">${fmtUSD(t.total)}</span></div>
-    <div style="font-family:Archivo,sans-serif;font-size:11px;color:var(--ink-muted);margin-top:8px;line-height:1.45">Sewer, refuse &amp; special districts not included. Not an official bill — confirm with PROS or your statement.</div></div>`;
+    <div style="font-family:Archivo,sans-serif;font-size:11px;color:var(--ink-muted);margin-top:8px;line-height:1.45">Sewer, refuse &amp; special districts not included. Not an official bill. Confirm with PROS or your statement.</div></div>`;
 }
 
 const YEARS=[2026,2025,2024];
@@ -811,8 +864,8 @@ const store={}, index={}; let curYear=2026, anyDemo=false;
 let HONOR_RANKS={}, honorCache={};
 
 /* ---- helpers ---- */
-const fmtUSD=n=>n==null?"—":"$"+Math.round(n).toLocaleString("en-US");
-const fmtShort=n=>n==null?"—":n>=1e6?"$"+(n/1e6).toFixed(n>=1e7?1:2)+"M":n>=1e3?"$"+Math.round(n/1e3)+"k":"$"+n;
+const fmtUSD=n=>n==null?"n/a":"$"+Math.round(n).toLocaleString("en-US");
+const fmtShort=n=>n==null?"n/a":n>=1e6?"$"+(n/1e6).toFixed(n>=1e7?1:2)+"M":n>=1e3?"$"+Math.round(n/1e3)+"k":"$"+n;
 const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const titleCase=s=>(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Ny|Llc|Iii|Ii)\b/g,m=>m.toUpperCase());
 function streetOf(addr){ if(!addr) return ""; return addr.replace(/^\s*\d+[A-Z]?\s+/,"").trim().toUpperCase(); }
@@ -826,6 +879,12 @@ function addrOf(e){const p=rollParcel(e); return p?.address||e._addr||"";}
 function yoyPct(e,year){
   const c=e[year]?.assessed, p=e[year-1]?.assessed;
   return (c!=null&&p)?(c-p)/p*100:null;
+}
+const YOY_MIN_PRIOR=200000;
+function yoyChange(e,year){
+  const cur=e[year]?.assessed, prior=e[year-1]?.assessed;
+  if(cur==null||prior==null||prior<YOY_MIN_PRIOR) return null;
+  return {delta:cur-prior,pct:(cur-prior)/prior*100,prior,cur};
 }
 function cmpAddr(a,b){
   const pa=addrOf(a), pb=addrOf(b);
@@ -877,7 +936,7 @@ async function boot(){
   await loadTaxRates();
   honorCache={};
   for(const y of YEARS) store[y]=await loadYear(y);
-  // Residential roll only — no commercial, parkways, exempt infrastructure, or municipal parcels.
+  // Residential roll only, no commercial, parkways, exempt infrastructure, or municipal parcels.
   for(const y of YEARS){
     const u=store[y].meta?.uniform_pct_of_value;
     store[y].parcels=store[y].parcels.filter(p=>inLedger(p)).map(p=>normalizeParcel(p,u));
@@ -1111,13 +1170,13 @@ function renderLookup(raw){
   // chips
   document.getElementById('chips').innerHTML=f.chips.map(c=>`<span class="chip">${esc(c)}</span>`).join("");
   const total=list.length;
-  document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${Object.keys(index).length.toLocaleString()} parcels on file — start typing.`;
-  document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA — run extract.py for the full roll</span>`:"";
+  document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${Object.keys(index).length.toLocaleString()} parcels on file. Start typing.`;
+  document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA. Run extract.py for the full roll</span>`:"";
   if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;return;}
   const shown=list.slice(0,CAP);
   box.innerHTML=shown.map((e,i)=>{let c=cardHTML(e);
-    if(i===4)c+=`<div class="notice" data-filled="false"><span class="tag-ad">Advertisement</span><a href="#" onclick="return false"><b>Advertise to the dale.</b><span>This unit is available — local realtors, counsel, contractors.</span></a></div>`;
-    return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more — narrow your search.</div>`:"");
+    if(i===4)c+=`<div class="notice" data-filled="false"><span class="tag-ad">Advertisement</span><a href="#" onclick="return false"><b>Advertise to the dale.</b><span>This unit is available for local realtors, counsel, contractors.</span></a></div>`;
+    return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more. Narrow your search.</div>`:"");
 }
 
 /* ---- render: Honor Roll ---- */
@@ -1134,7 +1193,20 @@ const AWARD_ICONS={
   pin:`<svg class="award-icon ribbon" viewBox="0 0 36 36" aria-hidden="true"><path fill="currentColor" d="M18 6c-4 0-7 3-7 7 0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" opacity=".2"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M18 6c-4 0-7 3-7 7 0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="18" cy="13" r="2.5" fill="currentColor"/></svg>`,
   steady:`<svg class="award-icon ribbon" viewBox="0 0 36 36" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M8 18h20"/><path fill="none" stroke="currentColor" stroke-width="1.5" d="M8 14h20M8 22h20" opacity=".45"/></svg>`,
   check:`<svg class="award-icon trophy" viewBox="0 0 36 36" aria-hidden="true"><rect x="7" y="8" width="22" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.6" d="M11 14h14M11 18h10"/><path fill="currentColor" d="M10 22h16v3H10z" opacity=".25"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M13 25v3h10v-3"/></svg>`,
+  reassess:`<svg class="award-icon trophy" viewBox="0 0 36 36" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M8 26V14M16 26V9M24 26V17"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="m6 14 5-6 5 4 8-7"/><path fill="currentColor" d="M24 5h5v5z"/></svg>`,
+  frontage:`<svg class="award-icon trophy" viewBox="0 0 36 36" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M5 22h26"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="M5 18v8M31 18v8"/><path fill="none" stroke="currentColor" stroke-width="1.5" d="M11 22v-3M17 22v-5M23 22v-3"/></svg>`,
+  median:`<svg class="award-icon ribbon" viewBox="0 0 36 36" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M6 24h24"/><rect x="9" y="16" width="4" height="8" fill="currentColor" opacity=".25" stroke="currentColor" stroke-width="1.4"/><rect x="16" y="11" width="4" height="13" fill="currentColor" opacity=".25" stroke="currentColor" stroke-width="1.4"/><rect x="23" y="18" width="4" height="6" fill="currentColor" opacity=".25" stroke="currentColor" stroke-width="1.4"/></svg>`,
+  taxacre:`<svg class="award-icon trophy" viewBox="0 0 36 36" aria-hidden="true"><rect x="8" y="8" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.4" d="M8 15h20M8 21h20M15 8v20M21 8v20" opacity=".5"/><path fill="currentColor" d="M18 12c-2 0-3 1-3 2.4 0 2.8 4.4 2 4.4 4 0 .9-.7 1.4-1.6 1.4s-1.6-.5-1.6-1.4h-1.6c0 1.6 1 2.7 2.4 2.9V23h1.6v-1.3c1.4-.2 2.4-1.3 2.4-2.7 0-2.8-4.4-2.1-4.4-4 0-.8.6-1.3 1.4-1.3s1.4.5 1.4 1.3h1.6c0-1.5-1-2.6-2.4-2.8V11h-1.6z"/></svg>`,
 };
+function OLYMPIC_MEDAL(tier){
+  const c={gold:["#E6BE3A","#A87E10","#FBF0C4"],silver:["#C7CBD2","#7E848D","#F1F3F6"],bronze:["#CD834A","#8A5226","#F0D6BE"]}[tier]||["#C7CBD2","#7E848D","#F1F3F6"];
+  return `<svg class="medal-svg medal-${tier}" viewBox="0 0 28 36" aria-hidden="true">`+
+    `<path fill="${c[1]}" d="M8 1h4l-3 12h-4z"/><path fill="${c[0]}" d="M16 1h4l3 12h-4z" opacity=".85"/>`+
+    `<circle cx="14" cy="24" r="11" fill="${c[1]}"/><circle cx="14" cy="24" r="9.2" fill="${c[0]}"/>`+
+    `<circle cx="14" cy="24" r="9.2" fill="none" stroke="${c[1]}" stroke-width=".8"/>`+
+    `<path d="M14 16.5a7.5 7.5 0 0 0-5 13" fill="none" stroke="${c[2]}" stroke-width="1.6" stroke-linecap="round" opacity=".75"/>`+
+    `<path fill="${c[1]}" d="m14 19.4 1.4 2.9 3.2.5-2.3 2.2.5 3.2-2.8-1.5-2.8 1.5.5-3.2-2.3-2.2 3.2-.5z"/></svg>`;
+}
 
 function openHonorModal(id){
   const pack=HONOR_RANKS[id]; if(!pack) return;
@@ -1142,9 +1214,17 @@ function openHonorModal(id){
   document.getElementById('hrModalTitle').textContent=pack.title;
   document.getElementById('hrModalSub').textContent=pack.sub;
   const top=pack.list.slice(0,10);
-  document.getElementById('hrModalList').innerHTML=top.map((e,i)=>
-    `<li><span class="rk">${i+1}</span><span class="nm">${esc(pack.nm(e))}</span><span class="val">${esc(pack.fmt(e))}</span></li>`
-  ).join("");
+  const tiers=["gold","silver","bronze"];
+  const places=["1st place","2nd place","3rd place"];
+  document.getElementById('hrModalList').innerHTML=top.map((e,i)=>{
+    const podium=i<3;
+    const rank=podium
+      ? `<span class="hr-medal">${OLYMPIC_MEDAL(tiers[i])}</span>`
+      : `<span class="rk">${i+1}</span>`;
+    const cls=podium?` class="podium podium-${tiers[i]}"`:"";
+    const aria=podium?` aria-label="${places[i]}"`:"";
+    return `<li${cls}${aria}>${rank}<span class="nm">${esc(pack.nm(e))}</span><span class="val">${esc(pack.fmt(e))}</span></li>`;
+  }).join("");
   modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
   document.body.style.overflow='hidden';
 }
@@ -1160,108 +1240,149 @@ function buildHonor(year){
   const homes=ents.filter(e=>{const p=e[y]; return p&&isHome(p);});
   if(!ents.length) return {html:"",ranks:{},count:""};
   const cur=e=>e[y];
-  const yoyY=e=>yoyPct(e,y);
   const byMax=(fn,pool=ents)=>pool.filter(e=>{const v=fn(e); return v!=null&&!isNaN(v)&&v!==Infinity&&v!==-Infinity;}).sort((a,b)=>fn(b)-fn(a));
   const nm=e=>titleCase(cur(e).address);
 
   const fmv=e=>cur(e).full_market, acre=e=>cur(e).acreage,
     land=e=>cur(e).land, assessed=e=>cur(e).assessed,
+    front=e=>cur(e).frontage,
     perAcre=e=>{const a=acre(e); return (a&&a>0)?fmv(e)/a:null;},
-    improve=e=>{const f=fmv(e),l=land(e); return (f!=null&&l!=null)?Math.max(0,f-l):null;},
     landShare=e=>{const f=fmv(e),l=land(e); return (f&&f>0&&l!=null)?l/f:null;},
-    taxAmt=e=>estTax(cur(e),y)?.total??null;
+    taxAmt=e=>estTax(cur(e),y)?.total??null,
+    taxPerAcre=e=>{const a=acre(e),t=taxAmt(e); return (a&&a>0&&t!=null)?t/a:null;},
+    chg=e=>yoyChange(e,y);
 
   const topVal=byMax(fmv,homes), topAssessed=byMax(assessed,homes), topLand=byMax(land,homes),
-    topImprove=byMax(improve,homes), topTax=byMax(taxAmt,homes), lots=byMax(acre,ents.filter(e=>isHome(cur(e))||classOf(cur(e))==="Vacant / land")),
+    topTax=byMax(taxAmt,homes),
+    lots=byMax(acre,ents.filter(e=>isHome(cur(e))||classOf(cur(e))==="Vacant / land")),
     pfp=byMax(perAcre,homes), landHeavy=byMax(landShare,homes),
-    withYoy=homes.filter(e=>yoyY(e)!=null),
-    jumps=withYoy.filter(e=>yoyY(e)>0).sort((a,b)=>yoyY(b)-yoyY(a)),
-    drops=withYoy.filter(e=>yoyY(e)<0).sort((a,b)=>yoyY(a)-yoyY(b)),
-    steady=withYoy.slice().sort((a,b)=>Math.abs(yoyY(a))-Math.abs(yoyY(b)));
+    frontage=byMax(front,homes), taxDense=byMax(taxPerAcre,homes),
+    eligible=homes.filter(e=>chg(e)!=null),
+    reassess=eligible.filter(e=>chg(e).delta>0).sort((a,b)=>chg(b).delta-chg(a).delta),
+    drops=eligible.filter(e=>chg(e).pct<0).sort((a,b)=>chg(a).pct-chg(b).pct),
+    steady=eligible.slice().sort((a,b)=>{const d=Math.abs(chg(a).pct)-Math.abs(chg(b).pct); return d!==0?d:(fmv(b)||0)-(fmv(a)||0);});
 
-  const streetTotals={};
+  // street aggregates: combined FMV and median FMV
+  const streetTotals={}, streetCounts={}, streetVals={};
   for(const e of homes){const s=e._street||""; if(!s) continue;
-    streetTotals[s]=(streetTotals[s]||0)+(fmv(e)||0);}
-  const topStreet=Object.entries(streetTotals).sort((a,b)=>b[1]-a[1])[0];
-  const streetList=topStreet?homes.filter(e=>e._street===topStreet[0]).sort((a,b)=>(fmv(b)||0)-(fmv(a)||0)):[];
-  const streetWinner=streetList[0]||null;
+    streetTotals[s]=(streetTotals[s]||0)+(fmv(e)||0);
+    streetCounts[s]=(streetCounts[s]||0)+1;
+    (streetVals[s]||(streetVals[s]=[])).push(fmv(e)||0);}
+  const dynasty=Object.keys(streetTotals)
+    .map(s=>[s,streetTotals[s],streetCounts[s]])
+    .sort((a,b)=>b[1]-a[1]);
+  const median=arr=>{const a=arr.slice().sort((x,z)=>x-z); const n=a.length; return n?(n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2):0;};
+  const medianMile=Object.keys(streetVals).filter(s=>streetVals[s].length>=5)
+    .map(s=>[s,median(streetVals[s]),streetCounts[s]])
+    .sort((a,b)=>b[1]-a[1]);
 
+  const nmStreet=t=>titleCase(t[0]);
   const ranks={}, awards=[];
-  const W=(id,iconKey,medal,h3,e,statTxt,quip,list,fmt,sub)=>{
+  const W=(id,iconKey,medal,h3,e,statTxt,quip,list,fmt,sub,nmFn=nm)=>{
     if(!e||!list?.length) return;
-    ranks[id]={title:h3,sub:sub||medal,list,nm,fmt};
+    ranks[id]={title:h3,sub:sub||medal,list,nm:nmFn,fmt};
     const n=Math.min(10,list.length);
     const moreBtn=n>1?`<button type="button" class="award-more" data-honor="${id}">View top ${n}</button>`:"";
     awards.push(`<div class="award"><div class="award-head">${AWARD_ICONS[iconKey]||AWARD_ICONS.crown}<div>
       <div class="medal">${medal}</div><h3>${h3}</h3></div></div>
-      <div class="winner">${esc(nm(e))}</div><div class="stat">${statTxt}</div>
+      <div class="winner">${esc(nmFn(e))}</div><div class="stat">${statTxt}</div>
       <div class="quip">${quip}</div>${moreBtn}</div>`);
   };
 
-  if(topVal[0])W("crown","crown","№ 1 · Most Valuable","The Crown Jewel",topVal[0],
-    `${fmtUSD(fmv(topVal[0]))} full market value · ${fmtUSD(taxAmt(topVal[0]))} est. tax`,
-    `Assessed like a small sovereign nation. The rest of the village rounds up for street parking.`,
+  if(topVal[0])W("crown","crown","Most Valuable","The Crown Jewel",topVal[0],
+    `${fmtUSD(fmv(topVal[0]))} full market value, ${fmtUSD(taxAmt(topVal[0]))} estimated tax`,
+    `Highest full market value on the roll. Whether that is the 2014 figure, the 2016 figure, or the one everyone agreed to after the lawyers went home rather depends on who you ask.`,
     topVal,e=>fmtUSD(fmv(e)));
 
-  if(topTax[0])W("check","check","№ 1 · Property Tax","The Biggest Check",topTax[0],
-    `${fmtUSD(taxAmt(topTax[0]))} est. annual tax · ${fmtUSD(assessed(topTax[0]))} assessed`,
-    `The number that actually clears the checking account. County, school, and village — before the gardener invoices you separately.`,
+  if(topTax[0])W("check","check","Property Tax","The Biggest Check",topTax[0],
+    `${fmtUSD(taxAmt(topTax[0]))} estimated annual tax, ${fmtUSD(assessed(topTax[0]))} assessed`,
+    `The largest estimated tax bill in the village, assuming it arrives at all. Anyone who waited on a school tax notice from the Chase Road post office knows the feeling.`,
     topTax,e=>fmtUSD(taxAmt(e)));
 
-  if(topAssessed[0])W("tax","receipt","№ 2 · Highest Assessed","The Tax Bill",topAssessed[0],
-    `${fmtUSD(assessed(topAssessed[0]))} assessed · ${fmtUSD(fmv(topAssessed[0]))} FMV`,
-    `What the Assessor actually bills against. Not necessarily what Zillow thinks — but close enough to start an argument.`,
+  if(topAssessed[0])W("tax","receipt","Highest Assessed","The Tax Bill",topAssessed[0],
+    `${fmtUSD(assessed(topAssessed[0]))} assessed, ${fmtUSD(fmv(topAssessed[0]))} full market`,
+    `The top assessed value on the roll, which is really just the village's opinion until somebody grieves it. In Scarsdale, somebody always grieves it.`,
     topAssessed,e=>fmtUSD(assessed(e))+" assessed");
 
-  if(topLand[0])W("dirt","dirt","№ 3 · Land Value","The Dirt Premium",topLand[0],
-    `${fmtUSD(land(topLand[0]))} in land alone · ${fmtUSD(fmv(topLand[0]))} FMV`,
-    `They bought the dirt and the dirt bought them a seat at every zoning meeting.`,
+  if(topLand[0])W("dirt","dirt","Land Value","The Dirt Premium",topLand[0],
+    `${fmtUSD(land(topLand[0]))} in land alone, ${fmtUSD(fmv(topLand[0]))} full market`,
+    `More value in the ground than most homes hold in total. Around here even the dirt is zoned for a good school district.`,
     topLand,e=>fmtUSD(land(e))+" land");
 
-  if(topImprove[0])W("house","house","№ 4 · Improvement Value","Above Grade",topImprove[0],
-    `${fmtUSD(improve(topImprove[0]))} in improvements · ${fmtUSD(fmv(topImprove[0]))} FMV`,
-    `The structure on top of the dirt costs more than most people's entire net worth. Non sibi, sed structura.`,
-    topImprove,e=>fmtUSD(improve(e))+" improvements");
+  if(reassess[0])W("reassess","reassess","Largest Reassessment","The Big Markup",reassess[0],
+    `up ${fmtUSD(chg(reassess[0]).delta)} assessed (${chg(reassess[0]).pct>=0?"+":""}${chg(reassess[0]).pct.toFixed(1)}%) since ${y-1}`,
+    `The biggest one year jump in assessed value. A reminder that some of this village was once revalued from a slowly moving car.`,
+    reassess,e=>"+"+fmtShort(chg(e).delta)+" ("+(chg(e).pct>=0?"+":"")+chg(e).pct.toFixed(0)+"%)");
 
-  if(lots[0])W("acres","acres","№ 5 · Acreage","The Land Baron",lots[0],
-    `${acre(lots[0])} acres · ${fmtUSD(fmv(lots[0]))} FMV`,
-    `More acreage than the rest of the block combined, and we mean that admiringly.`,
-    lots,e=>(acre(e)||0)+" ac · "+fmtShort(fmv(e)));
+  if(lots[0])W("acres","acres","Acreage","The Land Baron",lots[0],
+    `${acre(lots[0])} acres, ${fmtUSD(fmv(lots[0]))} full market`,
+    `The most acreage on the residential roll. A few streets over, two neighbors had enough backyard like this in 1928 to invent platform tennis. Paddle owes them.`,
+    lots,e=>(acre(e)||0)+" ac, "+fmtShort(fmv(e)));
 
-  if(pfp[0])W("scale","scale","№ 6 · Per Acre","Pound for Pound",pfp[0],
+  if(pfp[0])W("scale","scale","Per Acre","Pound for Pound",pfp[0],
     `${fmtShort(perAcre(pfp[0]))} per acre on ${acre(pfp[0])} ac`,
-    `Smallest footprint, biggest ambitions. Manhattan math, Westchester zip code.`,
+    `The most value squeezed onto the smallest lot. The original Scarsdale diet was about doing more with less. So is this parcel.`,
     pfp,e=>fmtShort(perAcre(e))+"/ac");
 
-  if(streetWinner&&streetList.length)W("street","street","Street Honor","Street Dynasty",streetWinner,
-    `${titleCase(topStreet[0])} · ${fmtShort(topStreet[1])} combined FMV`,
-    `The most expensive block party invitation list in the village. This parcel leads the parade.`,
-    streetList,e=>fmtShort(fmv(e))+" FMV");
+  if(taxDense[0])W("taxacre","taxacre","Tax Density","Levy by the Square Foot",taxDense[0],
+    `${fmtShort(taxPerAcre(taxDense[0]))} tax per acre on ${acre(taxDense[0])} ac`,
+    `Highest tax per acre in town. A small footprint paying like a big one, which is roughly the whole plot of the 2016 reval.`,
+    taxDense,e=>fmtShort(taxPerAcre(e))+"/ac");
 
-  if(jumps[0])W("jump","up","YoY · Increase","Most Improved, Allegedly",jumps[0],
-    `+${yoyY(jumps[0]).toFixed(1)}% assessed (${fmtUSD(assessed(jumps[0]))}) vs ${y-1}`,
-    `The Assessor noticed something. Congratulations are not, strictly speaking, in order.`,
-    jumps,e=>"+"+yoyY(e).toFixed(1)+"% · "+fmtUSD(assessed(e)));
+  if(dynasty[0])W("street","street","Street Dynasty","The Whole Block",dynasty[0],
+    `${titleCase(dynasty[0][0])}, ${fmtShort(dynasty[0][1])} combined across ${dynasty[0][2]} homes`,
+    `More combined value than any street on the roll. Heathcote has held the address since the trolley still stopped at Five Corners.`,
+    dynasty,t=>fmtShort(t[1])+" total, "+t[2]+" homes",null,nmStreet);
 
-  if(drops[0])W("drop","down","YoY · Decrease","The Market Speaks",drops[0],
-    `${yoyY(drops[0]).toFixed(1)}% assessed (${fmtUSD(assessed(drops[0]))}) vs ${y-1}`,
-    `Down year over year. Somewhere, a grievance attorney is quietly taking credit.`,
-    drops,e=>yoyY(e).toFixed(1)+"% · "+fmtUSD(assessed(e)));
+  if(medianMile[0])W("median","median","Median Mile","The Reliable Block",medianMile[0],
+    `${titleCase(medianMile[0][0])}, ${fmtShort(medianMile[0][1])} median across ${medianMile[0][2]} homes`,
+    `Not the loudest street, the most consistent one. The block that turns out for the Farmers Market and never misses a Bicycle Sunday.`,
+    medianMile,t=>fmtShort(t[1])+" median, "+t[2]+" homes",null,nmStreet);
+
+  if(frontage[0])W("frontage","frontage","Street Frontage","The Long Driveway",frontage[0],
+    `${front(frontage[0])} ft of frontage, ${fmtUSD(fmv(frontage[0]))} full market`,
+    `The most street frontage on the roll. In a village where you collect your own mail on Chase Road, that is a notably long way to no mailbox.`,
+    frontage,e=>front(e)+" ft, "+fmtShort(fmv(e)));
+
+  if(drops[0])W("drop","down","Year Over Year Decrease","The Market Speaks",drops[0],
+    `down ${fmtUSD(-chg(drops[0]).delta)} assessed (${chg(drops[0]).pct.toFixed(1)}%) since ${y-1}`,
+    `Down year over year. Somewhere a tax certiorari attorney is quietly billing for the win and saying absolutely nothing.`,
+    drops,e=>chg(e).pct.toFixed(1)+"%, "+fmtUSD(assessed(e)));
 
   if(landHeavy[0])W("pin","pin","Land Ratio","Location, Location",landHeavy[0],
-    `${(landShare(landHeavy[0])*100).toFixed(0)}% of FMV is land (${fmtUSD(land(landHeavy[0]))})`,
-    `The house is almost an accessory to the lot. A teardown waiting for someone with vision and a very large checkbook.`,
-    landHeavy,e=>(landShare(e)*100).toFixed(0)+"% land · "+fmtShort(fmv(e)));
+    `${(landShare(landHeavy[0])*100).toFixed(0)}% of full market is land (${fmtUSD(land(landHeavy[0]))})`,
+    `Most of the value is the lot, not the house. Give it a year, a dumpster, and an architect, and someone will prove it.`,
+    landHeavy,e=>(landShare(e)*100).toFixed(0)+"% land, "+fmtShort(fmv(e)));
 
-  if(steady[0])W("steady","steady","YoY · Stability","Steady Eddie",steady[0],
-    `${yoyY(steady[0])>=0?"+":""}${yoyY(steady[0]).toFixed(2)}% assessed vs ${y-1}`,
-    `Barely a flinch year over year. The Assessor's most reliably boring success story.`,
-    steady,e=>(yoyY(e)>=0?"+":"")+yoyY(e).toFixed(2)+"%");
+  if(steady[0])W("steady","steady","Year Over Year Stability","Steady Eddie",steady[0],
+    `${chg(steady[0]).pct>=0?"+":""}${chg(steady[0]).pct.toFixed(2)}% assessed since ${y-1}, ${fmtUSD(fmv(steady[0]))} full market`,
+    `Unchanged year over year. In a village that revalued twice in two years, holding perfectly still is practically a civic skill. No Scarsdale Bowl for it, but it should count.`,
+    steady,e=>(chg(e).pct>=0?"+":"")+chg(e).pct.toFixed(2)+"%, "+fmtShort(fmv(e)));
+
+  // ---- editorial insights (computed per year, not rankings) ----
+  const insights=[];
+  if(dynasty[0]) insights.push({label:"Top street",
+    text:`${titleCase(dynasty[0][0])} carries ${fmtShort(dynasty[0][1])} in combined full market value across ${dynasty[0][2]} homes, the highest of any street on the ${y} roll.`});
+  const matched=homes.filter(e=>e[y]?.assessed!=null&&e[y-1]?.assessed!=null);
+  if(matched.length){
+    const unchanged=matched.filter(e=>e[y].assessed===e[y-1].assessed).length;
+    insights.push({label:"Quietly unchanged",
+      text:`About ${Math.round(unchanged/matched.length*100)}% of homes did not move between the ${y-1} and ${y} rolls. After two revaluations in two years, the village has earned a quiet one.`});
+  }
+  const fmvAll=homes.map(fmv).filter(v=>v!=null&&!isNaN(v));
+  if(fmvAll.length){
+    const med=median(fmvAll), over5=fmvAll.filter(v=>v>=5e6).length;
+    insights.push({label:"The middle",
+      text:`The middle of the market sits around ${fmtShort(med)}. The number that never makes the listing, but the one most of the village actually lives at. Only ${over5.toLocaleString()} homes clear ${fmtShort(5e6)}.`});
+  }
+  if(pfp[0]&&acre(pfp[0])) insights.push({label:"Tightest lot",
+    text:`The tightest high value lot on the roll fits ${fmtShort(fmv(pfp[0]))} onto ${acre(pfp[0])} acres. In 10583 you are buying the school district, not the square footage.`});
 
   return {
     html:awards.join(""),
     ranks,
-    count:`${awards.length} awards · ${homes.length.toLocaleString()} homes on the ${y} roll${withYoy.length?"":" · YoY ribbons need prior-year data"}`,
+    insights,
+    count:`${awards.length} superlatives, ${homes.length.toLocaleString()} homes on the ${y} roll`,
   };
 }
 
@@ -1272,6 +1393,12 @@ function renderHonor(){
   HONOR_RANKS=pack.ranks;
   document.getElementById('hrCount').textContent=pack.count;
   g.innerHTML=pack.html;
+  const ins=document.getElementById('hrInsights');
+  if(ins){
+    ins.innerHTML=(pack.insights||[]).map(o=>
+      `<div class="hr-insight"><div class="hr-insight-label">${esc(o.label)}</div><p>${esc(o.text)}</p></div>`
+    ).join("");
+  }
 }
 
 /* ---- render: Browse / groupings ---- */
