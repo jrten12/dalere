@@ -18,11 +18,11 @@
     --card:#faf9f5; --up:#1f7a4d; --down:#A51C30;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
+  html{-webkit-text-size-adjust:100%;overflow-x:clip}
   body{
     background:radial-gradient(130% 100% at 50% -5%, #faf9f6 0%, var(--paper) 52%, var(--vignette) 100%) fixed;
     color:var(--ink); font-family:'Archivo','Helvetica Neue',Arial,sans-serif; font-size:16px; line-height:1.5;
-    min-height:100vh; -webkit-font-smoothing:antialiased; letter-spacing:-.005em; overflow-x:hidden;
+    min-height:100vh; -webkit-font-smoothing:antialiased; letter-spacing:-.005em;overflow-x:clip;overflow-y:visible;
   }
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
@@ -35,15 +35,19 @@
     font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
     border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:0}
   .eyebrow .l,.eyebrow .r{flex:1}.eyebrow .r{text-align:right}.eyebrow .c{color:var(--claret);font-style:normal}
-  .title-wrap{padding:22px 0 26px;margin:0 auto;overflow:visible;max-width:100%}
+  .title-wrap{padding:22px 0 30px;margin:0 auto;overflow:visible;max-width:100%}
   .title-kicker{font-family:'Newsreader',Georgia,serif;font-size:clamp(15px,2.8vw,22px);
     font-weight:500;font-style:italic;letter-spacing:.22em;text-transform:uppercase;
-    color:var(--claret);margin:0 0 6px;line-height:1.4}
-  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(52px,12vw,112px);
-    line-height:1.4;letter-spacing:-.035em;color:var(--ink);margin:0;padding:0 0 .12em;
-    display:inline-block;overflow:visible;white-space:nowrap;vertical-align:baseline}
-  h1.title .dot{color:var(--claret);margin-left:-.06em}
-  .title-rule{width:72px;height:3px;background:var(--claret);margin:10px auto 0;border-radius:1px}
+    color:var(--claret);margin:0 0 8px;line-height:1.4}
+  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(48px,11vw,104px);
+    line-height:1.25;letter-spacing:-.035em;color:var(--ink);margin:0;padding:0;
+    display:block;overflow:visible;white-space:nowrap}
+  h1.title .title-word{display:inline-block;padding-bottom:.14em;line-height:1.05}
+  h1.title .dot{
+    color:var(--claret);font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:.92em;
+    margin-left:.04em;position:relative;top:-.06em;
+  }
+  .title-rule{width:72px;height:3px;background:var(--claret);margin:8px auto 0;border-radius:1px}
   .subhead{font-family:'Newsreader',serif;font-style:italic;font-size:clamp(14px,2.4vw,18px);
     color:var(--ink-2);letter-spacing:0;margin-top:0;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.55}
   .mast-rule{margin:18px 0 0;border:0;border-top:2px solid var(--rule)}
@@ -220,12 +224,13 @@
     .eyebrow .c{display:none}
     .eyebrow .r{text-align:left;width:100%}
 
-    .title-wrap{padding:12px 0 16px}
-    .title-kicker{font-size:13px;letter-spacing:.16em;margin-bottom:2px}
+    .title-wrap{padding:12px 0 22px}
+    .title-kicker{font-size:13px;letter-spacing:.16em;margin-bottom:4px}
     h1.title{
-      white-space:normal;font-size:clamp(40px,13vw,64px);line-height:1.12;
-      padding-bottom:8px;word-break:break-word;hyphens:auto;
+      white-space:normal;font-size:clamp(40px,13vw,64px);line-height:1.25;
+      word-break:break-word;hyphens:auto;
     }
+    h1.title .title-word{padding-bottom:.12em}
     .subhead{font-size:14px;line-height:1.5;padding:0 2px}
     .mast-rule{margin-top:14px}
 
@@ -324,8 +329,9 @@
 
   @media(max-width:680px) and (orientation:landscape){
     header.mast{padding-top:8px}
-    .title-wrap{padding:6px 0 10px}
-    h1.title{font-size:clamp(30px,8vw,44px);line-height:1.1}
+    .title-wrap{padding:6px 0 16px}
+    h1.title{font-size:clamp(30px,8vw,44px);line-height:1.2}
+    h1.title .title-word{padding-bottom:.1em}
     .subhead{font-size:13px}
   }
 </style>
@@ -341,7 +347,7 @@
     </div>
     <div class="title-wrap">
       <p class="title-kicker">The Dale</p>
-      <h1 class="title">Ledger<span class="dot">.</span></h1>
+      <h1 class="title"><span class="title-word">Ledger</span><span class="dot">.</span></h1>
       <div class="title-rule" aria-hidden="true"></div>
     </div>
     <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
@@ -640,7 +646,7 @@ function cardHTML(e,withInline){
   const schoolTag=e._school!=="Unzoned"?`<span class="tag school">${e._school}</span>`:"";
   if(!p){const a=e[2026]||e[2025];
     return `<div class="card" data-pid="${e._pid}"><div class="ctop"><div><div class="addr">${esc(titleCase(a.address))}</div><div class="owner">Not on the ${curYear} roll</div></div><div class="pid">${e._pid}</div></div></div>`;}
-  const cur=p.assessed, prevY=curYear-1, prev=e[prevY]?.assessed:null;
+  const cur=p.assessed, prevY=curYear-1, prev=e[prevY]?.assessed;
   let dh=""; if(cur!=null&&prev){const pct=(cur-prev)/prev*100,dir=pct>.05?"up":pct<-.05?"down":"flat";
     dh=`<div class="delta ${dir}">${pct>0?"+":""}${pct.toFixed(1)}%<br><span style="font-size:10px;color:var(--faint)">vs ${prevY}</span></div>`;}
   const owner=p.owner?`<div class="owner"><b>${esc(titleCase(p.owner))}</b>${p.co_owner?" · "+esc(titleCase(p.co_owner)):""}</div>`:"";
