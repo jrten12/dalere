@@ -678,7 +678,7 @@
 
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor">
-    <p class="hr-intro">Fourteen superlatives pulled straight from the public assessment roll, the same roll the whole village has argued about since the revaluations of 2014 and 2016. These figures are already public record. Nothing here is meant to flatter anyone or put them on the spot. It is just Scarsdale, counted up, with a few asides from someone who clearly grew up fetching the mail on Chase Road.</p>
+    <p class="hr-intro">Thirteen superlatives pulled straight from the public assessment roll, the same roll the whole village has argued about since the revaluations of 2014 and 2016. These figures are already public record. Nothing here is meant to flatter anyone or put them on the spot. It is just Scarsdale, counted up, with a few asides from someone who clearly grew up fetching the mail on Chase Road.</p>
     <p class="hr-nonsibi"><b>Non Sibi.</b> Not for oneself alone. Before the rankings, a word on what the village gives back, further down the page.</p>
     <div class="hr-insights" id="hrInsights"></div>
     <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
@@ -1247,7 +1247,6 @@ function buildHonor(year){
     land=e=>cur(e).land, assessed=e=>cur(e).assessed,
     front=e=>cur(e).frontage,
     perAcre=e=>{const a=acre(e); return (a&&a>0)?fmv(e)/a:null;},
-    landShare=e=>{const f=fmv(e),l=land(e); return (f&&f>0&&l!=null)?l/f:null;},
     taxAmt=e=>estTax(cur(e),y)?.total??null,
     taxPerAcre=e=>{const a=acre(e),t=taxAmt(e); return (a&&a>0&&t!=null)?t/a:null;},
     chg=e=>yoyChange(e,y);
@@ -1255,7 +1254,7 @@ function buildHonor(year){
   const topVal=byMax(fmv,homes), topAssessed=byMax(assessed,homes), topLand=byMax(land,homes),
     topTax=byMax(taxAmt,homes),
     lots=byMax(acre,ents.filter(e=>isHome(cur(e))||classOf(cur(e))==="Vacant / land")),
-    pfp=byMax(perAcre,homes), landHeavy=byMax(landShare,homes),
+    pfp=byMax(perAcre,homes),
     frontage=byMax(front,homes), taxDense=byMax(taxPerAcre,homes),
     eligible=homes.filter(e=>chg(e)!=null),
     reassess=eligible.filter(e=>chg(e).delta>0).sort((a,b)=>chg(b).delta-chg(a).delta),
@@ -1348,11 +1347,6 @@ function buildHonor(year){
     `down ${fmtUSD(-chg(drops[0]).delta)} assessed (${chg(drops[0]).pct.toFixed(1)}%) since ${y-1}`,
     `Down year over year. Somewhere a tax certiorari attorney is quietly billing for the win and saying absolutely nothing.`,
     drops,e=>chg(e).pct.toFixed(1)+"%, "+fmtUSD(assessed(e)));
-
-  if(landHeavy[0])W("pin","pin","Land Ratio","Location, Location",landHeavy[0],
-    `${(landShare(landHeavy[0])*100).toFixed(0)}% of full market is land (${fmtUSD(land(landHeavy[0]))})`,
-    `Most of the value is the lot, not the house. Give it a year, a dumpster, and an architect, and someone will prove it.`,
-    landHeavy,e=>(landShare(e)*100).toFixed(0)+"% land, "+fmtShort(fmv(e)));
 
   if(steady[0])W("steady","steady","Year Over Year Stability","Steady Eddie",steady[0],
     `${chg(steady[0]).pct>=0?"+":""}${chg(steady[0]).pct.toFixed(2)}% assessed since ${y-1}, ${fmtUSD(fmv(steady[0]))} full market`,
