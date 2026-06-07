@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f4f2ed">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Dale Ledger">
 <title>The Dale Ledger — A Survey of Scarsdale Property</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="favicon.svg">
@@ -16,6 +20,8 @@
     --ivy:#1a1a1f; --ivy-2:#3d3d38; --claret:#A51C30; --brass:#8b6914;
     --line:#d8d6ce; --line-2:#c4c2b8; --rule:#1a1a1f;
     --card:#faf9f5; --up:#1f7a4d; --down:#A51C30;
+    --ios-radius:14px; --ios-shadow:0 1px 2px rgba(26,26,31,.06),0 4px 16px rgba(26,26,31,.05);
+    --tabbar-h:56px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%;overflow-x:clip}
@@ -82,6 +88,7 @@
   .hints{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);letter-spacing:.03em;
     margin:8px 4px 0;line-height:1.7}
   .hints b{color:var(--claret);font-weight:400}
+  .mobile-hint{display:none}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;min-height:0}
   .chip{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--claret);
     color:#fff;padding:4px 9px;border-radius:2px}
@@ -196,10 +203,13 @@
   .fineprint a{color:var(--ivy-2)}
 
   .controls{display:block}
+  .app-brand,.app-tabbar{display:none}
 
-  button,.card,.fbtn{-webkit-tap-highlight-color:rgba(165,28,48,.1)}
+  button,.card,.fbtn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
   @media(hover:none){
-    .card:hover{transform:none;border-color:var(--line);box-shadow:0 1px 0 #fff8,0 14px 30px -28px #16161a40}
+    .card:hover{transform:none;border-color:var(--line);box-shadow:var(--ios-shadow)}
+    button:active,.fbtn:active,.card:active{opacity:.88;transform:scale(.985)}
+    .app-tabbar button:active{transform:none;opacity:1}
   }
   @media(prefers-reduced-motion:reduce){
     .panel{animation:none}
@@ -213,126 +223,270 @@
   }
 
   @media(max-width:680px){
+    html{height:-webkit-fill-available}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,'Archivo','Helvetica Neue',sans-serif;
+      font-size:17px;line-height:1.47;
+      min-height:100vh;min-height:-webkit-fill-available;
+      background:var(--paper);
+      overscroll-behavior-y:none;
+    }
+    body::before{opacity:.35}
+
     .wrap{
-      padding:0 max(16px,env(safe-area-inset-right)) max(48px,env(safe-area-inset-bottom))
-        max(16px,env(safe-area-inset-left));
+      max-width:none;
+      padding:0 max(16px,env(safe-area-inset-left)) calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 20px)
+        max(16px,env(safe-area-inset-right));
     }
-    header.mast{padding:max(12px,env(safe-area-inset-top)) 0 10px}
 
-    .eyebrow{flex-wrap:wrap;gap:2px 10px;font-size:9px;letter-spacing:.14em;padding-bottom:6px}
-    .eyebrow .l,.eyebrow .r{flex:1 1 auto}
-    .eyebrow .c{display:none}
-    .eyebrow .r{text-align:left;width:100%}
+    /* hide broadsheet masthead — app chrome replaces it */
+    .mast-body,.mast-rule{display:none}
+    header.mast{padding:0;border:none}
 
-    .title-wrap{padding:12px 0 22px}
-    .title-kicker{font-size:13px;letter-spacing:.16em;margin-bottom:4px}
-    h1.title{
-      white-space:normal;font-size:clamp(40px,13vw,64px);line-height:1.25;
-      word-break:break-word;hyphens:auto;
-    }
-    h1.title .title-word{padding-bottom:.12em}
-    .subhead{font-size:14px;line-height:1.5;padding:0 2px}
-    .mast-rule{margin-top:14px}
-
+    /* sticky top bar */
     .controls{
-      position:sticky;top:0;z-index:50;
-      background:color-mix(in srgb,var(--paper) 94%,transparent);
-      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-      margin:0 -16px;padding:8px 16px 10px;border-bottom:1px solid var(--line);
+      position:sticky;top:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      margin:0 -16px;padding:max(10px,env(safe-area-inset-top)) 16px 10px;
+      background:rgba(244,242,237,.88);
+      backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+      border-bottom:1px solid rgba(216,214,206,.85);
     }
-    nav.sections{justify-content:stretch;gap:0;padding:0}
-    nav.sections button{
-      flex:1;min-height:44px;padding:10px 6px;font-size:10px;letter-spacing:.07em;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    .app-brand{
+      display:flex;flex-direction:column;align-items:flex-start;min-width:0;flex:1;
     }
-    .yearpick{display:flex;width:100%;max-width:320px;margin:10px auto 0}
-    .yearpick button{flex:1;min-height:44px;padding:10px 16px;font-size:14px}
-
-    .searchwrap{margin-top:14px}
-    .sbox input{font-size:16px;padding:14px 14px 14px 44px}
-    .sbox svg{left:14px;width:19px;height:19px}
-    .hints{
-      font-size:10px;line-height:1.55;margin-top:6px;
-      display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+    .app-brand-kicker{
+      font-family:'Newsreader',Georgia,serif;font-size:10px;font-weight:500;font-style:italic;
+      letter-spacing:.14em;text-transform:uppercase;color:var(--claret);line-height:1.2;
     }
-    .quickpick{gap:8px;margin-top:8px}
-    .quickpick button,.fbtn{min-height:44px;padding:10px 14px;font-size:12px}
-    .chip{font-size:10px;padding:5px 10px}
+    .app-brand-title{
+      font-family:'Syne',sans-serif;font-weight:800;font-size:22px;line-height:1.15;
+      letter-spacing:-.03em;color:var(--ink);white-space:nowrap;
+    }
+    .app-brand-title .dot{
+      color:var(--claret);font-family:'Newsreader',Georgia,serif;font-weight:700;
+    }
+    .app-meta{
+      font-family:'DM Mono',monospace;font-size:10px;color:var(--faint);
+      letter-spacing:.04em;margin-top:1px;
+    }
+    nav.sections{display:none}
 
-    .statline{flex-direction:column;align-items:flex-start;gap:4px;font-size:10px;margin-top:12px}
+    .yearpick{
+      flex-shrink:0;margin:0;width:auto;min-width:108px;
+      border-radius:9px;border-color:rgba(196,194,184,.9);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+    }
+    .yearpick button{
+      min-height:36px;padding:8px 14px;font-size:15px;font-weight:600;
+      letter-spacing:0;
+    }
 
-    .card{padding:14px 16px;margin-top:10px}
-    .ctop{flex-direction:column;align-items:stretch;gap:6px}
-    .addr{font-size:clamp(18px,5.5vw,22px)}
-    .owner{font-size:14px}
-    .pid{text-align:left;white-space:normal;font-size:10px}
+    /* bottom tab bar */
+    .app-tabbar{
+      display:flex;position:fixed;left:0;right:0;bottom:0;z-index:200;
+      height:calc(var(--tabbar-h) + env(safe-area-inset-bottom));
+      padding:0 max(8px,env(safe-area-inset-left)) env(safe-area-inset-bottom)
+        max(8px,env(safe-area-inset-right));
+      background:rgba(250,249,245,.92);
+      backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
+      border-top:1px solid rgba(216,214,206,.9);
+      box-shadow:0 -4px 24px rgba(26,26,31,.06);
+    }
+    .app-tabbar button{
+      flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+      min-height:var(--tabbar-h);padding:6px 4px 4px;border:none;background:none;
+      color:var(--faint);cursor:pointer;font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+      font-size:10px;font-weight:600;letter-spacing:.01em;
+    }
+    .app-tabbar button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.75}
+    .app-tabbar button[aria-current="true"]{color:var(--claret)}
+    .app-tabbar button[aria-current="true"] svg{stroke-width:2.1}
+
+    .app-main{padding-top:4px}
+    .panel.on{animation:iosFade .22s ease}
+
+    /* search — iOS field */
+    .searchwrap{margin-top:8px}
+    .sbox input{
+      font-size:17px;font-weight:400;
+      padding:13px 16px 13px 44px;
+      border:1px solid rgba(196,194,184,.75);border-radius:12px;
+      background:rgba(255,255,255,.72);
+      box-shadow:inset 0 1px 2px rgba(26,26,31,.04);
+    }
+    .sbox input:focus{
+      border-color:rgba(165,28,48,.45);
+      box-shadow:0 0 0 4px rgba(165,28,48,.12),inset 0 1px 2px rgba(26,26,31,.04);
+      background:#fff;
+    }
+    .sbox input::placeholder{color:#a8a69e;font-weight:400}
+    .hints{display:none}
+    .mobile-hint{
+      display:block;font-size:14px;line-height:1.45;color:var(--faint);margin-top:8px;
+    }
+    .mobile-hint b{color:var(--claret);font-weight:500}
+    .quickpick{
+      flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+      gap:8px;margin-top:10px;padding:2px 2px 8px;
+      scroll-snap-type:x proximity;scrollbar-width:none;
+    }
+    .quickpick::-webkit-scrollbar{display:none}
+    .quickpick .qplab{
+      flex:0 0 auto;font-size:11px;color:var(--ink-2);margin:0;padding:8px 2px 8px 0;
+      width:auto;
+    }
+    .quickpick button{
+      flex:0 0 auto;scroll-snap-align:start;
+      min-height:40px;padding:0 16px;font-size:15px;font-weight:500;
+      border-radius:999px;background:#fff;border-color:rgba(196,194,184,.85);
+      box-shadow:0 1px 2px rgba(26,26,31,.04);
+    }
+
+    .statline{
+      font-size:13px;color:var(--ink-2);margin:14px 0 8px;padding:0;
+      border:none;background:transparent;
+    }
+
+    /* parcel cards — grouped list */
+    .card{
+      border-radius:var(--ios-radius);padding:16px;margin-top:10px;
+      background:#fff;border-color:rgba(216,214,206,.95);
+      box-shadow:var(--ios-shadow);
+    }
+    .ctop{flex-direction:column;align-items:stretch;gap:8px}
+    .addr{font-size:20px;line-height:1.15}
+    .owner{font-size:16px;margin-top:4px}
+    .tag{font-size:11px;padding:4px 10px;border-radius:999px;background:var(--paper-2)}
+    .tag.school{background:rgba(165,28,48,.08);border-color:rgba(165,28,48,.22);color:var(--claret)}
+    .pid{font-size:12px;color:var(--faint);margin-top:2px}
     .vals{
-      display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-top:12px;
+      display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;
+      margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
     }
-    .v .num{font-size:18px}
-    .v .num.big{font-size:20px}
+    .v .lab{font-size:11px;letter-spacing:.06em;margin-bottom:3px}
+    .v .num{font-size:19px;font-weight:600}
+    .v .num.big{font-size:22px;color:var(--ink)}
     .delta{
-      grid-column:1/-1;margin-left:0;text-align:left;padding-top:8px;
-      border-top:1px dotted var(--line);font-size:12px;
+      grid-column:1/-1;margin:0;text-align:left;padding-top:10px;
+      border-top:1px solid var(--line);font-size:14px;font-weight:500;
     }
 
-    .detail{gap:16px;padding-top:12px;margin-top:12px}
+    .detail{
+      gap:14px;margin-top:14px;padding-top:14px;
+      border-top:1px solid var(--line);
+    }
+    .chartbox,.yeartbl{
+      border-radius:12px;background:#fff;border:1px solid var(--line);
+      padding:14px;
+    }
     .chartbox{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .meta-extra{flex-direction:column;gap:6px;font-size:11px}
+    .meta-extra{flex-direction:column;gap:8px;font-size:13px}
+    .chip{font-size:12px;padding:6px 12px;border-radius:999px}
 
-    .hr-intro{font-size:15px;margin:12px auto 4px;padding:0 4px}
-    .hr-grid{grid-template-columns:1fr;border-left:none;margin-top:14px}
-    .award{padding:16px 18px 18px;min-height:0;border-right:none}
-    .award h3{font-size:20px}
-    .award .winner{font-size:16px}
-    .award .quip{font-size:14px}
-
-    .browse-intro{font-size:14px;margin-top:10px}
-    .facets{gap:6px}
-    .facet-set .flab{margin-top:10px;margin-bottom:6px}
-    .browse-quick .fbtn{flex:1 1 calc(50% - 4px);min-width:calc(50% - 4px);text-align:center}
-    .browse-quick .facets{width:100%;gap:8px}
-    #groupFacets .fbtn{flex:1 1 calc(50% - 4px);min-width:calc(50% - 4px);text-align:center}
-    .street-filter input{font-size:16px;padding:12px 14px}
-    .group h3{
-      flex-direction:column;align-items:flex-start;gap:4px;font-size:16px;
-      padding:10px 0 6px;
+    /* honor roll — card stack */
+    .hr-intro{
+      font-size:16px;line-height:1.5;text-align:left;margin:10px 0 6px;padding:0;
+      color:var(--ink-2);
     }
-    .group h3 .gstat{font-size:10px;line-height:1.4}
+    .hr-grid{
+      display:flex;flex-direction:column;gap:12px;
+      margin-top:12px;border:none;
+    }
+    .award{
+      border-radius:var(--ios-radius);border:1px solid rgba(216,214,206,.95);
+      border-right:1px solid rgba(216,214,206,.95);
+      padding:18px 16px 16px;min-height:0;
+      background:#fff;box-shadow:var(--ios-shadow);
+    }
+    .award-icon{width:32px;height:32px}
+    .award .medal{font-size:11px;margin-bottom:4px}
+    .award h3{font-size:21px;line-height:1.1}
+    .award .winner{font-size:18px;line-height:1.25;margin-top:6px}
+    .award .stat{font-size:14px;margin-top:4px;color:var(--ink-2)}
+    .award .quip{font-size:15px;line-height:1.5;margin-top:10px}
+    .award .runner{
+      font-size:13px;line-height:1.6;margin-top:12px;padding-top:10px;
+      border-top:1px solid var(--line);color:var(--ink-2);
+    }
 
-    .notice{min-height:72px}
-    .notice a{padding:16px 18px}
-    .notice a b{font-size:18px}
+    /* browse */
+    .browse-intro{font-size:16px;text-align:left;margin:8px 0 12px;line-height:1.5}
+    .facet-set .flab{font-size:12px;margin:12px 0 8px;color:var(--ink-2)}
+    .facets{gap:8px;margin:0 0 10px}
+    .fbtn{
+      min-height:44px;padding:0 16px;font-size:15px;font-weight:500;
+      border-radius:999px;background:#fff;border-color:rgba(196,194,184,.85);
+      box-shadow:0 1px 2px rgba(26,26,31,.04);
+    }
+    .fbtn[aria-pressed="true"]{
+      background:var(--claret);border-color:var(--claret);color:#fff;
+      box-shadow:0 2px 8px rgba(165,28,48,.22);
+    }
+    .browse-quick .facets{
+      display:grid;grid-template-columns:1fr 1fr;gap:8px;
+    }
+    .browse-quick .fbtn{
+      min-width:0;width:100%;text-align:center;padding:12px 10px;
+      border-radius:12px;min-height:48px;line-height:1.25;
+    }
+    .browse-quick .fbtn .qcount{display:block;font-size:11px;opacity:.8;margin:2px 0 0}
+    #groupFacets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    #groupFacets .fbtn{min-width:0;width:100%;text-align:center;border-radius:12px}
+    .street-filter input{
+      font-size:17px;padding:13px 16px;border-radius:12px;background:#fff;
+      border:1px solid rgba(196,194,184,.75);
+    }
 
-    footer{margin-top:32px;padding-top:16px}
-    .seal{width:96px;height:96px}
-    .fineprint{font-size:10px;padding:0 2px}
+    .group{
+      margin-top:12px;border:none;background:#fff;
+      border-radius:var(--ios-radius);overflow:hidden;
+      box-shadow:var(--ios-shadow);
+    }
+    .group h3{
+      flex-direction:row;align-items:center;justify-content:space-between;
+      font-size:17px;padding:16px;gap:10px;
+      background:var(--paper-2);border-bottom:1px solid var(--line);
+    }
+    .group h3 .gstat{
+      font-size:12px;text-align:right;line-height:1.35;max-width:52%;
+    }
+    .group .glist{padding:0 8px 8px}
+    .group .glist .card{
+      border-radius:10px;box-shadow:none;border:1px solid var(--line);
+      margin-top:8px;
+    }
 
-    .empty{padding:32px 12px}
-    .empty .lead{font-size:22px}
+    .notice{border-radius:var(--ios-radius);min-height:80px}
+    footer{
+      margin-top:24px;padding-top:20px;padding-bottom:8px;
+      border-top:1px solid var(--line);
+    }
+    .seal{width:88px;height:88px}
+    .colophon{font-size:15px;line-height:1.45;padding:0 8px}
+    .fineprint{font-size:12px;line-height:1.6;padding:0 4px}
+
+    .empty{padding:40px 16px}
+    .empty .lead{font-size:24px}
   }
+
+  @keyframes iosFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
   @media(max-width:480px){
     .wrap{
-      padding-left:max(12px,env(safe-area-inset-left));
-      padding-right:max(12px,env(safe-area-inset-right));
+      padding-left:max(14px,env(safe-area-inset-left));
+      padding-right:max(14px,env(safe-area-inset-right));
     }
-    .controls{margin:0 -12px;padding:8px 12px 10px}
-    h1.title{font-size:clamp(34px,11.5vw,48px)}
-    nav.sections button{font-size:9px;letter-spacing:.05em;padding:10px 4px}
+    .controls{margin:0 -14px;padding-left:14px;padding-right:14px}
     .vals{grid-template-columns:1fr}
-    .quickpick .qplab{width:100%;margin:6px 0 0}
-    .browse-quick .fbtn{flex:1 1 100%;min-width:100%}
-    .award-head{gap:10px}
-    .award-icon{width:30px;height:30px}
+    .browse-quick .facets,#groupFacets{grid-template-columns:1fr}
+    .app-brand-title{font-size:20px}
   }
 
   @media(max-width:680px) and (orientation:landscape){
-    header.mast{padding-top:8px}
-    .title-wrap{padding:6px 0 16px}
-    h1.title{font-size:clamp(30px,8vw,44px);line-height:1.2}
-    h1.title .title-word{padding-bottom:.1em}
-    .subhead{font-size:13px}
+    .app-tabbar{height:calc(48px + env(safe-area-inset-bottom))}
+    .app-tabbar button{min-height:48px;flex-direction:row;gap:6px;font-size:12px}
+    .wrap{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
   }
 </style>
 </head>
@@ -340,20 +494,27 @@
 <div class="wrap">
 
   <header class="mast">
-    <div class="eyebrow">
-      <span class="l">Vol. III · No. <span id="ebYear">26</span></span>
-      <span class="c">— Non Sibi, But Make It Real Estate —</span>
-      <span class="r" id="ebParcels">SWIS 555000</span>
+    <div class="mast-body">
+      <div class="eyebrow">
+        <span class="l">Vol. III · No. <span id="ebYear">26</span></span>
+        <span class="c">— Non Sibi, But Make It Real Estate —</span>
+        <span class="r" id="ebParcels">SWIS 555000</span>
+      </div>
+      <div class="title-wrap">
+        <p class="title-kicker">The Dale</p>
+        <h1 class="title"><span class="title-word">Ledger</span><span class="dot">.</span></h1>
+        <div class="title-rule" aria-hidden="true"></div>
+      </div>
+      <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
+      <hr class="mast-rule"><hr class="mast-rule thin">
     </div>
-    <div class="title-wrap">
-      <p class="title-kicker">The Dale</p>
-      <h1 class="title"><span class="title-word">Ledger</span><span class="dot">.</span></h1>
-      <div class="title-rule" aria-hidden="true"></div>
-    </div>
-    <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
-    <hr class="mast-rule"><hr class="mast-rule thin">
     <div class="controls">
-      <nav class="sections">
+      <div class="app-brand">
+        <span class="app-brand-kicker">The Dale</span>
+        <span class="app-brand-title">Ledger<span class="dot">.</span></span>
+        <span class="app-meta" id="appMeta"></span>
+      </div>
+      <nav class="sections" aria-label="Sections">
         <button data-panel="lookup" aria-current="true">Lookup</button>
         <button data-panel="honor">The Honor Roll</button>
         <button data-panel="browse">Browse the Roll</button>
@@ -365,14 +526,16 @@
     </div>
   </header>
 
+  <main class="app-main">
   <!-- ============ LOOKUP ============ -->
   <section class="panel on" id="panel-lookup">
     <div class="searchwrap">
       <div class="sbox">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="heathcote over 3m · street · owner · biggest">
+        <input id="q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Search address, owner, zone…">
       </div>
       <div class="hints">Plain English works — <b>heathcote over 3m</b> · <b>fox meadow under 2m</b> · <b>2m to 4m</b> · a street like <b>palmer ave</b> · <b>vacant</b> or <b>condo</b> · owner name · <b>biggest</b> / <b>cheapest</b></div>
+      <p class="mobile-hint">Try <b>heathcote over 3m</b>, a street name, owner, or <b>biggest</b></p>
       <div class="quickpick" id="quickpick">
         <span class="qplab">Schools</span>
         <button type="button" data-q="heathcote">Heathcote</button>
@@ -419,6 +582,22 @@
     <div class="statline"><span id="bStatL"></span><span id="bStatR"></span></div>
     <div id="groups"></div>
   </section>
+  </main>
+
+  <nav class="app-tabbar" aria-label="Main">
+    <button type="button" data-panel="lookup" aria-current="true">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+    <button type="button" data-panel="honor" aria-current="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v2.8c0 2.8 1.6 5.2 4 6.3L22 16v1.5H2V16l3-2.9c2.4-1.1 4-3.5 4-6.3V4z"/><path d="M9.5 17.5V20a2.5 2.5 0 0 0 5 0v-2.5"/></svg>
+      Honors
+    </button>
+    <button type="button" data-panel="browse" aria-current="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Browse
+    </button>
+  </nav>
 
   <footer>
     <svg class="seal" viewBox="0 0 200 200" id="seal" aria-label="Made with heart in the dale"></svg>
@@ -568,6 +747,15 @@ function updateMeta(){
   const m=store[curYear].meta, n=store[curYear].parcels.length;
   document.getElementById('ebYear').textContent=String(curYear).slice(2);
   document.getElementById('ebParcels').textContent=`${n.toLocaleString()} parcels · uniform ${m.uniform_pct_of_value}%`;
+  const am=document.getElementById('appMeta');
+  if(am) am.textContent=`${n.toLocaleString()} parcels · ${curYear}`;
+}
+function setPanel(name){
+  document.querySelectorAll('.sections button, .app-tabbar button').forEach(b=>{
+    b.setAttribute('aria-current', b.dataset.panel===name ? 'true' : 'false');
+  });
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='panel-'+name));
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 function setYear(y,silent){curYear=y;
   document.querySelectorAll('.yearpick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.year==String(y)));
@@ -695,7 +883,7 @@ const ICON_RIBBON=`<svg class="award-icon ribbon" viewBox="0 0 36 36" aria-hidde
 
 function renderHonor(){
   const ents=Object.values(index).filter(e=>e[curYear]);
-  const homes=ents.filter(e=>isHome(e));
+  const homes=ents.filter(e=>{const p=e[curYear]; return p&&isHome(p);});
   const g=document.getElementById('honorGrid');
   if(!ents.length){g.innerHTML="";return;}
   const cur=e=>e[curYear];
@@ -887,11 +1075,7 @@ function buildSeal(){
 /* ---- events ---- */
 let tmr;
 document.getElementById('q').addEventListener('input',e=>{clearTimeout(tmr);CAP=80;tmr=setTimeout(()=>renderLookup(e.target.value),100);});
-document.querySelectorAll('nav.sections button').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('nav.sections button').forEach(x=>x.setAttribute('aria-current',x===b));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-  document.getElementById('panel-'+b.dataset.panel).classList.add('on');
-}));
+document.querySelectorAll('.sections button, .app-tabbar button').forEach(b=>b.addEventListener('click',()=>setPanel(b.dataset.panel)));
 document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
 document.querySelectorAll('#groupFacets .fbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
@@ -906,9 +1090,7 @@ document.getElementById('streetFilter').addEventListener('input',e=>{
 document.getElementById('quickpick').addEventListener('click',e=>{
   const b=e.target.closest('button[data-q]'); if(!b)return;
   const inp=document.getElementById('q'); inp.value=b.dataset.q;
-  document.querySelectorAll('nav.sections button').forEach(x=>x.setAttribute('aria-current',x.dataset.panel==='lookup'));
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
-  document.getElementById('panel-lookup').classList.add('on');
+  setPanel('lookup');
   renderLookup(inp.value); inp.focus();});
 function bindCardClicks(container){container.addEventListener('click',e=>{
   const card=e.target.closest('.card'); if(!card||!container.contains(card))return;
