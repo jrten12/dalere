@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>The Dale Ledger — A Survey of Scarsdale Property</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Syne:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -18,9 +20,9 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{
-    background:radial-gradient(130% 100% at 50% -5%, #f9f8f5 0%, var(--paper) 52%, var(--vignette) 100%) fixed;
+    background:radial-gradient(130% 100% at 50% -5%, #faf9f6 0%, var(--paper) 52%, var(--vignette) 100%) fixed;
     color:var(--ink); font-family:'Archivo','Helvetica Neue',Arial,sans-serif; font-size:16px; line-height:1.5;
-    min-height:100vh; -webkit-font-smoothing:antialiased; letter-spacing:-.005em;
+    min-height:100vh; -webkit-font-smoothing:antialiased; letter-spacing:-.005em; overflow-x:hidden;
   }
   body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")}
@@ -28,20 +30,24 @@
   ::selection{background:var(--claret);color:#fff}
 
   /* masthead */
-  header.mast{padding:30px 0 16px;text-align:center;overflow:visible}
+  header.mast{padding:28px 0 18px;text-align:center;overflow:visible}
   .eyebrow{display:flex;justify-content:space-between;align-items:center;font-family:'DM Mono',monospace;
     font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);
-    border-bottom:1px solid var(--rule);padding-bottom:7px}
-  .eyebrow .l,.eyebrow .r{flex:1}.eyebrow .r{text-align:right}.eyebrow .c{color:var(--claret)}
-  .title-wrap{padding:0 0 18px;margin:20px 0 0;overflow:visible;line-height:1}
-  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(42px,8.5vw,92px);
-    line-height:1.25;letter-spacing:-.03em;color:var(--ink);margin:0;text-transform:none;
-    padding:0 0 8px;display:block;overflow:visible;position:relative;z-index:1}
-  h1.title::after{content:".";color:var(--claret)}
+    border-bottom:1px solid var(--rule);padding-bottom:8px;margin-bottom:0}
+  .eyebrow .l,.eyebrow .r{flex:1}.eyebrow .r{text-align:right}.eyebrow .c{color:var(--claret);font-style:normal}
+  .title-wrap{padding:22px 0 26px;margin:0 auto;overflow:visible;max-width:100%}
+  .title-kicker{font-family:'Newsreader',Georgia,serif;font-size:clamp(15px,2.8vw,22px);
+    font-weight:500;font-style:italic;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--claret);margin:0 0 6px;line-height:1.4}
+  h1.title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(52px,12vw,112px);
+    line-height:1.4;letter-spacing:-.035em;color:var(--ink);margin:0;padding:0 0 .12em;
+    display:inline-block;overflow:visible;white-space:nowrap;vertical-align:baseline}
+  h1.title .dot{color:var(--claret);margin-left:-.06em}
+  .title-rule{width:72px;height:3px;background:var(--claret);margin:10px auto 0;border-radius:1px}
   .subhead{font-family:'Newsreader',serif;font-style:italic;font-size:clamp(14px,2.4vw,18px);
-    color:var(--ink-2);letter-spacing:0;margin-top:4px}
-  .mast-rule{margin:16px 0 0;border:0;border-top:2px solid var(--rule)}
-  .mast-rule.thin{border-top:1px solid var(--line-2);margin-top:4px}
+    color:var(--ink-2);letter-spacing:0;margin-top:0;max-width:560px;margin-left:auto;margin-right:auto;line-height:1.55}
+  .mast-rule{margin:18px 0 0;border:0;border-top:2px solid var(--rule)}
+  .mast-rule.thin{border-top:1px solid var(--line-2);margin-top:5px}
 
   /* nav */
   nav.sections{display:flex;justify-content:center;gap:2px;flex-wrap:wrap;padding:10px 0 0}
@@ -49,13 +55,14 @@
     text-transform:uppercase;background:none;border:none;color:var(--ink-2);cursor:pointer;
     padding:7px 16px;border-bottom:2px solid transparent;transition:.15s}
   nav.sections button:hover{color:var(--ink)}
-  nav.sections button[aria-current="true"]{color:var(--claret);border-bottom-color:var(--claret)}
+  nav.sections button[aria-current="true"]{color:var(--claret);border-bottom-color:var(--claret);font-weight:500}
   .yearpick{display:flex;justify-content:center;gap:0;margin:14px auto 0;width:max-content;
-    border:1px solid var(--line-2);border-radius:2px;overflow:hidden;background:var(--card)}
+    border:1px solid var(--line-2);border-radius:2px;overflow:hidden;background:var(--card);
+    box-shadow:0 1px 0 #fff8}
   .yearpick button{font-family:'DM Mono',monospace;font-size:13px;padding:6px 18px;border:none;
-    background:none;color:var(--ink-2);cursor:pointer;border-right:1px solid var(--line);letter-spacing:.05em}
+    background:none;color:var(--ink-2);cursor:pointer;border-right:1px solid var(--line);letter-spacing:.05em;transition:.12s}
   .yearpick button:last-child{border-right:none}
-  .yearpick button[aria-pressed="true"]{background:var(--ivy);color:#fff}
+  .yearpick button[aria-pressed="true"]{background:var(--claret);color:#fff}
 
   .panel{display:none;animation:fade .25s ease}.panel.on{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
@@ -72,7 +79,7 @@
     margin:8px 4px 0;line-height:1.7}
   .hints b{color:var(--claret);font-weight:400}
   .chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;min-height:0}
-  .chip{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--ivy);
+  .chip{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.04em;background:var(--claret);
     color:#fff;padding:4px 9px;border-radius:2px}
   .chip.x{background:none;color:var(--ink-2);border:1px solid var(--line-2);cursor:pointer}
   .statline{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;
@@ -115,10 +122,10 @@
   /* honor roll */
   .hr-intro{text-align:center;max-width:680px;margin:18px auto 6px;font-family:'Newsreader',serif;
     font-style:italic;font-size:17px;color:var(--ink-2);line-height:1.5}
-  .hr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0;margin-top:18px;
-    border-top:2px solid var(--rule)}
+  .hr-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;margin-top:18px;
+    border-top:2px solid var(--rule);border-left:1px solid var(--line)}
   .award{padding:20px 22px 22px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);
-    position:relative;background:linear-gradient(180deg,#fffdf9 0%,var(--card) 100%)}
+    position:relative;background:linear-gradient(180deg,#fffdf9 0%,var(--card) 100%);min-height:180px}
   .award-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:4px}
   .award-icon{flex-shrink:0;width:36px;height:36px;margin-top:2px}
   .award-icon.trophy{color:var(--claret)}
@@ -138,6 +145,22 @@
     border:1px solid var(--line-2);color:var(--ink-2);padding:6px 12px;border-radius:2px;cursor:pointer;transition:.12s}
   .fbtn:hover{border-color:var(--ivy-2);color:var(--ink)}
   .fbtn[aria-pressed="true"]{background:var(--ivy);color:#fff;border-color:var(--ivy)}
+  .fbtn.qbtn .qcount{font-size:10px;opacity:.75;margin-left:4px}
+  .browse-intro{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--ink-2);
+    margin:14px 0 10px;line-height:1.5}
+  .browse-quick{margin:0 0 14px}
+  .browse-quick .flab{margin-top:0}
+  .street-filter{margin:0 0 12px;max-width:420px}
+  .street-filter input{width:100%;font-family:'Archivo',sans-serif;font-size:15px;padding:10px 14px;
+    border:1px solid var(--line-2);border-radius:3px;background:var(--card);outline:none}
+  .street-filter input:focus{border-color:var(--claret);box-shadow:0 0 0 3px #A51C3020}
+  .quickpick{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0}
+  .quickpick .qplab{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--faint);margin-right:4px}
+  .quickpick button{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.03em;
+    background:var(--card);border:1px solid var(--line-2);color:var(--ink-2);padding:5px 10px;
+    border-radius:2px;cursor:pointer;transition:.12s}
+  .quickpick button:hover{border-color:var(--claret);color:var(--claret)}
   .group{margin-top:16px;border-top:1px solid var(--line)}
   .group h3{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--ivy);
     display:flex;justify-content:space-between;align-items:baseline;padding:12px 2px 4px;cursor:pointer}
@@ -168,12 +191,142 @@
     line-height:1.7;max-width:680px;margin:12px auto 0}
   .fineprint a{color:var(--ivy-2)}
 
-  @media(max-width:680px){
+  .controls{display:block}
+
+  button,.card,.fbtn{-webkit-tap-highlight-color:rgba(165,28,48,.1)}
+  @media(hover:none){
+    .card:hover{transform:none;border-color:var(--line);box-shadow:0 1px 0 #fff8,0 14px 30px -28px #16161a40}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .panel{animation:none}
+    .card{transition:none}
+  }
+
+  @media(max-width:900px){
+    .wrap{padding:0 18px 56px}
+    .hr-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
     .detail{grid-template-columns:1fr}
+  }
+
+  @media(max-width:680px){
+    .wrap{
+      padding:0 max(16px,env(safe-area-inset-right)) max(48px,env(safe-area-inset-bottom))
+        max(16px,env(safe-area-inset-left));
+    }
+    header.mast{padding:max(12px,env(safe-area-inset-top)) 0 10px}
+
+    .eyebrow{flex-wrap:wrap;gap:2px 10px;font-size:9px;letter-spacing:.14em;padding-bottom:6px}
+    .eyebrow .l,.eyebrow .r{flex:1 1 auto}
     .eyebrow .c{display:none}
-    .vals{gap:16px}
-    .hr-grid{grid-template-columns:1fr}
-    .award{border-right:none}
+    .eyebrow .r{text-align:left;width:100%}
+
+    .title-wrap{padding:12px 0 16px}
+    .title-kicker{font-size:13px;letter-spacing:.16em;margin-bottom:2px}
+    h1.title{
+      white-space:normal;font-size:clamp(40px,13vw,64px);line-height:1.12;
+      padding-bottom:8px;word-break:break-word;hyphens:auto;
+    }
+    .subhead{font-size:14px;line-height:1.5;padding:0 2px}
+    .mast-rule{margin-top:14px}
+
+    .controls{
+      position:sticky;top:0;z-index:50;
+      background:color-mix(in srgb,var(--paper) 94%,transparent);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      margin:0 -16px;padding:8px 16px 10px;border-bottom:1px solid var(--line);
+    }
+    nav.sections{justify-content:stretch;gap:0;padding:0}
+    nav.sections button{
+      flex:1;min-height:44px;padding:10px 6px;font-size:10px;letter-spacing:.07em;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .yearpick{display:flex;width:100%;max-width:320px;margin:10px auto 0}
+    .yearpick button{flex:1;min-height:44px;padding:10px 16px;font-size:14px}
+
+    .searchwrap{margin-top:14px}
+    .sbox input{font-size:16px;padding:14px 14px 14px 44px}
+    .sbox svg{left:14px;width:19px;height:19px}
+    .hints{
+      font-size:10px;line-height:1.55;margin-top:6px;
+      display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+    }
+    .quickpick{gap:8px;margin-top:8px}
+    .quickpick button,.fbtn{min-height:44px;padding:10px 14px;font-size:12px}
+    .chip{font-size:10px;padding:5px 10px}
+
+    .statline{flex-direction:column;align-items:flex-start;gap:4px;font-size:10px;margin-top:12px}
+
+    .card{padding:14px 16px;margin-top:10px}
+    .ctop{flex-direction:column;align-items:stretch;gap:6px}
+    .addr{font-size:clamp(18px,5.5vw,22px)}
+    .owner{font-size:14px}
+    .pid{text-align:left;white-space:normal;font-size:10px}
+    .vals{
+      display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;margin-top:12px;
+    }
+    .v .num{font-size:18px}
+    .v .num.big{font-size:20px}
+    .delta{
+      grid-column:1/-1;margin-left:0;text-align:left;padding-top:8px;
+      border-top:1px dotted var(--line);font-size:12px;
+    }
+
+    .detail{gap:16px;padding-top:12px;margin-top:12px}
+    .chartbox{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .meta-extra{flex-direction:column;gap:6px;font-size:11px}
+
+    .hr-intro{font-size:15px;margin:12px auto 4px;padding:0 4px}
+    .hr-grid{grid-template-columns:1fr;border-left:none;margin-top:14px}
+    .award{padding:16px 18px 18px;min-height:0;border-right:none}
+    .award h3{font-size:20px}
+    .award .winner{font-size:16px}
+    .award .quip{font-size:14px}
+
+    .browse-intro{font-size:14px;margin-top:10px}
+    .facets{gap:6px}
+    .facet-set .flab{margin-top:10px;margin-bottom:6px}
+    .browse-quick .fbtn{flex:1 1 calc(50% - 4px);min-width:calc(50% - 4px);text-align:center}
+    .browse-quick .facets{width:100%;gap:8px}
+    #groupFacets .fbtn{flex:1 1 calc(50% - 4px);min-width:calc(50% - 4px);text-align:center}
+    .street-filter input{font-size:16px;padding:12px 14px}
+    .group h3{
+      flex-direction:column;align-items:flex-start;gap:4px;font-size:16px;
+      padding:10px 0 6px;
+    }
+    .group h3 .gstat{font-size:10px;line-height:1.4}
+
+    .notice{min-height:72px}
+    .notice a{padding:16px 18px}
+    .notice a b{font-size:18px}
+
+    footer{margin-top:32px;padding-top:16px}
+    .seal{width:96px;height:96px}
+    .fineprint{font-size:10px;padding:0 2px}
+
+    .empty{padding:32px 12px}
+    .empty .lead{font-size:22px}
+  }
+
+  @media(max-width:480px){
+    .wrap{
+      padding-left:max(12px,env(safe-area-inset-left));
+      padding-right:max(12px,env(safe-area-inset-right));
+    }
+    .controls{margin:0 -12px;padding:8px 12px 10px}
+    h1.title{font-size:clamp(34px,11.5vw,48px)}
+    nav.sections button{font-size:9px;letter-spacing:.05em;padding:10px 4px}
+    .vals{grid-template-columns:1fr}
+    .quickpick .qplab{width:100%;margin:6px 0 0}
+    .browse-quick .fbtn{flex:1 1 100%;min-width:100%}
+    .award-head{gap:10px}
+    .award-icon{width:30px;height:30px}
+  }
+
+  @media(max-width:680px) and (orientation:landscape){
+    header.mast{padding-top:8px}
+    .title-wrap{padding:6px 0 10px}
+    h1.title{font-size:clamp(30px,8vw,44px);line-height:1.1}
+    .subhead{font-size:13px}
   }
 </style>
 </head>
@@ -186,17 +339,23 @@
       <span class="c">— Non Sibi, But Make It Real Estate —</span>
       <span class="r" id="ebParcels">SWIS 555000</span>
     </div>
-    <div class="title-wrap"><h1 class="title">The Dale Ledger</h1></div>
+    <div class="title-wrap">
+      <p class="title-kicker">The Dale</p>
+      <h1 class="title">Ledger<span class="dot">.</span></h1>
+      <div class="title-rule" aria-hidden="true"></div>
+    </div>
     <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
     <hr class="mast-rule"><hr class="mast-rule thin">
-    <nav class="sections">
-      <button data-panel="lookup" aria-current="true">Lookup</button>
-      <button data-panel="honor">The Honor Roll</button>
-      <button data-panel="browse">Browse the Roll</button>
-    </nav>
-    <div class="yearpick" role="group" aria-label="Roll year">
-      <button data-year="2026" aria-pressed="true">2026</button>
-      <button data-year="2025" aria-pressed="false">2025</button>
+    <div class="controls">
+      <nav class="sections">
+        <button data-panel="lookup" aria-current="true">Lookup</button>
+        <button data-panel="honor">The Honor Roll</button>
+        <button data-panel="browse">Browse the Roll</button>
+      </nav>
+      <div class="yearpick" role="group" aria-label="Roll year">
+        <button data-year="2026" aria-pressed="true">2026</button>
+        <button data-year="2025" aria-pressed="false">2025</button>
+      </div>
     </div>
   </header>
 
@@ -205,9 +364,21 @@
     <div class="searchwrap">
       <div class="sbox">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="Try: heathcote over 3m · Rakower · School Lane · vacant land · biggest">
+        <input id="q" type="text" autocomplete="off" spellcheck="false" placeholder="heathcote over 3m · street · owner · biggest">
       </div>
-      <div class="hints">Understands plain phrases — <b>over 3m</b>, <b>under 1.5m</b>, <b>2m-4m</b> · a school zone (<b>heathcote</b>, <b>edgewood</b>…) · a street · a class (<b>vacant</b>, <b>condo</b>) · a name · or <b>biggest</b> / <b>cheapest</b>. Stack them.</div>
+      <div class="hints">Plain English works — <b>heathcote over 3m</b> · <b>fox meadow under 2m</b> · <b>2m to 4m</b> · a street like <b>palmer ave</b> · <b>vacant</b> or <b>condo</b> · owner name · <b>biggest</b> / <b>cheapest</b></div>
+      <div class="quickpick" id="quickpick">
+        <span class="qplab">Schools</span>
+        <button type="button" data-q="heathcote">Heathcote</button>
+        <button type="button" data-q="edgewood">Edgewood</button>
+        <button type="button" data-q="fox meadow">Fox Meadow</button>
+        <button type="button" data-q="greenacres">Greenacres</button>
+        <button type="button" data-q="quaker ridge">Quaker Ridge</button>
+        <span class="qplab" style="margin-left:8px">Value</span>
+        <button type="button" data-q="over 3m">Over $3M</button>
+        <button type="button" data-q="1m to 2m">$1M–$2M</button>
+        <button type="button" data-q="under 1m">Under $1M</button>
+      </div>
       <div class="chips" id="chips"></div>
     </div>
     <div class="statline"><span id="statL">Start typing to search the roll.</span><span id="statR"></span></div>
@@ -216,7 +387,8 @@
 
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor">
-    <p class="hr-intro">Ten superlatives drawn entirely from the public residential roll, awarded without the consent or knowledge of the recipients. Trophies for wealth; ribbons for character. No purchase necessary. Void where assessed.</p>
+    <p class="hr-intro">Eleven superlatives drawn entirely from the public residential roll, awarded without the consent or knowledge of the recipients. Trophies for wealth; ribbons for character. No purchase necessary. Void where assessed.</p>
+    <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
     <div class="notice" data-filled="false" style="margin-top:20px"><span class="tag-ad">Classified</span>
       <a href="#" onclick="return false"><b>This space is for let.</b><span>Reach every homeowner in the dale. Inquire within.</span></a></div>
@@ -224,14 +396,19 @@
 
   <!-- ============ BROWSE ============ -->
   <section class="panel" id="panel-browse">
+    <p class="browse-intro">Browse the residential roll by elementary school zone, full-market value band, street, or property type. Click a zone or band to narrow the list.</p>
     <div class="facet-set">
-      <span class="flab">Slice the roll by</span>
+      <span class="flab">Group by</span>
       <div class="facets" id="groupFacets">
-        <button class="fbtn" data-group="street" aria-pressed="true">Street</button>
-        <button class="fbtn" data-group="school">School zone</button>
+        <button class="fbtn" data-group="school" aria-pressed="true">Elementary school</button>
         <button class="fbtn" data-group="band">Value band</button>
-        <button class="fbtn" data-group="class">Property class</button>
+        <button class="fbtn" data-group="street">Street</button>
+        <button class="fbtn" data-group="class">Property type</button>
       </div>
+    </div>
+    <div id="browseQuick" class="browse-quick"></div>
+    <div class="street-filter" id="streetFilterWrap" style="display:none">
+      <input id="streetFilter" type="text" placeholder="Filter streets — heathcote, post…" autocomplete="off" spellcheck="false">
     </div>
     <div class="statline"><span id="bStatL"></span><span id="bStatR"></span></div>
     <div id="groups"></div>
@@ -241,7 +418,7 @@
     <svg class="seal" viewBox="0 0 200 200" id="seal" aria-label="Made with heart in the dale"></svg>
     <div class="colophon">Set in Syne &amp; Archivo. Compiled from the public record. Made with <span style="color:var(--claret)">&#9829;</span> in the dale.</div>
     <div class="fineprint">
-      Source: Village of Scarsdale Assessor, Tentative &amp; Final Assessment Rolls (<a href="https://www.scarsdale.gov/833/Assessment-Rolls" target="_blank" rel="noopener">scarsdale.gov</a>). Official parcel lookup: <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>. School zones are a best-effort seed and must be verified against the district boundary map; they are not authoritative. Owner names appear exactly as published in the roll. This is an independent, unofficial tool — confirm any figure before relying on it.
+      Source: Village of Scarsdale Assessor, Tentative &amp; Final Assessment Rolls (<a href="https://www.scarsdale.gov/833/Assessment-Rolls" target="_blank" rel="noopener">scarsdale.gov</a>). Official parcel lookup: <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>. Elementary zones mapped from NCES attendance boundaries (<a href="https://www.scarsdaleschools.org/registration" target="_blank" rel="noopener">district map</a>) — confirm with the registrar before relying on them. Owner names appear exactly as published in the roll. This is an independent, unofficial tool — confirm any figure before relying on it.
     </div>
   </footer>
 </div>
@@ -273,21 +450,30 @@ const DEMO = {
 };
 
 /* =====================================================================
-   SCHOOL ZONES — EDIT ME. street (UPPERCASE, no number) -> school.
-   Seed only; verify against the district boundary map before trusting.
-   Anything unmatched falls into "Unzoned" so you can see what's left.
+   SCHOOL ZONES — loaded from data/schools.json (build_schools.py)
    ===================================================================== */
-const SCHOOL_BY_STREET = {
-  // Edgewood (demo streets sit here)
-  "SCHOOL LA":"Edgewood","SCHOOL LANE":"Edgewood","WINSLOW PL":"Edgewood","WINSLOW PLACE":"Edgewood",
-  "OVERHILL RD":"Edgewood","CIRCLE RD":"Edgewood","EDGEWOOD RD":"Edgewood","WAYSIDE LA":"Edgewood",
-  // (add the rest as you verify them — see README for the source)
-  // "FOX MEADOW RD":"Fox Meadow","CARTHAGE RD":"Fox Meadow","TOMPKINS RD":"Fox Meadow",
-  // "HEATHCOTE RD":"Heathcote","PALMER AVE":"Heathcote","WALWORTH AVE":"Heathcote",
-  // "WEAVER ST":"Quaker Ridge","COHAWNEY RD":"Quaker Ridge","SPRAGUE RD":"Quaker Ridge",
-  // "HUNTINGTON AVE":"Greenacres","SAGE TER":"Greenacres","MONTGOMERY AVE":"Greenacres"
-};
+let SCHOOL_MAP={}, SCHOOL_RANGES=[];
 const SCHOOLS = ["Edgewood","Fox Meadow","Greenacres","Heathcote","Quaker Ridge"];
+const SCHOOL_ALIASES=[
+  ["quaker ridge","Quaker Ridge"],["quaker","Quaker Ridge"],["qr","Quaker Ridge"],
+  ["fox meadow","Fox Meadow"],["foxmeadow","Fox Meadow"],["fox","Fox Meadow"],
+  ["green acres","Greenacres"],["greenacres","Greenacres"],["ga","Greenacres"],
+  ["heathcote","Heathcote"],["hc","Heathcote"],
+  ["edgewood","Edgewood"],["ew","Edgewood"],
+];
+const VALUE_BANDS=[
+  {id:"Under $1M",label:"Under $1M",desc:"Full market under $1 million",min:0,max:1e6},
+  {id:"$1M – $2M",label:"$1M – $2M",desc:"$1M to $2M full market",min:1e6,max:2e6},
+  {id:"$2M – $3M",label:"$2M – $3M",desc:"$2M to $3M full market",min:2e6,max:3e6},
+  {id:"$3M – $5M",label:"$3M – $5M",desc:"$3M to $5M full market",min:3e6,max:5e6},
+  {id:"$5M – $10M",label:"$5M – $10M",desc:"$5M to $10M full market",min:5e6,max:1e7},
+  {id:"$10M +",label:"$10M+",desc:"$10 million and up",min:1e7,max:Infinity},
+];
+async function loadSchools(){
+  try{const r=await fetch("data/schools.json",{cache:"no-store"});if(!r.ok)throw 0;
+    const j=await r.json();SCHOOL_MAP=j.by_street||{};SCHOOL_RANGES=j.ranges||[];}
+  catch(e){console.warn("schools.json missing — run build_schools.py");}
+}
 
 const YEARS=[2026,2025];
 const store={}, index={}; let curYear=2026, anyDemo=false;
@@ -298,7 +484,33 @@ const fmtShort=n=>n==null?"—":n>=1e6?"$"+(n/1e6).toFixed(n>=1e7?1:2)+"M":n>=1e
 const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const titleCase=s=>(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Ny|Llc|Iii|Ii)\b/g,m=>m.toUpperCase());
 function streetOf(addr){ if(!addr) return ""; return addr.replace(/^\s*\d+[A-Z]?\s+/,"").trim().toUpperCase(); }
-function schoolOf(addr){ const s=streetOf(addr); return SCHOOL_BY_STREET[s] || "Unzoned"; }
+function houseParts(addr){
+  if(!addr) return {n:Infinity,suf:"",raw:""};
+  const m=addr.trim().match(/^(\d+)([A-Za-z]?)(?:-\d+[A-Za-z]?)?\s*/);
+  if(!m) return {n:Infinity,suf:"",raw:addr.trim().toUpperCase()};
+  return {n:+m[1],suf:(m[2]||"").toUpperCase(),raw:addr.trim().toUpperCase()};
+}
+function addrOf(e){const p=e[curYear]||e[2026]||e[2025]; return p?.address||e._addr||"";}
+function yoyPct(e,year){
+  const c=e[year]?.assessed, p=e[year-1]?.assessed;
+  return (c!=null&&p)?(c-p)/p*100:null;
+}
+function cmpAddr(a,b){
+  const pa=addrOf(a), pb=addrOf(b);
+  const sa=streetOf(pa), sb=streetOf(pb);
+  if(sa!==sb) return sa.localeCompare(sb)||pa.localeCompare(pb);
+  const ha=houseParts(pa), hb=houseParts(pb);
+  if(ha.n!==hb.n) return ha.n-hb.n;
+  if(ha.suf!==hb.suf) return ha.suf.localeCompare(hb.suf);
+  return pa.localeCompare(pb);
+}
+function houseNum(addr){const m=(addr||"").trim().match(/^(\d+)/);return m?+m[1]:null;}
+function schoolOf(addr){
+  const s=streetOf(addr), n=houseNum(addr);
+  for(const r of SCHOOL_RANGES){
+    if(s===r.street&&n!=null&&n>=r.min&&n<=r.max) return r.school;}
+  return SCHOOL_MAP[s]||"Unzoned";
+}
 function classOf(p){
   const c=p.class_code||""; const d=(p.class_desc||"").toUpperCase();
   if(c.startsWith("2")&&c!=="210"&&d.includes("FAMILY")) return "Multi-family";
@@ -329,6 +541,7 @@ async function loadYear(y){
   catch(e){anyDemo=true;return DEMO[y];}
 }
 async function boot(){
+  await loadSchools();
   for(const y of YEARS) store[y]=await loadYear(y);
   // Residential roll only — no commercial, parkways, exempt infrastructure, or municipal parcels.
   for(const y of YEARS){
@@ -358,25 +571,30 @@ function setYear(y,silent){curYear=y;
 function parseQuery(raw){
   let q=(raw||"").trim().toLowerCase(); const f={text:[],min:null,max:null,school:null,cls:null,sort:null,chips:[]};
   if(!q) return f;
-  // value ranges
+  q=q.replace(/\b(elementary|school|zone|district)\b/g," ").replace(/\s+/g," ").trim();
   const num=s=>{s=s.replace(/[$,\s]/g,""); let m=s.match(/^([\d.]+)(m|k)?$/); if(!m)return null;
     let v=parseFloat(m[1]); if(m[2]==="m")v*=1e6; else if(m[2]==="k")v*=1e3; else if(v<100)v*=1e6; return v;}
   let m;
-  if(m=q.match(/(\$?[\d.,]+\s*[mk]?)\s*[-–to]+\s*(\$?[\d.,]+\s*[mk]?)/)){
+  if(m=q.match(/between\s+\$?([\d.,]+)\s*(?:m|million)?\s*(?:and|to|-)\s*\$?([\d.,]+)\s*(?:m|million)?/)){
+    f.min=num(m[1]+"m"); f.max=num(m[2]+"m"); f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");}
+  if(m=q.match(/(\$?[\d.,]+\s*(?:m|million)?)\s*[-–to]+\s*(\$?[\d.,]+\s*(?:m|million)?)/)){
     f.min=num(m[1]); f.max=num(m[2]); f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");}
-  if(m=q.match(/(?:over|above|>|more than|\bgt\b)\s*\$?([\d.,]+\s*[mk]?)/)){f.min=num(m[1]);f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
-  if(m=q.match(/(?:under|below|<|less than|\blt\b)\s*\$?([\d.,]+\s*[mk]?)/)){f.max=num(m[1]);f.chips.push(`under ${fmtShort(f.max)}`);q=q.replace(m[0],"");}
+  if(m=q.match(/(?:over|above|>|more than|at least)\s*\$?([\d.,]+\s*(?:m|million|k)?)/)){f.min=num(m[1]);f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
+  if(m=q.match(/(?:under|below|<|less than|up to)\s*\$?([\d.,]+\s*(?:m|million|k)?)/)){f.max=num(m[1]);f.chips.push(`under ${fmtShort(f.max)}`);q=q.replace(m[0],"");}
   if(m=q.match(/\$?([\d.]+)\s*m\+/)){f.min=num(m[1]+"m");f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
-  // school
-  for(const sc of SCHOOLS){ if(q.includes(sc.toLowerCase())){f.school=sc;f.chips.push(sc);q=q.replace(sc.toLowerCase(),"");}}
+  if(/\bunder \$?1\s*m\b/.test(q)){f.max=1e6;f.chips.push("under $1M");q=q.replace(/\bunder \$?1\s*m\b/,"");}
+  if(/\bover \$?10\s*m\b/.test(q)){f.min=1e7;f.chips.push("over $10M");q=q.replace(/\bover \$?10\s*m\b/,"");}
+  for(const[alias,sc]of SCHOOL_ALIASES.sort((a,b)=>b[0].length-a[0].length)){
+    if(q.includes(alias)){f.school=sc;f.chips.push(sc+" zone");q=q.replace(alias,"");break;}}
+  for(const sc of SCHOOLS){ if(q.includes(sc.toLowerCase())){f.school=sc;f.chips.push(sc+" zone");q=q.replace(sc.toLowerCase(),"");break;}}
   if(q.includes("unzoned")){f.school="Unzoned";f.chips.push("Unzoned");q=q.replace("unzoned","");}
-  // class
-  const clsmap={vacant:"Vacant / land",land:"Vacant / land",
-    condo:"Condo",house:"Single-family","single family":"Single-family","multi":"Multi-family"};
-  for(const k in clsmap){ if(q.includes(k)){f.cls=clsmap[k];f.chips.push(clsmap[k]);q=q.replace(k,"");break;}}
-  // sort
+  const clsmap={vacant:"Vacant / land",land:"Vacant / land","vacant land":"Vacant / land",
+    condo:"Condo",condos:"Condo",house:"Single-family",houses:"Single-family",
+    "single family":"Single-family","multi family":"Multi-family","multi-family":"Multi-family",multifamily:"Multi-family"};
+  for(const k of Object.keys(clsmap).sort((a,b)=>b.length-a.length)){ if(q.includes(k)){f.cls=clsmap[k];f.chips.push(clsmap[k]);q=q.replace(k,"");break;}}
   if(/\b(biggest|highest|priciest|most expensive|top)\b/.test(q)){f.sort="desc";f.chips.push("biggest first");q=q.replace(/\b(biggest|highest|priciest|most expensive|top)\b/,"");}
   if(/\b(cheapest|lowest|smallest)\b/.test(q)){f.sort="asc";f.chips.push("cheapest first");q=q.replace(/\b(cheapest|lowest|smallest)\b/,"");}
+  q=q.replace(/\b(in|on|at|near)\b/g," ").replace(/\s+/g," ").trim();
   f.text=q.split(/\s+/).map(t=>t.trim()).filter(Boolean);
   return f;
 }
@@ -422,7 +640,7 @@ function cardHTML(e,withInline){
   const schoolTag=e._school!=="Unzoned"?`<span class="tag school">${e._school}</span>`:"";
   if(!p){const a=e[2026]||e[2025];
     return `<div class="card" data-pid="${e._pid}"><div class="ctop"><div><div class="addr">${esc(titleCase(a.address))}</div><div class="owner">Not on the ${curYear} roll</div></div><div class="pid">${e._pid}</div></div></div>`;}
-  const cur=p.assessed, prevY=curYear+1, prev=prevY?e[prevY]?.assessed:null;
+  const cur=p.assessed, prevY=curYear-1, prev=e[prevY]?.assessed:null;
   let dh=""; if(cur!=null&&prev){const pct=(cur-prev)/prev*100,dir=pct>.05?"up":pct<-.05?"down":"flat";
     dh=`<div class="delta ${dir}">${pct>0?"+":""}${pct.toFixed(1)}%<br><span style="font-size:10px;color:var(--faint)">vs ${prevY}</span></div>`;}
   const owner=p.owner?`<div class="owner"><b>${esc(titleCase(p.owner))}</b>${p.co_owner?" · "+esc(titleCase(p.co_owner)):""}</div>`:"";
@@ -475,20 +693,24 @@ function renderHonor(){
   const g=document.getElementById('honorGrid');
   if(!ents.length){g.innerHTML="";return;}
   const cur=e=>e[curYear];
-  const yoy=e=>{const c=cur(e).assessed, pY=curYear+1, p=pY?e[pY]?.assessed:null; return (c!=null&&p)?(c-p)/p*100:null;};
-  const byMax=(fn,pool=ents)=>pool.filter(e=>fn(e)!=null&&!isNaN(fn(e))).sort((a,b)=>fn(b)-fn(a));
-  const byMin=(fn,pool=ents)=>pool.filter(e=>fn(e)!=null&&!isNaN(fn(e))).sort((a,b)=>fn(a)-fn(b));
+  const yoy=e=>yoyPct(e,curYear);
+  const byMax=(fn,pool=ents)=>pool.filter(e=>{const v=fn(e); return v!=null&&!isNaN(v);}).sort((a,b)=>fn(b)-fn(a));
+  const byMin=(fn,pool=ents)=>pool.filter(e=>{const v=fn(e); return v!=null&&!isNaN(v);}).sort((a,b)=>fn(a)-fn(b));
   const nm=e=>titleCase(cur(e).address);
 
   const fmv=e=>cur(e).full_market, acre=e=>cur(e).acreage,
     land=e=>cur(e).land, assessed=e=>cur(e).assessed,
-    perAcre=e=>(acre(e)&&acre(e)>=0.15)?fmv(e)/acre(e):null,
-    improve=e=>(fmv(e)!=null&&land(e)!=null)?fmv(e)-land(e):null;
+    perAcre=e=>(acre(e)&&acre(e)>=0.1)?fmv(e)/acre(e):null,
+    improve=e=>(fmv(e)!=null&&land(e)!=null)?fmv(e)-land(e):null,
+    landShare=e=>(fmv(e)&&land(e))?land(e)/fmv(e):null;
 
   const topVal=byMax(fmv,homes), topAssessed=byMax(assessed,homes), topLand=byMax(land,homes),
-    topImprove=byMax(improve,homes), jumps=byMax(yoy,homes), drops=byMin(yoy,homes),
-    lots=byMax(acre), pfp=byMax(perAcre,homes),
-    steady=homes.filter(e=>yoy(e)!=null).sort((a,b)=>Math.abs(yoy(a))-Math.abs(yoy(b)));
+    topImprove=byMax(improve,homes), lots=byMax(acre), pfp=byMax(perAcre,homes),
+    landHeavy=byMax(landShare,homes),
+    withYoy=homes.filter(e=>yoy(e)!=null),
+    jumps=withYoy.filter(e=>yoy(e)>0).sort((a,b)=>yoy(b)-yoy(a)),
+    drops=withYoy.filter(e=>yoy(e)<0).sort((a,b)=>yoy(a)-yoy(b)),
+    steady=withYoy.sort((a,b)=>Math.abs(yoy(a))-Math.abs(yoy(b)));
 
   // Street dynasty: street with highest combined home FMV
   const streetTotals={};
@@ -504,7 +726,7 @@ function renderHonor(){
       <div class="medal">${medal}</div><h3>${h3}</h3></div></div>
       <div class="winner">${esc(nm(e))}</div><div class="stat">${statTxt}</div>
       <div class="quip">${quip}</div>${runners?`<div class="runner">${runners}</div>`:""}</div>`);};
-  const runlist=(arr,fmt)=>arr.slice(1,4).map((e,i)=>`${i+2}. ${esc(nm(e))} — ${fmt(e)}`).join(" · ");
+  const runlist=(arr,fmt)=>arr.slice(1,5).map((e,i)=>`${i+2}. ${esc(nm(e))} — ${fmt(e)}`).join(" · ");
 
   if(topVal[0])W("trophy","№ 1 · Most Valuable","The Crown Jewel",topVal[0],
     `${fmtUSD(fmv(topVal[0]))} full market value`,
@@ -541,48 +763,93 @@ function renderHonor(){
     `The most expensive block party invitation list in the village. This parcel leads the parade.`,
     "");
 
-  if(jumps[0]&&yoy(jumps[0])>0)W("ribbon","YoY · Increase","Most Improved, Allegedly",jumps[0],
+  if(jumps[0])W("ribbon","YoY · Increase","Most Improved, Allegedly",jumps[0],
     `+${yoy(jumps[0]).toFixed(1)}% assessed over ${curYear-1}`,
     `The Assessor noticed something. Congratulations are not, strictly speaking, in order.`,
     runlist(jumps,e=>"+"+yoy(e).toFixed(1)+"%"));
 
-  if(drops[0]&&yoy(drops[0])<0)W("ribbon","YoY · Decrease","The Market Speaks",drops[0],
+  if(drops[0])W("ribbon","YoY · Decrease","The Market Speaks",drops[0],
     `${yoy(drops[0]).toFixed(1)}% assessed over ${curYear-1}`,
     `Down year over year. Somewhere, a grievance attorney is quietly taking credit.`,
     runlist(drops,e=>yoy(e).toFixed(1)+"%"));
 
+  if(landHeavy[0])W("ribbon","Land Ratio","Location, Location",landHeavy[0],
+    `${(landShare(landHeavy[0])*100).toFixed(0)}% of FMV is land (${fmtUSD(land(landHeavy[0]))})`,
+    `The house is almost an accessory to the lot. A teardown waiting for someone with vision and a very large checkbook.`,
+    runlist(landHeavy,e=>(landShare(e)*100).toFixed(0)+"% land"));
+
   if(steady[0])W("ribbon","YoY · Stability","Steady Eddie",steady[0],
     `${yoy(steady[0])>=0?"+":""}${yoy(steady[0]).toFixed(2)}% over ${curYear-1}`,
     `Three years, barely a flinch. The Assessor's most reliably boring success story.`,
-    runlist(steady.slice(1,4),e=>(yoy(e)>=0?"+":"")+yoy(e).toFixed(2)+"%"));
+    runlist(steady.slice(1,5),e=>(yoy(e)>=0?"+":"")+yoy(e).toFixed(2)+"%"));
 
+  document.getElementById('hrCount').textContent=`${awards.length} awards · ${homes.length.toLocaleString()} homes on the ${curYear} roll${withYoy.length?"" : " · YoY ribbons need prior-year data"}`;
   g.innerHTML=awards.join("");
 }
 
 /* ---- render: Browse / groupings ---- */
-let groupMode="street";
+let groupMode="school", browseFilter=null, streetFilterText="";
+function valueBand(v){
+  if(v==null) return "Unknown";
+  for(const b of VALUE_BANDS) if(v>=b.min&&v<b.max) return b.id;
+  return "$10M +";
+}
+function renderBrowseQuick(ents){
+  const el=document.getElementById("browseQuick");
+  if(groupMode==="school"){
+    const counts={}; for(const sc of SCHOOLS) counts[sc]=0; counts.Unzoned=0;
+    ents.forEach(e=>{counts[e._school]=(counts[e._school]||0)+1;});
+    el.innerHTML=`<span class="flab">Pick a zone</span><div class="facets">`+
+      `<button class="fbtn qbtn" data-filter="" aria-pressed="${!browseFilter}">All <span class="qcount">${ents.length}</span></button>`+
+      SCHOOLS.map(sc=>`<button class="fbtn qbtn" data-filter="${sc}" aria-pressed="${browseFilter===sc}">${sc} <span class="qcount">${counts[sc]||0}</span></button>`).join("")+
+      (counts.Unzoned?`<button class="fbtn qbtn" data-filter="Unzoned" aria-pressed="${browseFilter==="Unzoned"}">Unzoned <span class="qcount">${counts.Unzoned}</span></button>`:"")+
+      `</div>`;
+  } else if(groupMode==="band"){
+    const counts={}; VALUE_BANDS.forEach(b=>counts[b.id]=0); counts.Unknown=0;
+    ents.forEach(e=>{const b=valueBand(e[curYear]?.full_market); counts[b]=(counts[b]||0)+1;});
+    el.innerHTML=`<span class="flab">Pick a value band (full market value)</span><div class="facets">`+
+      `<button class="fbtn qbtn" data-filter="" aria-pressed="${!browseFilter}">All <span class="qcount">${ents.length}</span></button>`+
+      VALUE_BANDS.map(b=>`<button class="fbtn qbtn" data-filter="${b.id}" aria-pressed="${browseFilter===b.id}" title="${b.desc}">${b.label} <span class="qcount">${counts[b.id]||0}</span></button>`).join("")+
+      `</div>`;
+  } else el.innerHTML="";
+  document.getElementById("streetFilterWrap").style.display=groupMode==="street"?"block":"none";
+}
 function renderBrowse(){
   const ents=Object.values(index).filter(e=>e[curYear]); const wrap=document.getElementById('groups');
+  renderBrowseQuick(ents);
   const keyFn={
     street:e=>e._street||"(no street)",
     school:e=>e._school,
     class:e=>e._class,
-    band:e=>{const v=e[curYear].full_market; if(v==null)return "Unknown";
-      const b=[[0,1e6,"Under $1M"],[1e6,2e6,"$1M – $2M"],[2e6,3e6,"$2M – $3M"],[3e6,5e6,"$3M – $5M"],[5e6,1e7,"$5M – $10M"],[1e7,1/0,"$10M +"]];
-      for(const[lo,hi,lab]of b)if(v>=lo&&v<hi)return lab; return "$10M +";}
+    band:e=>valueBand(e[curYear].full_market)
   }[groupMode];
   const groups={};
   for(const e of ents){const k=keyFn(e);(groups[k]||={list:[],sum:0}); groups[k].list.push(e); groups[k].sum+=e[curYear].full_market||0;}
-  const bandOrder=["Under $1M","$1M – $2M","$2M – $3M","$3M – $5M","$5M – $10M","$10M +","Unknown"];
+  const bandOrder=VALUE_BANDS.map(b=>b.id).concat(["Unknown"]);
   let keys=Object.keys(groups);
   if(groupMode==="band") keys.sort((a,b)=>bandOrder.indexOf(a)-bandOrder.indexOf(b));
-  else keys.sort((a,b)=>groups[b].list.length-groups[a].list.length||a.localeCompare(b));
-  document.getElementById('bStatL').textContent=`${keys.length} ${groupMode==="band"?"bands":groupMode+"s"} · ${ents.length.toLocaleString()} parcels`;
+  else if(groupMode==="school") keys.sort((a,b)=>{
+    if(a==="Unzoned") return 1; if(b==="Unzoned") return -1;
+    return SCHOOLS.indexOf(a)-SCHOOLS.indexOf(b);});
+  else if(groupMode==="class") keys.sort((a,b)=>
+    ["Single-family","Multi-family","Condo","Vacant / land"].indexOf(a)-["Single-family","Multi-family","Condo","Vacant / land"].indexOf(b));
+  else keys.sort((a,b)=>a.localeCompare(b));
+  if(browseFilter) keys=keys.filter(k=>k===browseFilter);
+  if(groupMode==="street"&&streetFilterText){
+    const sf=streetFilterText.toLowerCase();
+    keys=keys.filter(k=>k.toLowerCase().includes(sf));
+  }
+  const bandLabels=Object.fromEntries(VALUE_BANDS.map(b=>[b.id,b.desc]));
+  document.getElementById('bStatL').textContent=
+    browseFilter?`${groups[browseFilter]?.list.length||0} parcels in ${browseFilter}`:
+    `${keys.length} ${groupMode==="band"?"bands":groupMode==="school"?"zones":groupMode==="class"?"types":"streets"} · ${ents.length.toLocaleString()} parcels`;
   document.getElementById('bStatR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA</span>`:"";
+  if(!keys.length){wrap.innerHTML=`<div class="empty"><div class="lead">Nothing here.</div>Try another zone, band, or street filter.</div>`;return;}
   wrap.innerHTML=keys.map((k,gi)=>{const G=groups[k];const avg=G.sum/G.list.length;
-    const list=G.list.slice().sort((a,b)=>(b[curYear].full_market||0)-(a[curYear].full_market||0));
-    const inner=list.slice(0,60).map(e=>cardHTML(e)).join("")+(list.length>60?`<div class="more-note">${list.length-60} more in this group</div>`:"");
-    return `<div class="group${gi===0?" open":""}" data-k="${esc(k)}"><h3>${esc(titleCase(k===k.toUpperCase()?k:k))} <span class="gstat">${G.list.length} parcels · ${fmtShort(G.sum)} total · ${fmtShort(avg)} avg <span class="caret">▸</span></span></h3><div class="glist">${inner}</div></div>`;
+    const list=G.list.slice().sort(cmpAddr);
+    const inner=list.map(e=>cardHTML(e)).join("");
+    const title=groupMode==="band"?(bandLabels[k]||k):groupMode==="school"?k+" Elementary":titleCase(k===k.toUpperCase()?k:k);
+    return `<div class="group${gi===0?" open":""}" data-k="${esc(k)}"><h3>${esc(title)} <span class="gstat">${G.list.length} parcels · ${fmtShort(G.sum)} total · ${fmtShort(avg)} avg <span class="caret">▸</span></span></h3><div class="glist">${inner}</div></div>`;
   }).join("");
 }
 
@@ -622,7 +889,21 @@ document.querySelectorAll('nav.sections button').forEach(b=>b.addEventListener('
 document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
 document.querySelectorAll('#groupFacets .fbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  groupMode=b.dataset.group; renderBrowse();}));
+  groupMode=b.dataset.group; browseFilter=null; streetFilterText=""; renderBrowse();}));
+document.getElementById('browseQuick').addEventListener('click',e=>{
+  const b=e.target.closest('.qbtn'); if(!b)return;
+  browseFilter=b.dataset.filter||null;
+  document.querySelectorAll('#browseQuick .qbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  renderBrowse();});
+document.getElementById('streetFilter').addEventListener('input',e=>{
+  streetFilterText=e.target.value.trim(); renderBrowse();});
+document.getElementById('quickpick').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-q]'); if(!b)return;
+  const inp=document.getElementById('q'); inp.value=b.dataset.q;
+  document.querySelectorAll('nav.sections button').forEach(x=>x.setAttribute('aria-current',x.dataset.panel==='lookup'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('on'));
+  document.getElementById('panel-lookup').classList.add('on');
+  renderLookup(inp.value); inp.focus();});
 function bindCardClicks(container){container.addEventListener('click',e=>{
   const card=e.target.closest('.card'); if(!card||!container.contains(card))return;
   const ent=index[card.dataset.pid]; if(!ent)return;
