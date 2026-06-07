@@ -67,6 +67,8 @@ SCHOOL  = r'(?:SCARSDALE CENTRAL|EDGEMONT(?:\s+UFSD)?|MAMARONECK[A-Z ]*|TUCKAHOE
 
 RE_FULLMKT = re.compile(r'FULL MKT VAL\s+([\d,]+)')
 RE_COUNTY  = re.compile(r'COUNTY TAXABLE\s+([\d,]+)')
+RE_SCHOOLTAX = re.compile(r'SCHOOL TAXABLE\s+([\d,]+)')
+RE_PID    = re.compile(r'\b(\d{2}\.\d{2}\.[0-9A-Za-z]{1,6})\b')
 RE_TOTALAV = re.compile(r'(?:FRNT\s+[\d.]+\s+DPTH\s+[\d.]+|DEED BK[\s\dPG]+?)\s+([\d,]{4,})')
 RE_LAND    = re.compile(SCHOOL + r'\s+([\d,]+)')
 RE_ACREAGE = re.compile(r'ACREAGE\s+([\d.]+)')
@@ -77,6 +79,8 @@ RE_CLASS   = re.compile(r'\b(\d{3})\s+([A-Z0-9][A-Z0-9 .,&/\'-]+?)\s+'
 RE_LOC     = re.compile(r'^(.*?)\s+ACCT:', re.S)
 RE_OWNER   = re.compile(r'(?:COUNTY TAXABLE|WHOLLY EXEMPT)\s+[\d,]+\s+'
                         r'([A-Z][A-Z0-9 .,&/%\'-]+?)\s+' + SCHOOL)
+RE_OWNER_ALT = re.compile(r'(?:COUNTY TAXABLE|WHOLLY EXEMPT)\s+'
+                          r'([A-Z][A-Z0-9 .,&/%\'-]+?)\s+' + SCHOOL)
 RE_OWNER2  = re.compile(r'VILLAGE TAXABLE\s+[\d,]+\s+([A-Z][A-Z .\'-]+?)\s+'
                         r'(?:ACREAGE|PRIVATE|FRNT|ACCT|CONTIGUOUS|DEED|\d)')
 RE_EXEMPT  = re.compile(r'\b(\d{5})\s+[A-Z][A-Z ]{2,}\s+[\d,]+')  # exemption code + amt
@@ -85,30 +89,76 @@ RE_YEAR    = re.compile(r'\b(20\d{2})\b')
 # the roll's own printed grand total (varies by year; we look for the obvious ones)
 RE_GTOT_PARCELS = re.compile(r'(?:TOTAL\s+PARCELS|PARCEL\s+COUNT)\s*:?\s*([\d,]+)')
 RE_GTOT_ASSESS  = re.compile(r'(?:GRAND\s+TOTAL|TOTAL)[^\n]*ASSESS[^\n]*?([\d,]{6,})')
+ST_SUFFIX = (r'(?:RD|ROAD|LA|LN|LANE|AVE|AV|AVENUE|PL|PLACE|ST|STREET|DR|DRIVE|CT|COURT|'
+             r'TER|TERRACE|WAY|BLVD|CIR|CIRCLE|PKWY|PKY|XING|SQ|ROW|PATH|TRL|HTS|PK)')
+RE_STREET = re.compile(r'\b(\d+[A-Z]? (?:[A-Z][A-Z0-9.\'-]* )*?' + ST_SUFFIX +
+                      r'(?: ' + ST_SUFFIX + r')?)\b')
 
 mny  = lambda s: int(s.replace(",", "")) if s else None
 ws   = lambda s: re.sub(r'\s+', ' ', s).strip() if s else None
 
-def parse_block(pid, body, section):
-    loc = RE_LOC.search(body)
-    addr = ws(loc.group(1)) if loc else None
-    if addr:
-        addr = re.sub(r'\b' + re.escape(pid) + r'\b', '', addr)
-        addr = re.sub(r'^\s*[A-Z]{2}\s+', '', addr)
-        addr = ws(addr)
+def normalize_roll_text(text):
+    """Repair split numbers / line-broken parcel ids (2025 Final roll via pymupdf)."""
+    t = re.sub(r"[ \t]*\n[ \t]*", " ", text)
+    t = re.sub(r"(?<=\d),\s+(?=\d{3}\b)", ",", t)
+    t = re.sub(r"(?<=\d)\.\s+(?=\d)", ".", t)
+    t = re.sub(r"\s+", " ", t)
+    return t
+
+def pick_assessed(body, full_market, uniform):
+    """Prefer SCHOOL TAXABLE when it matches full_market * uniform%."""
+    derived = round(full_market * uniform / 100.0) if (full_market and uniform) else None
+    best = None
+    for grp in RE_SCHOOLTAX.findall(body):
+        v = mny(grp)
+        if v and derived and abs(v - derived) <= max(2000, derived * 0.01):
+            if best is None or abs(v - derived) < abs(best - derived):
+                best = v
+    if best is not None:
+        return best
+    cnty = RE_COUNTY.search(body)
+    if cnty:
+        return mny(cnty.group(1))
+    tot = RE_TOTALAV.search(body)
+    return mny(tot.group(1)) if tot else derived
+
+def pick_address(prefix, body):
+    from collections import Counter
+    cands = RE_STREET.findall(prefix + " " + body)
+    cands = [re.sub(r"\s+", " ", c).strip() for c in cands]
+    if not cands:
+        return None
+    cnt = Counter(cands)
+    return max(cnt, key=lambda k: (cnt[k], len(k)))
+
+def parse_block(pid, body, section, uniform=None, prefix=""):
+    addr = pick_address(prefix, body)
+    if not addr:
+        loc = RE_LOC.search(body)
+        addr = ws(loc.group(1)) if loc else None
+        if addr:
+            addr = re.sub(r'\b' + re.escape(pid) + r'\b', '', addr)
+            addr = re.sub(r'^\s*[A-Z]{2}\s+', '', addr)
+            addr = ws(addr)
     cls   = RE_CLASS.search(body)
-    own   = RE_OWNER.search(body)
+    own   = RE_OWNER.search(body) or RE_OWNER_ALT.search(body)
     own2  = RE_OWNER2.search(body)
     co    = ws(own2.group(1)) if own2 else None
     if co and re.match(r'^\d', co): co = None
-    cnty  = RE_COUNTY.search(body)
-    land  = RE_LAND.search(body)
+    land_m  = RE_LAND.search(body)
+    land_val = mny(land_m.group(1)) if land_m else None
     fmkt  = RE_FULLMKT.search(body)
+    full_market = mny(fmkt.group(1)) if fmkt else None
     acre  = RE_ACREAGE.search(body)
     frnt  = RE_FRNT.search(body)
     acct  = RE_ACCT.search(body)
-    tot   = RE_TOTALAV.search(body)
-    assessed = mny(cnty.group(1)) if cnty else (mny(tot.group(1)) if tot else None)
+    assessed = pick_assessed(body, full_market, uniform)
+    if land_val is None:
+        for grp in RE_COUNTY.findall(body):
+            v = mny(grp)
+            if v and assessed and 1000 <= v <= assessed:
+                land_val = v
+                break
     exempt = sorted(set(RE_EXEMPT.findall(body)))
     return {
         "parcel_id":  pid,
@@ -119,19 +169,44 @@ def parse_block(pid, body, section):
         "co_owner":   co,
         "class_code": cls.group(1) if cls else None,
         "class_desc": ws(cls.group(2)) if cls else None,
-        "land":       mny(land.group(1)) if land else None,
+        "land":       land_val,
         "assessed":   assessed,
-        "full_market":mny(fmkt.group(1)) if fmkt else None,
+        "full_market":full_market,
         "acreage":    float(acre.group(1)) if acre else None,
         "frontage":   float(frnt.group(1)) if frnt else None,
         "exemptions": exempt or None,
     }
 
+def parse_via_ids(text, uniform):
+    """Fallback for rolls without star-delimited parcel ids (2025 Final layout)."""
+    section = 1
+    parcels, seen = [], set()
+    ids = list(RE_PID.finditer(text))
+    for i, m in enumerate(ids):
+        pid = m.group(1)
+        start = m.end()
+        end = ids[i + 1].start() if i + 1 < len(ids) else len(text)
+        prefix = text[max(0, m.start() - 100):m.start()]
+        seg = text[start:end]
+        if not RE_FULLMKT.search(seg) or pid in seen:
+            continue
+        sec_m = SECTION.search(text[max(0, m.start() - 200):m.start()])
+        if sec_m:
+            section = int(sec_m.group(2))
+        rec = parse_block(pid, seg, section, uniform, prefix)
+        if rec["assessed"] is None and rec["full_market"] is None and not rec["exemptions"]:
+            continue
+        seen.add(pid)
+        parcels.append(rec)
+    return parcels
+
 def parse(path):
     t0 = time.time()
     text, pages, engine = extract_text(path)
+    text = normalize_roll_text(text)
     upct = RE_UPCT.search(text)
     yr   = RE_YEAR.search(text)
+    uniform = float(upct.group(1)) if upct else None
 
     # walk sections and parcels in one pass, in document order
     section = 1
@@ -140,8 +215,6 @@ def parse(path):
     marks = [(m.start(), "sec", m.group(2)) for m in SECTION.finditer(text)]
     marks += [(m.start(), "par", m.group(1), m.end()) for m in DELIM.finditer(text)]
     marks.sort(key=lambda x: x[0])
-    # precompute parcel body boundaries
-    par_positions = [m for m in marks if m[1] == "par"]
     for i, mk in enumerate(marks):
         if mk[1] == "sec":
             section = int(mk[2]); continue
@@ -149,10 +222,13 @@ def parse(path):
         if pid in seen: continue
         # body runs to the next mark of any kind
         end = marks[i+1][0] if i+1 < len(marks) else len(text)
-        rec = parse_block(pid, text[start:end], section)
+        rec = parse_block(pid, text[start:end], section, uniform)
         if rec["assessed"] is None and rec["full_market"] is None and not rec["exemptions"]:
             continue
         seen.add(pid); parcels.append(rec)
+
+    if len(parcels) < 100:
+        parcels = parse_via_ids(text, uniform)
 
     # reconciliation against the roll's own printed totals (best-effort)
     parsed_assessed = sum(p["assessed"] or 0 for p in parcels)

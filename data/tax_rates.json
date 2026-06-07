@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "municipality": "Town/Village of Scarsdale",
+    "school_district": "Scarsdale Union Free School District",
+    "units": "dollars per $1,000 of assessed value",
+    "sources": [
+      "https://scarsdale.gov/157/Village-Treasurer",
+      "https://www.westchestercountyny.gov/property-tax-rates",
+      "https://www.tax.ny.gov/pit/property/star/exemption-amounts/star55.htm",
+      "PROS tax bill cross-check: 108 Carthage Rd (22.12.9), 2025–2026"
+    ],
+    "disclaimer": "Estimate only. County line uses the effective rate from published bills (includes county levies bundled on the bill). Sewer, refuse, and other special districts are not included. STAR applied only when exemption codes appear on the roll."
+  },
+  "2026": {
+    "fy_label": "2025–2026",
+    "county": 4.379984,
+    "village": 5.457735,
+    "school": 18.116598,
+    "star_basic_exempt": 56570,
+    "star_enhanced_exempt": 166750
+  },
+  "2025": {
+    "fy_label": "2024–2025",
+    "county": 4.102,
+    "village": 5.3287,
+    "school": 17.802211,
+    "star_basic_exempt": 56570,
+    "star_enhanced_exempt": 166750
+  },
+  "2024": {
+    "fy_label": "2023–2024",
+    "county": 4.05,
+    "village": 5.1105,
+    "school": 17.45,
+    "star_basic_exempt": 56570,
+    "star_enhanced_exempt": 166750
+  }
+}

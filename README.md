@@ -1,15 +1,13 @@
 # The Dale Ledger — Scarsdale Assessment Almanac
 
-Searchable broadsheet over the Village of Scarsdale assessment rolls (2026 / 2025
-/ 2024). Three views: a smart Lookup, an editorial Honor Roll of superlatives, and
-a Browse mode that slices the roll by street, school zone, value band, or class.
-Per-parcel 3-year assessed-value chart. Two ad units. Hand-built seal in the footer.
+Searchable broadsheet over the Village of Scarsdale assessment rolls (2026 / 2025 / 2024). Three views: a smart Lookup, an editorial Honor Roll of superlatives, and a Browse mode that slices the roll by street, school zone, value band, or class. Per-parcel 3-year assessed-value chart, estimated property tax on every card, and shareable URLs.
 
 ## Files
-- `index.html`  — the app. Single file, no build. Ships with a 12-parcel demo so it
-                   runs immediately; the real data replaces it the moment the JSON exists.
-- `extract.py`  — fast roll PDF -> JSON (use this; supersedes parse_roll.py).
-- `parse_roll.py` — earlier/simpler parser, kept for reference.
+- `index.html` — the app. Single file, no build. Ships with a 12-parcel demo so it runs immediately; the real data replaces it the moment the JSON exists.
+- `extract.py` — fast roll PDF → JSON (use this; supersedes parse_roll.py).
+- `extract_chunks.py` — fallback parser for chunked JSONL exports when only that format is available.
+- `build_schools.py` — builds `data/schools.json` from NCES boundaries.
+- `data/tax_rates.json` — county / school / village mill rates for estimated tax (not official bills).
 
 ## 1. Download the three rolls (your machine, not the build box)
     curl -L -o 2026.pdf "https://www.scarsdale.gov/DocumentCenter/View/11798/2026-TENTATIVE-ASSESSMENT-ROLL-6-1-2026"
@@ -22,45 +20,41 @@ Per-parcel 3-year assessed-value chart. Two ad units. Hand-built seal in the foo
     python extract.py 2026.pdf data/2026.json
     python extract.py 2025.pdf data/2025.json
     python extract.py 2024.pdf data/2024.json
-Expect ~5,800 parcels/year. If a year shows a few dozen, the download returned an
-HTML error page, not the PDF — check the file size.  (Windows: use `py` if `python`
-isn't found.)
+
+Expect ~5,500 parcels/year. The 2025 Final roll uses a different PDF layout; `extract.py` normalizes text and falls back to parcel-id walking automatically. If a year shows a few dozen parcels, the download returned an HTML error page — check file size (2025.pdf is ~100MB).
 
 ## 3. Run / deploy
     python -m http.server 8000      # then open http://localhost:8000
-Static site — three JSON files + one HTML file, no backend. Deploy to Netlify Drop,
-Vercel, Cloudflare Pages, or Railway static.
+
+Static site — JSON data + one HTML file, no backend. Deploy to Netlify Drop, Vercel, Cloudflare Pages, or GitHub Pages.
+
+### Deploy notes
+- Serve the repo root (where `index.html` lives). All fetches are relative (`data/2026.json`, etc.).
+- Ensure `data/*.json` is included in the deploy artifact (not gitignored).
+- After deploy, test a deep link: `?year=2026&q=heathcote&parcel=13.01.15`
 
 ## Smart search (deterministic, no model)
 The Lookup box parses plain phrases and stacks them with AND:
   - price:   over 3m · under 1.5m · 2m-4m · 5m+
+  - tax:     tax over 80k · tax under 50k · biggest tax · lowest tax
   - school:  heathcote · edgewood · greenacres · fox meadow · quaker ridge · unzoned
   - class:   vacant · condo · house
-  - sort:    biggest · cheapest
+  - sort:    biggest · cheapest · highest tax
   - name / street / parcel id: anything else is matched as text
-Matched filters show as chips so it's transparent what it understood.
 
-## School zones — IMPORTANT, edit before trusting
-The roll does NOT carry the elementary attendance zone (every parcel reads
-"SCARSDALE CENTRAL"). Assignment is driven by the `SCHOOL_BY_STREET` map near the
-top of the <script> in index.html: street name (UPPERCASE, no house number) -> school.
-It's seeded only with the demo streets. Unmapped streets land in an "Unzoned" bucket
-so you can see exactly what's left to fill in.
+Matched filters show as chips. URL query params (`year`, `panel`, `q`, `parcel`) sync as you search.
 
-The district publishes no clean street list — they direct people to a boundary map
-and the registrar (914-721-2444). To complete it accurately: get the district's
-attendance-area map, then fill in SCHOOL_BY_STREET. (Send me that source and I'll
-generate the full map.)
+## School zones
+Elementary zones come from `data/schools.json` (built via `build_schools.py` from NCES attendance boundaries). The roll itself lists every parcel as "SCARSDALE CENTRAL"; the app maps streets to Edgewood, Fox Meadow, Greenacres, Heathcote, or Quaker Ridge. A small number of edge parcels may show as Unzoned — confirm with the registrar (914-721-2444) before relying on them.
+
+## Property tax estimates
+Cards show **estimated** annual tax (county + school + village) from `data/tax_rates.json`. STAR is applied when exemption codes appear on the roll. Sewer, refuse, and special districts are not included. Every card links to [PROS](https://townofscarsdale.prosgar.com/) for official bills.
 
 ## Ad slots
-Marked `.notice` in index.html: one inline in Lookup (after result 5), one on the
-Honor Roll page. Set data-filled="true" and replace the inner <a> with your creative
-or an ad-network tag.
+Marked `.notice` in index.html: one inline in Lookup (after result 5), one on the Honor Roll page.
 
 ## Notes
-- Commercial parcels (offices, stores, and other non-residential classes) are filtered
-  out on load — the ledger is residential-only, so superlatives like the Crown Jewel
-  reflect actual homes, never an office building.
-- Uniform % of value differs by year (2026 66.91%, 2024 74.94%); read per-roll, not recomputed.
+- Commercial parcels are filtered out on load — the ledger is residential-only.
+- Uniform % of value differs by year (2026 66.91%, 2025 69.73%, 2024 74.94%); read per-roll.
 - Owner names are public record, shown as published.
 - Unofficial tool. Verify against the official roll / PROS before relying on figures.
