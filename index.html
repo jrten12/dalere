@@ -261,6 +261,13 @@
   .hr-insight-label{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;
     text-transform:uppercase;color:var(--claret);margin-bottom:6px}
   .hr-insight p{margin:0;font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink);line-height:1.5}
+  .hr-insight.span2{grid-column:span 2}
+  .hr-insight-chart{padding-bottom:14px}
+  .hr-dist-svg{display:block;width:100%;max-width:420px;margin:4px 0 10px;color:var(--ink)}
+  .hr-dist-svg .fill{fill:var(--claret);opacity:.12}
+  .hr-dist-svg .line{fill:none;stroke:var(--claret);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .hr-dist-svg .axis{font-family:'Archivo',sans-serif;font-size:9px;fill:var(--ink-muted);letter-spacing:.04em}
+  .hr-dist-svg .midline{stroke:var(--line-2);stroke-width:1;stroke-dasharray:3 3}
   .hr-civic{margin-top:24px;border:1px solid var(--line);border-top:3px solid var(--claret);
     background:var(--sheet);padding:22px 24px}
   .hr-civic-label{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
@@ -517,6 +524,7 @@
     .hr-insights{grid-template-columns:1fr;gap:10px;background:none;border:none;margin:14px 0 4px}
     .hr-insight{border-radius:var(--ios-radius);border:1px solid var(--line);box-shadow:var(--ios-shadow)}
     .hr-insight p{font-size:15px}
+    .hr-insight.span2{grid-column:auto}
     .hr-nonsibi{text-align:left;font-size:14px;margin:8px 0 4px}
     .hr-civic{border-radius:var(--ios-radius);box-shadow:var(--ios-shadow);padding:18px 16px;margin-top:18px}
     .hr-civic h3{font-size:20px}
@@ -846,7 +854,8 @@ function estTax(p,rollYear){
   const school=Math.round(schoolBase*rates.school/1000);
   return {total:county+village+school,county,village,school,star,fy:rates.fy_label};
 }
-function taxNote(t){return t?`FY ${t.fy} · county + school + village${t.star?` · STAR −${fmtShort(t.star)} school base`:""}`:"";}
+function taxNote(t, rollYear){
+  return t?`${rollYear} roll · tax rates FY ${t.fy} · county + school + village${t.star?` · STAR −${fmtShort(t.star)} school base`:""}`:"";}
 function taxBreakdownHTML(t){
   if(!t) return "";
   return `<div class="taxbrk"><div class="row head" style="border:none;padding-top:0"><span class="k">Levy</span><span class="val">Amount</span></div>
@@ -1114,6 +1123,69 @@ function chartSVG(e){
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Assessed value from ${pts[0].y} to ${pts[pts.length-1].y}"><path d="${d.trim()}" fill="none" stroke="${CHART.ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>${marks}</svg>`;
 }
 
+function pctileOf(sorted, p){
+  const n=sorted.length;
+  if(!n) return null;
+  const i=Math.min(n-1, Math.max(0, Math.floor(p/100*n)));
+  return sorted[i];
+}
+
+function fmvDistributionSVG(perc, maxP){
+  const W=340, H=96, pad={l:34,r:10,t:8,b:24};
+  const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+  const n=perc.length;
+  const top=pad.t, base=pad.t+ih;
+  const pts=perc.map((p,i)=>{
+    const x=pad.l+(i+0.5)/n*iw;
+    const y=base-(p/(maxP||1))*ih;
+    return [x,y];
+  });
+  let area=`M ${pad.l.toFixed(1)} ${base} `;
+  pts.forEach(([x,y])=>{area+=`L ${x.toFixed(1)} ${y.toFixed(1)} `;});
+  area+=`L ${(pad.l+iw).toFixed(1)} ${base} Z`;
+  let line=`M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+  for(let i=1;i<pts.length;i++) line+=` L ${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}`;
+  const midX=pad.l+iw*0.5;
+  const ticks=[["lower",0.12],["typical",0.5],["upper",0.88]];
+  const xl=ticks.map(([lab,t])=>{
+    const x=pad.l+t*iw;
+    return `<line x1="${x.toFixed(1)}" y1="${base}" x2="${x.toFixed(1)}" y2="${base+4}" stroke="currentColor" stroke-width="1" opacity=".35"/>`+
+      `<text class="axis" x="${x.toFixed(1)}" y="${H-4}" text-anchor="middle">${lab}</text>`;
+  }).join("");
+  const yticks=[0, Math.round(maxP/2), Math.round(maxP)].map(p=>{
+    const y=base-(p/(maxP||1))*ih;
+    return `<text class="axis" x="${pad.l-6}" y="${(y+3).toFixed(1)}" text-anchor="end">${p}%</text>`;
+  }).join("");
+  return `<svg class="hr-dist-svg" viewBox="0 0 ${W} ${H}" aria-hidden="true">`+
+    `<path class="fill" d="${area}"/><path class="line" d="${line}"/>`+
+    `<line class="midline" x1="${midX.toFixed(1)}" y1="${top}" x2="${midX.toFixed(1)}" y2="${base}"/>`+
+    yticks+xl+`</svg>`;
+}
+
+function fmvDistributionInsight(values){
+  const n=values.length;
+  if(n<40) return null;
+  const sorted=values.slice().sort((a,b)=>a-b);
+  const p25=pctileOf(sorted,25), p75=pctileOf(sorted,75);
+  const midShare=values.filter(v=>v>=p25&&v<=p75).length/n*100;
+  const topDecile=values.filter(v=>v>=pctileOf(sorted,90)).length/n*100;
+  const bins=22;
+  const logLo=Math.log(Math.max(sorted[0],1)), logHi=Math.log(sorted[n-1]);
+  const hist=Array(bins).fill(0);
+  for(const v of values){
+    const t=(Math.log(v)-logLo)/(logHi-logLo||1);
+    hist[Math.min(bins-1, Math.floor(t*bins))]++;
+  }
+  const perc=hist.map(c=>Math.round(c/n*1000)/10);
+  const maxP=Math.max(...perc, 1);
+  return {
+    label:"The shape of the roll",
+    wide:true,
+    text:`Full market value clusters toward the middle, with a long right tail, as rolls do. About ${Math.round(midShare)}% of homes sit between the 25th and 75th percentile. Roughly ${Math.round(topDecile)}% land in the top tenth. Percentiles, not price tags: the relation matters more than any single FMV figure.`,
+    chart:fmvDistributionSVG(perc, maxP),
+  };
+}
+
 /* ---- render: lookup ---- */
 let CAP=80;
 function cardHTML(e,withInline){
@@ -1127,7 +1199,7 @@ function cardHTML(e,withInline){
   const owner=p.owner?`<div class="owner"><b>${esc(titleCase(p.owner))}</b>${p.co_owner?" · "+esc(titleCase(p.co_owner)):""}</div>`:"";
   const tax=estTax(p,curYear);
   const eff=tax&&p.full_market?tax.total/p.full_market*100:null;
-  const taxBlk=tax?`<div class="v tax-hero"><span class="lab">Est. Annual Property Tax</span><span class="num tax">${fmtUSD(tax.total)}</span>${eff!=null?`<span class="tax-eff">${eff.toFixed(2)}% effective rate on FMV</span>`:""}<span class="tax-note">${esc(taxNote(tax))}</span><a class="pros-link" href="${prosUrl(e._pid)}" target="_blank" rel="noopener">View on PROS ↗</a></div>`:"";
+  const taxBlk=tax?`<div class="v tax-hero"><span class="lab">Est. Annual Property Tax</span><span class="num tax">${fmtUSD(tax.total)}</span>${eff!=null?`<span class="tax-eff">${eff.toFixed(2)}% effective rate on FMV</span>`:""}<span class="tax-note">${esc(taxNote(tax,curYear))}</span><a class="pros-link" href="${prosUrl(e._pid)}" target="_blank" rel="noopener">View on PROS ↗</a></div>`:"";
   return `<div class="card" data-pid="${e._pid}"><div class="ctop"><div>
       <div class="addr">${esc(titleCase(p.address))}</div>${owner}
       <div class="tagline">${schoolTag}<span class="tag">${e._class}</span></div></div>
@@ -1153,7 +1225,7 @@ function detailHTML(e){
   return `<div class="detail">
     <div class="chartbox"><h4>Assessed value · ${YEARS_ASC().join(" → ")}</h4>${chartSVG(e)}</div>
     <div class="yeartbl"><div class="row head"><span class="k">Year</span><span class="val">Full market value</span></div>${rows}
-      ${tax?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><h4 style="font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Est. property tax · FY ${tax.fy}</h4>${taxBreakdownHTML(tax)}<a class="pros-link" href="${prosUrl(e._pid)}" target="_blank" rel="noopener">Official bill on PROS ↗</a></div>`:""}
+      ${tax?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><h4 style="font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Est. property tax · ${curYear} roll · FY ${tax.fy}</h4>${taxBreakdownHTML(tax)}<a class="pros-link" href="${prosUrl(e._pid)}" target="_blank" rel="noopener">Official bill on PROS ↗</a></div>`:""}
       ${exemptHTML(a)}
     </div>
     <div class="meta-extra">
@@ -1329,9 +1401,9 @@ function buildHonor(year){
     taxDense,e=>fmtShort(taxPerAcre(e))+"/ac");
 
   if(dynasty[0])W("street","street","Street Dynasty","The Whole Block",dynasty[0],
-    `${titleCase(dynasty[0][0])}, ${fmtShort(dynasty[0][1])} combined across ${dynasty[0][2]} homes`,
-    `More combined value than any street on the roll. Heathcote has held the address since the trolley still stopped at Five Corners.`,
-    dynasty,t=>fmtShort(t[1])+" total, "+t[2]+" homes",null,nmStreet);
+    `${titleCase(dynasty[0][0])}, ${dynasty[0][2]} homes, highest combined value on the roll`,
+    `More combined full market value than any other street. ${titleCase(dynasty[0][0])} has held the address since the trolley still stopped at Five Corners.`,
+    dynasty,t=>t[2]+" homes, top street",null,nmStreet);
 
   if(medianMile[0])W("median","median","Median Mile","The Reliable Block",medianMile[0],
     `${titleCase(medianMile[0][0])}, ${fmtShort(medianMile[0][1])} median across ${medianMile[0][2]} homes`,
@@ -1356,21 +1428,27 @@ function buildHonor(year){
   // ---- editorial insights (computed per year, not rankings) ----
   const insights=[];
   if(dynasty[0]) insights.push({label:"Top street",
-    text:`${titleCase(dynasty[0][0])} carries ${fmtShort(dynasty[0][1])} in combined full market value across ${dynasty[0][2]} homes, the highest of any street on the ${y} roll.`});
+    text:`${titleCase(dynasty[0][0])} leads all streets for combined full market value, ${dynasty[0][2]} homes deep. The ranking is relative to whichever roll year you have selected, not a single listing price.`});
   const matched=homes.filter(e=>e[y]?.assessed!=null&&e[y-1]?.assessed!=null);
   if(matched.length){
     const unchanged=matched.filter(e=>e[y].assessed===e[y-1].assessed).length;
     insights.push({label:"Quietly unchanged",
-      text:`About ${Math.round(unchanged/matched.length*100)}% of homes did not move between the ${y-1} and ${y} rolls. After two revaluations in two years, the village has earned a quiet one.`});
+      text:`About ${Math.round(unchanged/matched.length*100)}% of homes show no change in assessed value year over year on this roll. After two revaluations in two years, the village has earned a quiet one.`});
   }
   const fmvAll=homes.map(fmv).filter(v=>v!=null&&!isNaN(v));
   if(fmvAll.length){
-    const med=median(fmvAll), over5=fmvAll.filter(v=>v>=5e6).length;
-    insights.push({label:"The middle",
-      text:`The middle of the market sits around ${fmtShort(med)}. The number that never makes the listing, but the one most of the village actually lives at. Only ${over5.toLocaleString()} homes clear ${fmtShort(5e6)}.`});
+    const dist=fmvDistributionInsight(fmvAll);
+    if(dist) insights.push(dist);
   }
-  if(pfp[0]&&acre(pfp[0])) insights.push({label:"Tightest lot",
-    text:`The tightest high value lot on the roll fits ${fmtShort(fmv(pfp[0]))} onto ${acre(pfp[0])} acres. In 10583 you are buying the school district, not the square footage.`});
+  if(pfp[0]&&acre(pfp[0])){
+    const allPer=homes.map(e=>perAcre(e)).filter(v=>v!=null&&!isNaN(v)).sort((a,b)=>a-b);
+    const val=perAcre(pfp[0]);
+    const tail=allPer.length?100-Math.round(allPer.filter(v=>v<=val).length/allPer.length*100):null;
+    insights.push({label:"Tightest lot",
+      text:tail!=null&&tail<=15
+        ? `Among the smallest lots on the roll, this one sits in roughly the top ${Math.max(1,tail)}% for value per acre. In 10583 you are often buying the district and the block, not the square footage.`
+        : `One of the smallest high-value lots on the roll, far out on the right tail for value per acre. In 10583 you are often buying the district and the block, not the square footage.`});
+  }
 
   return {
     html:awards.join(""),
@@ -1389,9 +1467,10 @@ function renderHonor(){
   g.innerHTML=pack.html;
   const ins=document.getElementById('hrInsights');
   if(ins){
-    ins.innerHTML=(pack.insights||[]).map(o=>
-      `<div class="hr-insight"><div class="hr-insight-label">${esc(o.label)}</div><p>${esc(o.text)}</p></div>`
-    ).join("");
+    ins.innerHTML=(pack.insights||[]).map(o=>{
+      const cls=(o.wide?" span2":"")+(o.chart?" hr-insight-chart":"");
+      return `<div class="hr-insight${cls}"><div class="hr-insight-label">${esc(o.label)}</div>${o.chart||""}<p>${esc(o.text)}</p></div>`;
+    }).join("");
   }
 }
 
