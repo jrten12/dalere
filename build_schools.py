@@ -82,6 +82,28 @@ def main():
                 conflicts.append(f"{key}: {by_street[key]} vs {school}")
             by_street[key] = school
 
+    # NCES catalogs overlap on boundary streets; last-wins is often wrong.
+    conflict_overrides = {
+        "HEATHCOTE RD": "Heathcote",
+        "CARTHAGE RD": "Heathcote",
+        "SECOR RD": "Heathcote",
+        "LINCOLN RD": "Heathcote",
+        "MAMARONECK RD": "Heathcote",
+        "PALMER AVE": "Heathcote",
+        "CROSSWAY": "Heathcote",
+        "DRAKE RD": "Heathcote",
+        "MURRAY HILL RD": "Heathcote",
+        "WEAVER ST": "Quaker Ridge",
+        "BLVD": "Fox Meadow",
+        "LEE RD": "Fox Meadow",
+        "BREWSTER RD": "Greenacres",
+        "BRITE AVE": "Greenacres",
+        "TOMPKINS RD": "Greenacres",
+        "FENIMORE RD": "Quaker Ridge",
+    }
+    for key, school in conflict_overrides.items():
+        by_street[key] = school
+
     # Roll street aliases (assessor abbreviations)
     roll_path = os.path.join(os.path.dirname(__file__), "data", "2026.json")
     roll_streets: set[str] = set()
@@ -120,6 +142,8 @@ def main():
         "EWART RD": "Heathcote",
         "REYNAL CR": "Heathcote",
         "R.R. ROW": "Quaker Ridge",
+        "HEATHCOTE RD": "Heathcote",
+        "HEATHCOTE ROAD": "Heathcote",
     }
     for st, sch in manual.items():
         roll_map[st] = sch
@@ -130,6 +154,7 @@ def main():
         {"street": "POST RD", "min": 1001, "max": 1162, "school": "Fox Meadow"},
         {"street": "POST RD", "min": 1020, "max": 1070, "school": "Heathcote"},
         {"street": "POST RD", "min": 1171, "max": 1259, "school": "Greenacres"},
+        {"street": "WEAVER ST", "min": 1, "max": 49, "school": "Heathcote"},
     ]
 
     out = {
