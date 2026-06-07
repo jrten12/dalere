@@ -699,8 +699,7 @@
     <div class="hr-insights" id="hrInsights"></div>
     <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
-    <div class="notice" data-filled="false" style="margin-top:20px"><span class="tag-ad">Classified</span>
-      <a href="#" onclick="return false"><b>This space is for let.</b><span>Reach every homeowner in the dale. Inquire within.</span></a></div>
+    <div id="honorAd" style="margin-top:20px"></div>
   </section>
 
   <!-- ============ BROWSE ============ -->
@@ -808,6 +807,13 @@ const SCHOOL_ALIASES=[
   ["heathcote","Heathcote"],["hc","Heathcote"],
   ["edgewood","Edgewood"],["ew","Edgewood"],
 ];
+const AFFILIATE_ADS=[
+  {href:"https://amzn.to/4vzmJFs",title:"From the shelves.",sub:"Amazon affiliate link. We may earn a commission on qualifying purchases."},
+];
+function affiliateNoticeHTML(slot=0){
+  const ad=AFFILIATE_ADS[slot%AFFILIATE_ADS.length];
+  return `<div class="notice" data-filled="true"><span class="tag-ad">Affiliate</span><a href="${ad.href}" target="_blank" rel="sponsored noopener noreferrer"><b>${esc(ad.title)}</b><span>${esc(ad.sub)}</span></a></div>`;
+}
 const VALUE_BANDS=[
   {id:"Under $1M",label:"Under $1M",desc:"Full market under $1 million",min:0,max:1e6},
   {id:"$1M – $2M",label:"$1M to $2M",desc:"$1M to $2M full market",min:1e6,max:2e6},
@@ -974,6 +980,8 @@ async function boot(){
     e._search=`${pid} ${a.address||""} ${a.owner||""} ${a.co_owner||""} ${e._school} ${e._class}`.toLowerCase();
   }
   buildSeal();
+  const honorAd=document.getElementById('honorAd');
+  if(honorAd) honorAd.innerHTML=affiliateNoticeHTML(0);
   applyUrlState(true);
   const warm=()=>{for(const y of YEARS) if(!honorCache[y]) honorCache[y]=buildHonor(y);};
   (window.requestIdleCallback||((fn)=>setTimeout(fn,120)))(warm);
@@ -1216,7 +1224,7 @@ function renderLookup(raw){
   if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;return;}
   const shown=list.slice(0,CAP);
   box.innerHTML=shown.map((e,i)=>{let c=cardHTML(e);
-    if(i===4)c+=`<div class="notice" data-filled="false"><span class="tag-ad">Advertisement</span><a href="#" onclick="return false"><b>Advertise to the dale.</b><span>This unit is available for local realtors, counsel, contractors.</span></a></div>`;
+    if(i===4)c+=affiliateNoticeHTML(0);
     return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more. Narrow your search.</div>`:"");
 }
 
