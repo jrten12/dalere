@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="theme-color" content="#e9e8e4">
+<meta name="theme-color" content="#f3f1eb">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Dale Ledger">
@@ -159,39 +159,44 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{color-scheme:light}
-    /* soft stone paper — low glare, minimal layer contrast */
-    --newsprint:#e9e8e4;
-    --newsprint-deep:#e0dfda;
-    --sheet:#f1f0ec;
+  :root{color-scheme:light;
+    /* warm newsprint — soft on eyes, clear layers */
+    --newsprint:#f3f1eb;
+    --newsprint-deep:#ebe8e0;
+    --sheet:#faf9f5;
     --paper:var(--newsprint);
     --paper-2:var(--newsprint-deep);
-    --vignette:#d8d7d2;
-    /* ink on paper — softened charcoal, not near-black */
-    --ink:#32302c;
-    --ink-2:#4a473f;
-    --ink-muted:#6b6760;
-    --faint:#8a867d;
+    --vignette:#e2dfd6;
+    /* ink on paper */
+    --ink:#2e2c28;
+    --ink-2:#45423b;
+    --ink-muted:#656158;
+    --faint:#858077;
     --ivy:var(--ink);
     --ivy-2:#3d3a34;
     --claret:#9b1b2f;
-    --claret-soft:rgba(155,27,47,.09);
+    --claret-soft:rgba(155,27,47,.11);
+    --claret-band:rgba(155,27,47,.07);
+    --sage:#e8ebe2;
+    --sage-line:#c8cec0;
     --brass:#7a5c12;
-    --line:#d4d2cc;
-    --line-2:#c8c5be;
+    --line:#d5cfc2;
+    --line-2:#c4bdb0;
     --rule:var(--ink);
     --card:var(--sheet);
     --up:#1a6b42;
     --down:var(--claret);
     --ios-radius:12px;
-    --ios-shadow:0 1px 0 rgba(50,48,44,.03),0 1px 4px rgba(50,48,44,.04);
+    --ios-shadow:0 1px 2px rgba(46,44,40,.07),0 2px 10px rgba(46,44,40,.05);
+    --card-shadow:0 1px 3px rgba(46,44,40,.08),0 0 0 1px rgba(255,255,255,.65) inset;
     --tabbar-h:56px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:auto;scroll-padding-top:72px}
   body.scroll-locked{position:fixed;width:100%;left:0;right:0;overflow:hidden}
   body{
-    background:var(--newsprint);
+    background:linear-gradient(180deg,var(--newsprint) 0%,var(--newsprint-deep) 100%);
+    background-attachment:fixed;
     color:var(--ink);
     font-family:'Newsreader',Georgia,'Times New Roman',serif;
     font-size:17px;line-height:1.62;
@@ -229,15 +234,17 @@
   .mast-rule.thin{border-top:1px solid var(--line-2);margin-top:6px}
 
   /* nav + controls */
-  .controls{text-align:center;padding-bottom:4px}
+  .controls{text-align:center;padding-bottom:6px}
+  .controls .yearpick{display:inline-flex}
   nav.sections{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;padding:14px 0 0}
   nav.sections button{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;
     text-transform:uppercase;background:none;border:none;color:var(--ink-muted);cursor:pointer;
     padding:8px 18px;border-bottom:2px solid transparent;transition:.15s}
   nav.sections button:hover{color:var(--ink)}
   nav.sections button[aria-current="true"]{color:var(--claret);border-bottom-color:var(--claret)}
-  .yearpick{display:inline-flex;justify-content:center;gap:0;margin:12px auto 0;
-    border:1.5px solid var(--line-2);border-radius:3px;overflow:hidden;background:var(--sheet)}
+  .yearpick{display:inline-flex;justify-content:center;gap:0;margin:14px auto 0;
+    border:1.5px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--sheet);box-shadow:var(--card-shadow)}
+  .yearpick button{flex-shrink:0}
   .yearpick button{font-family:'Archivo',sans-serif;font-size:14px;font-weight:600;padding:7px 20px;border:none;
     background:none;color:var(--ink-muted);cursor:pointer;border-right:1px solid var(--line);letter-spacing:.02em;transition:background .06s,color .06s}
   .yearpick button:last-child{border-right:none}
@@ -310,7 +317,11 @@
   }
 
   /* search */
-  .searchwrap{margin:28px auto 0;max-width:720px}
+  .searchwrap{
+    margin:28px auto 0;max-width:720px;
+    background:var(--sheet);border:1px solid var(--line-2);border-radius:10px;
+    padding:20px 22px 18px;box-shadow:var(--card-shadow);
+  }
   .sbox{position:relative}
   .sbox input{width:100%;font-family:'Newsreader',Georgia,serif;font-size:19px;font-weight:400;color:var(--ink);
     padding:15px 18px 15px 48px;background:var(--sheet);border:1.5px solid var(--line-2);border-radius:3px;
@@ -326,26 +337,35 @@
   .chip{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;letter-spacing:.03em;background:var(--claret);
     color:#fff;padding:5px 11px;border-radius:2px}
   .chip.x{background:var(--sheet);color:var(--ink-2);border:1px solid var(--line-2);cursor:pointer}
+  #results{display:flex;flex-direction:column;gap:14px;margin-top:4px}
   .statline{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px;
     font-family:'DM Mono',monospace;font-size:12px;color:var(--ink-muted);letter-spacing:.03em;
-    margin:20px 0 6px;padding-bottom:10px;border-bottom:1px solid var(--rule)}
+    margin:18px 0 8px;padding:10px 14px;border:1px solid var(--line);
+    border-radius:8px;background:var(--sheet);box-shadow:var(--card-shadow)}
   .demo-flag{color:var(--claret);font-weight:500}
 
   /* parcel card, classified listing */
-  .card{background:var(--sheet);border:1px solid var(--line);border-radius:2px;padding:18px 20px;margin-top:12px;
-    cursor:pointer;transition:border-color .12s,background .12s;
-    box-shadow:0 1px 0 rgba(255,255,255,.6)}
-  .card:hover{border-color:var(--line-2);background:#fffefb}
+  .card{
+    background:var(--sheet);border:1px solid var(--line-2);border-left:4px solid var(--claret);
+    border-radius:10px;padding:18px 20px;margin-top:0;
+    cursor:pointer;transition:border-color .12s,box-shadow .12s;
+    box-shadow:var(--card-shadow);
+  }
+  .card:hover{border-color:var(--line-2);border-left-color:var(--claret);box-shadow:0 2px 12px rgba(46,44,40,.1)}
   .ctop{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
   .addr{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:22px;color:var(--ink);line-height:1.15;letter-spacing:.01em}
   .owner{font-size:16px;color:var(--ink-2);margin-top:4px;line-height:1.45}.owner b{color:var(--ink);font-weight:600}
   .tagline{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
   .tag{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
-    padding:3px 9px;border-radius:2px;border:1px solid var(--line-2);color:var(--ink-muted);background:var(--newsprint-deep)}
-  .tag.school{border-color:var(--ink-muted);color:var(--ink);background:var(--claret-soft)}
+    padding:4px 10px;border-radius:999px;border:1px solid var(--sage-line);color:var(--ink-2);background:var(--sage)}
+  .tag.school{border-color:rgba(155,27,47,.32);color:#7f1828;background:var(--claret-soft)}
   .pid{font-family:'DM Mono',monospace;font-size:11px;color:var(--faint);white-space:nowrap;text-align:right;line-height:1.4}
-  .vals{display:flex;gap:28px;margin-top:16px;align-items:flex-end;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--line)}
-  .v.tax-hero{flex:1 1 100%;align-items:flex-start;padding-bottom:12px;margin-bottom:2px;border-bottom:1px dotted var(--line)}
+  .vals{display:flex;gap:28px;margin-top:14px;align-items:flex-end;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--line)}
+  .v.tax-hero{
+    flex:1 1 100%;align-items:flex-start;padding:14px 16px;margin-bottom:4px;
+    background:var(--claret-band);border:1px solid rgba(155,27,47,.14);border-radius:8px;
+    border-bottom:none;
+  }
   .v.tax-hero .num.tax{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:clamp(28px,4.5vw,36px);color:var(--claret);line-height:1.05;font-variant-numeric:tabular-nums lining-nums}
   .v.tax-hero .tax-note{font-family:'Archivo',sans-serif;display:block;font-size:11px;font-weight:500;color:var(--ink-muted);margin-top:5px;letter-spacing:.02em;line-height:1.35}
   .v.tax-hero .tax-eff{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;color:var(--ink-2);margin-top:3px}
@@ -391,7 +411,7 @@
   .fbtn{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;letter-spacing:.02em;background:var(--sheet);
     border:1.5px solid var(--line-2);color:var(--ink-2);padding:8px 14px;border-radius:3px;cursor:pointer;transition:.12s}
   .fbtn:hover{border-color:var(--ink-muted);color:var(--ink)}
-  .fbtn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .fbtn[aria-pressed="true"]{background:var(--claret);color:#fff;border-color:var(--claret)}
   .fbtn.qbtn .qcount{font-size:11px;opacity:.8;margin-left:5px;font-weight:500}
   .browse-intro{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;color:var(--ink-2);
     margin:20px 0 12px;line-height:1.6;max-width:640px}
@@ -403,11 +423,11 @@
   .street-filter input:focus{border-color:var(--ink-muted);box-shadow:0 0 0 3px var(--claret-soft)}
   .quickpick{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:12px 0 0}
   .quickpick .qplab{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--ink-muted);margin-right:2px}
+    text-transform:uppercase;color:var(--claret);margin-right:4px}
   .quickpick button{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;letter-spacing:.02em;
-    background:var(--sheet);border:1.5px solid var(--line-2);color:var(--ink-2);padding:6px 12px;
-    border-radius:3px;cursor:pointer;transition:.12s}
-  .quickpick button:hover{border-color:var(--claret);color:var(--claret)}
+    background:var(--newsprint-deep);border:1.5px solid var(--line-2);color:var(--ink-2);padding:6px 13px;
+    border-radius:999px;cursor:pointer;transition:.12s}
+  .quickpick button:hover{border-color:var(--claret);color:var(--claret);background:var(--claret-soft)}
   .group{margin-top:20px;border-top:2px solid var(--rule)}
   .group h3{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:19px;color:var(--ink);
     display:flex;justify-content:space-between;align-items:baseline;padding:14px 4px 8px;cursor:pointer;line-height:1.3}
@@ -438,14 +458,17 @@
   .permits-intro{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;color:var(--ink-2);text-align:center;max-width:640px;margin:0 auto 16px;line-height:1.55}
   .permits-note{font-family:'Archivo',sans-serif;font-size:12px;color:var(--ink-muted);text-align:center;max-width:640px;margin:0 auto 18px;line-height:1.5}
   .permits-stats{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:0 0 18px}
-  .permits-stat{background:var(--sheet);border:1px solid var(--line);padding:10px 14px;min-width:120px;text-align:center}
+  .permits-stat{background:var(--sheet);border:1px solid var(--line-2);border-top:3px solid var(--claret);
+    border-radius:8px;padding:10px 14px;min-width:120px;text-align:center;box-shadow:var(--card-shadow)}
+  .permits-stat .n{color:var(--claret)}
   .permits-stat .n{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:22px;color:var(--ink)}
   .permits-stat .l{font-family:'Archivo',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-top:2px}
   .permits-facets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0 0 14px}
   .facet-scroll{scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .facet-scroll::-webkit-scrollbar{display:none}
   .permit-list{display:flex;flex-direction:column;gap:10px}
-  .permit-card{background:var(--sheet);border:1px solid var(--line);padding:14px 16px}
+  .permit-card{background:var(--sheet);border:1px solid var(--line-2);border-left:4px solid var(--claret);
+    border-radius:10px;padding:14px 16px;box-shadow:var(--card-shadow)}
   .permit-card .pc-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
   .permit-card .pc-addr{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:18px;color:var(--ink);line-height:1.2}
   .permit-card .pc-date{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;color:var(--ink-muted);white-space:nowrap}
@@ -459,7 +482,8 @@
   .news-intro{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;color:var(--ink-2);text-align:center;max-width:640px;margin:0 auto 16px;line-height:1.55}
   .news-note{font-family:'Archivo',sans-serif;font-size:12px;color:var(--ink-muted);text-align:center;max-width:640px;margin:0 auto 18px;line-height:1.5}
   .news-list{display:flex;flex-direction:column;gap:10px}
-  .news-card{background:var(--sheet);border:1px solid var(--line);padding:14px 16px}
+  .news-card{background:var(--sheet);border:1px solid var(--line-2);border-left:4px solid var(--claret);
+    border-radius:10px;padding:14px 16px;box-shadow:var(--card-shadow)}
   .news-card .nc-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
   .news-card .nc-title{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:17px;color:var(--ink);line-height:1.25}
   .news-card .nc-date{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;color:var(--ink-muted);white-space:nowrap}
@@ -502,7 +526,7 @@
     width:48px;height:48px;padding:0;
     display:flex;align-items:center;justify-content:center;
     border:1px solid var(--line-2);border-radius:50%;
-    background:rgba(241,240,236,.94);
+    background:rgba(250,249,245,.94);
     backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);
     box-shadow:0 2px 14px rgba(31,29,26,.1),0 1px 0 rgba(255,255,255,.6) inset;
     color:var(--ink);cursor:pointer;
@@ -520,7 +544,7 @@
     .back-to-top.show:active{transform:scale(.94);opacity:.92}
   }
   @media(hover:none){
-    .card:hover{transform:none;border-color:var(--line);box-shadow:var(--ios-shadow)}
+    .card:hover{transform:none;border-color:var(--line-2);border-left-color:var(--claret);box-shadow:var(--card-shadow)}
     button:active,.fbtn:active,.card:active{opacity:.88;transform:scale(.985)}
     .app-tabbar button:active{transform:none;opacity:1}
   }
@@ -543,7 +567,8 @@
       font-family:'Newsreader',Georgia,-apple-system,BlinkMacSystemFont,serif;
       font-size:18px;line-height:1.58;
       min-height:100vh;min-height:-webkit-fill-available;
-      background:var(--newsprint);
+      background:linear-gradient(180deg,var(--newsprint) 0%,var(--newsprint-deep) 100%);
+      background-attachment:fixed;
       overscroll-behavior-y:none;
     }
 
@@ -560,14 +585,14 @@
     /* sticky top bar */
     .controls{
       position:sticky;top:0;z-index:100;
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 10px;
       margin:0 -16px;padding:max(10px,env(safe-area-inset-top)) 16px 10px;
-      background:rgba(233,232,228,.92);
+      background:rgba(243,241,235,.94);
       backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
       border-bottom:1px solid var(--line);
     }
     .app-brand{
-      display:flex;flex-direction:column;align-items:flex-start;min-width:0;flex:1;
+      display:flex;flex-direction:column;align-items:flex-start;min-width:0;flex:1 1 auto;
     }
     .app-brand-kicker{
       font-family:'Newsreader',Georgia,serif;font-size:10px;font-weight:500;font-style:italic;
@@ -578,16 +603,16 @@
       letter-spacing:.01em;color:var(--ink);white-space:nowrap;
     }
     .app-brand-title .dot{color:var(--claret);font-weight:700}
-    .app-meta{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;color:var(--ink-muted);margin-top:2px}
+    .app-meta{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;color:var(--claret);margin-top:2px;letter-spacing:.04em}
     nav.sections{display:none}
 
     .yearpick{
-      flex-shrink:0;margin:0;width:auto;min-width:108px;
-      border-radius:9px;border-color:rgba(196,194,184,.9);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+      flex:0 0 100%;order:3;margin:2px auto 0;width:100%;max-width:280px;min-width:0;
+      border-radius:9px;border-color:var(--line-2);
+      box-shadow:var(--card-shadow);
     }
     .yearpick button{
-      min-height:36px;padding:8px 14px;font-size:15px;font-weight:600;
+      flex:1;min-width:0;min-height:36px;padding:8px 10px;font-size:14px;font-weight:600;
       letter-spacing:0;
     }
 
@@ -615,7 +640,7 @@
     .app-main{padding-top:6px}
 
     /* search, iOS field */
-    .searchwrap{margin-top:8px}
+    .searchwrap{margin-top:8px;padding:16px 14px 14px;border-radius:12px}
     .sbox input{
       font-size:17px;font-weight:400;
       padding:13px 16px 13px 44px;
@@ -641,7 +666,7 @@
     }
     .quickpick::-webkit-scrollbar{display:none}
     .quickpick .qplab{
-      flex:0 0 auto;font-size:11px;color:var(--ink-2);margin:0;padding:8px 2px 8px 0;
+      flex:0 0 auto;font-size:11px;color:var(--claret);margin:0;padding:8px 2px 8px 0;
       width:auto;
     }
     .quickpick button{
@@ -651,16 +676,18 @@
     }
 
     .statline{
-      font-size:13px;color:var(--ink-2);margin:14px 0 8px;padding:0;
-      border:none;background:transparent;
+      font-size:13px;color:var(--ink-2);margin:14px 0 8px;padding:8px 12px;
+      border:1px solid var(--line);border-radius:8px;background:var(--sheet);
+      box-shadow:var(--card-shadow);
     }
 
     /* parcel cards, grouped list */
     html{scroll-padding-top:max(58px,env(safe-area-inset-top))}
+    #results{gap:12px}
     .card{
-      border-radius:var(--ios-radius);padding:16px;margin-top:10px;
-      background:var(--sheet);border-color:var(--line);
-      box-shadow:var(--ios-shadow);
+      border-radius:var(--ios-radius);padding:16px;margin-top:0;
+      background:var(--sheet);border:1px solid var(--line-2);border-left:4px solid var(--claret);
+      box-shadow:var(--card-shadow);
       content-visibility:auto;contain-intrinsic-size:auto 132px;
     }
     .back-to-top{
@@ -681,7 +708,10 @@
     .v .lab{font-size:11px;letter-spacing:.06em;margin-bottom:3px}
     .v .num{font-size:19px;font-weight:600}
     .v .num.big{font-size:22px;color:var(--ink-2)}
-    .v.tax-hero{grid-column:1/-1;padding-bottom:12px;margin-bottom:0;border-bottom:1px dotted var(--line)}
+    .v.tax-hero{
+      grid-column:1/-1;padding:12px 14px;margin-bottom:0;
+      background:var(--claret-band);border:1px solid rgba(155,27,47,.14);border-radius:8px;
+    }
     .v.tax-hero .num.tax{font-size:clamp(26px,7vw,32px)}
     .v.tax-hero .tax-note{font-size:10px}
     .delta{
@@ -865,6 +895,11 @@
         <span class="app-brand-title">Ledger<span class="dot">.</span></span>
         <span class="app-meta" id="appMeta"></span>
       </div>
+      <div class="yearpick" role="group" aria-label="Roll year">
+        <button type="button" data-year="2026" aria-pressed="true">2026</button>
+        <button type="button" data-year="2025" aria-pressed="false">2025</button>
+        <button type="button" data-year="2024" aria-pressed="false">2024</button>
+      </div>
       <nav class="sections" aria-label="Sections">
         <button data-panel="lookup" aria-current="true">Lookup</button>
         <button data-panel="honor">The Honor Roll</button>
@@ -872,11 +907,6 @@
         <button data-panel="permits">Permits</button>
         <button data-panel="news">Board News</button>
       </nav>
-      <div class="yearpick" role="group" aria-label="Roll year">
-        <button data-year="2026" aria-pressed="true">2026</button>
-        <button data-year="2025" aria-pressed="false">2025</button>
-        <button data-year="2024" aria-pressed="false">2024</button>
-      </div>
     </div>
   </header>
 
@@ -914,7 +944,7 @@
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor" aria-labelledby="honor-heading">
     <h2 class="sr-only" id="honor-heading" tabindex="-1">Scarsdale Honor Roll — property superlatives</h2>
-    <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
+    <div class="statline" style="margin-top:12px"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
     <div id="honorAd" style="margin-top:20px"></div>
   </section>
