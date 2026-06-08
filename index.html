@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#f8f6f1">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -189,7 +189,7 @@
     --tabbar-h:56px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:auto}
+  html{-webkit-text-size-adjust:100%;overflow-x:clip;scroll-behavior:auto;scroll-padding-top:72px}
   body{
     background:var(--newsprint);
     color:var(--ink);
@@ -491,6 +491,31 @@
   .app-brand,.app-tabbar{display:none}
 
   button,.card,.fbtn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  .scroll-sentinel{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;clip:rect(0,0,0,0);overflow:hidden;white-space:nowrap}
+  .back-to-top{
+    position:fixed;z-index:180;
+    right:max(20px,env(safe-area-inset-right));
+    bottom:max(24px,env(safe-area-inset-bottom));
+    width:48px;height:48px;padding:0;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line-2);border-radius:50%;
+    background:rgba(255,252,248,.94);
+    backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);
+    box-shadow:0 2px 14px rgba(31,29,26,.1),0 1px 0 rgba(255,255,255,.6) inset;
+    color:var(--ink);cursor:pointer;
+    opacity:0;visibility:hidden;pointer-events:none;
+    transform:translateY(10px) scale(.96);
+    transition:opacity .24s ease,visibility .24s,transform .24s cubic-bezier(.22,1,.36,1);
+  }
+  .back-to-top svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .back-to-top.show{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1)}
+  body:has(.hr-modal.open) .back-to-top{opacity:0!important;visibility:hidden!important;pointer-events:none!important}
+  @media(hover:hover){
+    .back-to-top:hover{border-color:var(--ink-muted);color:var(--claret);box-shadow:0 4px 18px rgba(31,29,26,.14)}
+  }
+  @media(hover:none){
+    .back-to-top.show:active{transform:scale(.94);opacity:.92}
+  }
   @media(hover:none){
     .card:hover{transform:none;border-color:var(--line);box-shadow:var(--ios-shadow)}
     button:active,.fbtn:active,.card:active{opacity:.88;transform:scale(.985)}
@@ -499,6 +524,7 @@
   @media(prefers-reduced-motion:reduce){
     .panel{animation:none}
     .card{transition:none}
+    .back-to-top{transition:none}
   }
 
   @media(max-width:900px){
@@ -627,10 +653,17 @@
     }
 
     /* parcel cards, grouped list */
+    html{scroll-padding-top:max(58px,env(safe-area-inset-top))}
     .card{
       border-radius:var(--ios-radius);padding:16px;margin-top:10px;
       background:var(--sheet);border-color:var(--line);
       box-shadow:var(--ios-shadow);
+      content-visibility:auto;contain-intrinsic-size:auto 132px;
+    }
+    .back-to-top{
+      right:max(14px,env(safe-area-inset-right));
+      bottom:calc(var(--tabbar-h) + env(safe-area-inset-bottom) + 14px);
+      width:46px;height:46px;
     }
     .ctop{flex-direction:column;align-items:stretch;gap:8px}
     .addr{font-size:20px;line-height:1.15}
@@ -761,6 +794,7 @@
     .app-tabbar{height:calc(48px + env(safe-area-inset-bottom))}
     .app-tabbar button{min-height:48px;flex-direction:row;gap:6px;font-size:12px}
     .wrap{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
+    .back-to-top{bottom:calc(48px + env(safe-area-inset-bottom) + 10px)}
   }
 
   .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -793,6 +827,7 @@
   </div>
 </noscript>
 <div class="wrap">
+  <div id="scrollTopSentinel" class="scroll-sentinel" aria-hidden="true"></div>
 
   <header class="mast" role="banner">
     <div class="mast-body">
@@ -1001,6 +1036,10 @@
     </aside>
   </footer>
 </div>
+
+<button type="button" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5"/><path d="m6 11 6-6 6 6"/></svg>
+</button>
 
 <script>
 /* =====================================================================
@@ -1412,7 +1451,7 @@ function setPanel(name){
     b.setAttribute('aria-current', b.dataset.panel===name ? 'true' : 'false');
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='panel-'+name));
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
   queuePanelRender(name);
   syncUrl();
 }
@@ -2112,6 +2151,21 @@ document.getElementById('groups').addEventListener('click',e=>{
   const G=browseGroupsCache?.[k];
   if(G) lazy.outerHTML=browseListHTML(G.list);
 });
+
+(function initBackToTop(){
+  const btn=document.getElementById("backToTop");
+  const sentinel=document.getElementById("scrollTopSentinel");
+  if(!btn||!sentinel) return;
+  const reduced=()=>window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const obs=new IntersectionObserver(([e])=>{
+    btn.classList.toggle("show",!e.isIntersecting);
+  },{root:null,threshold:0,rootMargin:"0px 0px 0px 0px"});
+  obs.observe(sentinel);
+  btn.addEventListener("click",()=>{
+    window.scrollTo({top:0,behavior:reduced()?"auto":"smooth"});
+    document.getElementById("q")?.blur();
+  });
+})();
 
 boot();
 </script>
