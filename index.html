@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
-<meta name="theme-color" content="#f8f6f1">
+<meta name="theme-color" content="#e9e8e4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Dale Ledger">
@@ -160,31 +160,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{color-scheme:light}
-    /* warm newsprint, soft white, never clinical #fff */
-    --newsprint:#f8f6f1;
-    --newsprint-deep:#f0ece4;
-    --sheet:#fffcf8;
+    /* soft stone paper — low glare, minimal layer contrast */
+    --newsprint:#e9e8e4;
+    --newsprint-deep:#e0dfda;
+    --sheet:#f1f0ec;
     --paper:var(--newsprint);
     --paper-2:var(--newsprint-deep);
-    --vignette:#ebe6dc;
-    /* ink on paper */
-    --ink:#1f1d1a;
-    --ink-2:#3d3a34;
-    --ink-muted:#5c5850;
-    --faint:#7a756c;
+    --vignette:#d8d7d2;
+    /* ink on paper — softened charcoal, not near-black */
+    --ink:#32302c;
+    --ink-2:#4a473f;
+    --ink-muted:#6b6760;
+    --faint:#8a867d;
     --ivy:var(--ink);
     --ivy-2:#3d3a34;
     --claret:#9b1b2f;
     --claret-soft:rgba(155,27,47,.09);
     --brass:#7a5c12;
-    --line:#ddd7cb;
-    --line-2:#cfc8ba;
+    --line:#d4d2cc;
+    --line-2:#c8c5be;
     --rule:var(--ink);
     --card:var(--sheet);
     --up:#1a6b42;
     --down:var(--claret);
     --ios-radius:12px;
-    --ios-shadow:0 1px 0 rgba(31,29,26,.04),0 2px 8px rgba(31,29,26,.05);
+    --ios-shadow:0 1px 0 rgba(50,48,44,.03),0 1px 4px rgba(50,48,44,.04);
     --tabbar-h:56px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -201,9 +201,6 @@
     font-optical-sizing:auto;
     overflow-x:clip;overflow-y:visible;
   }
-  /* faint newsprint tooth, not noisy */
-  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.22;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E")}
   .wrap{position:relative;z-index:1;max-width:980px;margin:0 auto;padding:0 28px 72px;overflow:visible}
   ::selection{background:var(--claret);color:#fff}
 
@@ -361,7 +358,7 @@
   .taxbrk .row .val{font-variant-numeric:tabular-nums;color:var(--ink)}
   .v .lab{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-muted);display:block;margin-bottom:3px}
   .v .num{font-family:'Newsreader',Georgia,serif;font-weight:600;font-size:22px;color:var(--ink);line-height:1.1;font-variant-numeric:tabular-nums lining-nums}
-  .v .num.big{font-size:24px;color:var(--ink)}
+  .v .num.big{font-size:24px;color:var(--ink-2)}
   .delta{margin-left:auto;font-family:'Archivo',sans-serif;font-size:14px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
   .delta.up{color:var(--up)}.delta.down{color:var(--down)}.delta.flat{color:var(--ink-muted)}
 
@@ -505,7 +502,7 @@
     width:48px;height:48px;padding:0;
     display:flex;align-items:center;justify-content:center;
     border:1px solid var(--line-2);border-radius:50%;
-    background:rgba(255,252,248,.94);
+    background:rgba(241,240,236,.94);
     backdrop-filter:saturate(180%) blur(16px);-webkit-backdrop-filter:saturate(180%) blur(16px);
     box-shadow:0 2px 14px rgba(31,29,26,.1),0 1px 0 rgba(255,255,255,.6) inset;
     color:var(--ink);cursor:pointer;
@@ -549,7 +546,6 @@
       background:var(--newsprint);
       overscroll-behavior-y:none;
     }
-    body::before{opacity:.18}
 
     .wrap{
       max-width:none;
@@ -566,7 +562,7 @@
       position:sticky;top:0;z-index:100;
       display:flex;align-items:center;justify-content:space-between;gap:10px;
       margin:0 -16px;padding:max(10px,env(safe-area-inset-top)) 16px 10px;
-      background:rgba(248,246,241,.92);
+      background:rgba(233,232,228,.92);
       backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
       border-bottom:1px solid var(--line);
     }
@@ -601,7 +597,7 @@
       height:calc(var(--tabbar-h) + env(safe-area-inset-bottom));
       padding:0 max(8px,env(safe-area-inset-left)) env(safe-area-inset-bottom)
         max(8px,env(safe-area-inset-right));
-      background:rgba(248,246,241,.94);
+      background:rgba(233,232,228,.94);
       backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);
       border-top:1px solid var(--line);
       box-shadow:0 -2px 16px rgba(31,29,26,.05);
@@ -684,7 +680,7 @@
     }
     .v .lab{font-size:11px;letter-spacing:.06em;margin-bottom:3px}
     .v .num{font-size:19px;font-weight:600}
-    .v .num.big{font-size:22px;color:var(--ink)}
+    .v .num.big{font-size:22px;color:var(--ink-2)}
     .v.tax-hero{grid-column:1/-1;padding-bottom:12px;margin-bottom:0;border-bottom:1px dotted var(--line)}
     .v.tax-hero .num.tax{font-size:clamp(26px,7vw,32px)}
     .v.tax-hero .tax-note{font-size:10px}
