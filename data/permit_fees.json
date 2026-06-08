@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "source": "https://scarsdale.gov/DocumentCenter/View/3799/Building-Permit-Fees-2018",
+    "effective": "2025-06-01",
+    "note": "Published fee schedule. Actual permit invoices are not available online; use for estimates only."
+  },
+  "building": {
+    "base_up_to_1000": 100,
+    "per_1000_over_1001": 18,
+    "over_5m_formula": "91000 plus board resolution",
+    "certificate_of_occupancy": 200,
+    "extension_expired": 500
+  },
+  "trade": {
+    "electrical": 200,
+    "plumbing_up_to_4_fixtures": 200,
+    "plumbing_each_extra_fixture": 25,
+    "mechanical_heating_oil_tank": 150
+  },
+  "other": {
+    "bar_application": 250,
+    "bar_new_house_preliminary": 450,
+    "demolition_base_750sqft": 1000,
+    "demolition_per_sqft_over_750": 2,
+    "chp_application": 650
+  }
+}

@@ -255,17 +255,6 @@
   .hr-nonsibi{text-align:center;max-width:640px;margin:0 auto 4px;font-family:'Newsreader',Georgia,serif;
     font-size:15px;color:var(--ink-2);line-height:1.55}
   .hr-nonsibi b{color:var(--claret);font-weight:700;letter-spacing:.01em}
-  .hr-insights{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;margin:20px 0 4px;
-    background:var(--line);border:1px solid var(--line)}
-  .hr-insight{background:var(--sheet);padding:16px 18px}
-  .hr-insight-label{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;
-    text-transform:uppercase;color:var(--claret);margin-bottom:6px}
-  .hr-insight p{margin:0;font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink);line-height:1.5}
-  .hr-insight.span2{grid-column:span 2}
-  .hr-insight-chart{padding-bottom:14px}
-  .hr-bell{display:block;width:100%;max-width:280px;margin:8px auto 12px;color:var(--claret)}
-  .hr-bell .fill{fill:currentColor;opacity:.11}
-  .hr-bell .line{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
   .hr-civic{margin-top:24px;border:1px solid var(--line);border-top:3px solid var(--claret);
     background:var(--sheet);padding:22px 24px}
   .hr-civic-label{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
@@ -310,15 +299,56 @@
   .group h3 .caret{font-family:'DM Mono',monospace;color:var(--brass);font-size:12px;margin-left:6px}
 
   /* notices / ads */
-  .notice{margin-top:18px;background:repeating-linear-gradient(45deg,var(--sheet),var(--sheet) 9px,var(--newsprint-deep) 9px,var(--newsprint-deep) 18px);
-    border:1px solid var(--line-2);border-radius:2px;min-height:92px;display:flex;align-items:center;justify-content:center;
-    text-align:center;position:relative;overflow:hidden}
-  .notice[data-filled="true"]{background:var(--sheet)}
-  .notice .tag-ad{position:absolute;top:6px;left:10px;font-family:'Archivo',sans-serif;font-size:9px;font-weight:600;
-    letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-  .notice a{display:block;padding:22px 24px;text-decoration:none;color:var(--ink)}
-  .notice a b{font-family:'Newsreader',Georgia,serif;font-size:22px;font-weight:700;display:block}
-  .notice a span{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:15px;color:var(--ink-2)}
+  .notice{margin-top:18px;position:relative;overflow:hidden}
+  .notice-affiliate{
+    background:linear-gradient(135deg,var(--sheet) 0%,var(--newsprint-deep) 140%);
+    border:1px solid var(--line);border-left:3px solid var(--claret);
+    border-radius:2px;transition:border-color .2s,box-shadow .2s;
+  }
+  .notice-affiliate:hover{border-color:var(--line-2);box-shadow:0 2px 12px rgba(31,29,26,.06)}
+  .notice-affiliate .tag-ad{position:absolute;top:8px;right:10px;left:auto;font-family:'Archivo',sans-serif;font-size:8px;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .notice-affiliate a{display:grid;grid-template-columns:1fr auto;gap:4px 16px;padding:16px 18px 14px;text-decoration:none;color:var(--ink);text-align:left}
+  .notice-affiliate .aff-kicker{grid-column:1;font-family:'Archivo',sans-serif;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
+  .notice-affiliate .aff-title{grid-column:1;font-family:'Newsreader',Georgia,serif;font-size:21px;font-weight:700;line-height:1.15;color:var(--ink)}
+  .notice-affiliate .aff-sub{grid-column:1;font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:14px;color:var(--ink-2);line-height:1.45;max-width:36em}
+  .notice-affiliate .aff-badge{align-self:start;margin-top:2px;font-family:'Archivo',sans-serif;font-size:9px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;padding:4px 8px;border:1px solid var(--line-2);border-radius:999px;color:var(--claret);white-space:nowrap}
+  .notice-affiliate .aff-cta{grid-column:1;font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--ink-muted);margin-top:2px}
+  .notice-affiliate:hover .aff-cta{color:var(--claret)}
+
+  /* permits */
+  .permits-intro{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;color:var(--ink-2);text-align:center;max-width:640px;margin:0 auto 16px;line-height:1.55}
+  .permits-note{font-family:'Archivo',sans-serif;font-size:12px;color:var(--ink-muted);text-align:center;max-width:640px;margin:0 auto 18px;line-height:1.5}
+  .permits-stats{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:0 0 18px}
+  .permits-stat{background:var(--sheet);border:1px solid var(--line);padding:10px 14px;min-width:120px;text-align:center}
+  .permits-stat .n{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:22px;color:var(--ink)}
+  .permits-stat .l{font-family:'Archivo',sans-serif;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-top:2px}
+  .permits-facets{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:0 0 14px}
+  .permit-list{display:flex;flex-direction:column;gap:10px}
+  .permit-card{background:var(--sheet);border:1px solid var(--line);padding:14px 16px}
+  .permit-card .pc-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .permit-card .pc-addr{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:18px;color:var(--ink);line-height:1.2}
+  .permit-card .pc-date{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;color:var(--ink-muted);white-space:nowrap}
+  .permit-card .pc-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .permit-card .pc-type,.permit-card .pc-status{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line-2);border-radius:2px;color:var(--ink-2)}
+  .permit-card .pc-type.pool,.permit-card .pc-status.open{border-color:var(--claret);color:var(--claret)}
+  .permit-card .pc-desc{font-family:'Newsreader',Georgia,serif;font-size:15px;color:var(--ink-2);margin-top:8px;line-height:1.45}
+  .permit-card .pc-link{margin-top:8px}
+
+  /* board news */
+  .news-intro{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:17px;color:var(--ink-2);text-align:center;max-width:640px;margin:0 auto 16px;line-height:1.55}
+  .news-note{font-family:'Archivo',sans-serif;font-size:12px;color:var(--ink-muted);text-align:center;max-width:640px;margin:0 auto 18px;line-height:1.5}
+  .news-list{display:flex;flex-direction:column;gap:10px}
+  .news-card{background:var(--sheet);border:1px solid var(--line);padding:14px 16px}
+  .news-card .nc-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .news-card .nc-title{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:17px;color:var(--ink);line-height:1.25}
+  .news-card .nc-date{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;color:var(--ink-muted);white-space:nowrap}
+  .news-card .nc-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .news-card .nc-board,.news-card .nc-kind{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line-2);border-radius:2px;color:var(--ink-2)}
+  .news-card .nc-board.planning,.news-card .nc-kind.meeting{border-color:var(--claret);color:var(--claret)}
+  .news-card .nc-summary{font-family:'Newsreader',Georgia,serif;font-size:15px;color:var(--ink-2);margin-top:8px;line-height:1.45}
+  .news-card .nc-links{margin-top:8px;display:flex;gap:12px;flex-wrap:wrap}
 
   .empty{text-align:center;padding:56px 24px;color:var(--ink-2)}
   .empty .lead{font-family:'Newsreader',Georgia,serif;font-size:28px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.2}
@@ -528,10 +558,6 @@
       display:flex;flex-direction:column;gap:12px;
       margin-top:12px;border:none;
     }
-    .hr-insights{grid-template-columns:1fr;gap:10px;background:none;border:none;margin:14px 0 4px}
-    .hr-insight{border-radius:var(--ios-radius);border:1px solid var(--line);box-shadow:var(--ios-shadow)}
-    .hr-insight p{font-size:15px}
-    .hr-insight.span2{grid-column:auto}
     .hr-nonsibi{text-align:left;font-size:14px;margin:8px 0 4px}
     .hr-civic{border-radius:var(--ios-radius);box-shadow:var(--ios-shadow);padding:18px 16px;margin-top:18px}
     .hr-civic h3{font-size:20px}
@@ -595,7 +621,10 @@
       margin-top:8px;
     }
 
-    .notice{border-radius:var(--ios-radius);min-height:80px}
+    .notice-affiliate{border-radius:var(--ios-radius);border-left-width:3px}
+    .notice-affiliate a{grid-template-columns:1fr;padding:14px 16px 12px}
+    .notice-affiliate .aff-badge{grid-column:1;justify-self:start;margin-top:6px}
+    .notice-affiliate .aff-title{font-size:19px}
     footer{
       margin-top:24px;padding-top:20px;padding-bottom:8px;
       border-top:1px solid var(--line);
@@ -656,6 +685,8 @@
         <button data-panel="lookup" aria-current="true">Lookup</button>
         <button data-panel="honor">The Honor Roll</button>
         <button data-panel="browse">Browse the Roll</button>
+        <button data-panel="permits">Permits</button>
+        <button data-panel="news">Board News</button>
       </nav>
       <div class="yearpick" role="group" aria-label="Roll year">
         <button data-year="2026" aria-pressed="true">2026</button>
@@ -696,7 +727,6 @@
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor">
     <p class="hr-intro">Thirteen superlatives pulled straight from the public assessment roll, the same roll the whole village has argued about since the revaluations of 2014 and 2016. These figures are already public record. Nothing here is meant to flatter anyone or put them on the spot. It is just Scarsdale, counted up.</p>
-    <div class="hr-insights" id="hrInsights"></div>
     <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
     <div id="honorAd" style="margin-top:20px"></div>
@@ -721,6 +751,36 @@
     <div class="statline"><span id="bStatL"></span><span id="bStatR"></span></div>
     <div id="groups"></div>
   </section>
+
+  <!-- ============ PERMITS ============ -->
+  <section class="panel" id="panel-permits">
+    <p class="permits-intro">Building, plumbing, pool, and street permits pulled from the village PROS parcel records. What the Building Department logged — not necessarily what anyone spent.</p>
+    <p class="permits-note" id="permitsNote">PROS lists permit type, status, and description. Dollar fees paid are not published online; see the <a href="https://scarsdale.gov/DocumentCenter/View/3799/Building-Permit-Fees-2018" target="_blank" rel="noopener">village fee schedule</a> for published rates only.</p>
+    <div class="permits-stats" id="permitsStats"></div>
+    <div class="permits-facets" id="permitsFacets">
+      <button class="fbtn" data-permit-filter="pool" aria-pressed="true">Pools</button>
+      <button class="fbtn" data-permit-filter="building" aria-pressed="false">Building</button>
+      <button class="fbtn" data-permit-filter="all" aria-pressed="false">All scraped</button>
+    </div>
+    <div class="statline"><span id="permitsStatL"></span><span id="permitsStatR"></span></div>
+    <div class="permit-list" id="permitsList"></div>
+  </section>
+
+  <!-- ============ BOARD NEWS ============ -->
+  <section class="panel" id="panel-news">
+    <p class="news-intro">Planning, architectural review, zoning appeals, and historic preservation — plus recent building permits from PROS. Pulled from the village agenda center and refreshed when you run the scraper.</p>
+    <p class="news-note" id="newsNote">Sourced from scarsdale.gov agenda center and PROS building permits.</p>
+    <div class="permits-facets" id="newsFacets">
+      <button class="fbtn" data-news-filter="all" aria-pressed="true">All</button>
+      <button class="fbtn" data-news-filter="planning" aria-pressed="false">Planning</button>
+      <button class="fbtn" data-news-filter="bar" aria-pressed="false">BAR</button>
+      <button class="fbtn" data-news-filter="zba" aria-pressed="false">ZBA</button>
+      <button class="fbtn" data-news-filter="historic" aria-pressed="false">Historic</button>
+      <button class="fbtn" data-news-filter="permits" aria-pressed="false">Permits</button>
+    </div>
+    <div class="statline"><span id="newsStatL"></span><span id="newsStatR"></span></div>
+    <div class="news-list" id="newsList"></div>
+  </section>
   </main>
 
   <nav class="app-tabbar" aria-label="Main">
@@ -735,6 +795,14 @@
     <button type="button" data-panel="browse" aria-current="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
       Browse
+    </button>
+    <button type="button" data-panel="permits" aria-current="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="1" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="8" y1="8" x2="16" y2="8" stroke="currentColor" stroke-width="1.8"/><line x1="8" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="1.8"/><line x1="8" y1="16" x2="13" y2="16" stroke="currentColor" stroke-width="1.8"/></svg>
+      Permits
+    </button>
+    <button type="button" data-panel="news" aria-current="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6z" fill="none" stroke="currentColor" stroke-width="1.8"/><line x1="9" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.8"/><line x1="9" y1="12" x2="15" y2="12" stroke="currentColor" stroke-width="1.8"/><line x1="9" y1="16" x2="13" y2="16" stroke="currentColor" stroke-width="1.8"/></svg>
+      Boards
     </button>
   </nav>
 
@@ -807,12 +875,21 @@ const SCHOOL_ALIASES=[
   ["heathcote","Heathcote"],["hc","Heathcote"],
   ["edgewood","Edgewood"],["ew","Edgewood"],
 ];
+const AFFILIATE_LINK="https://amzn.to/3PQvBr3";
 const AFFILIATE_ADS=[
-  {href:"https://amzn.to/4vzmJFs",title:"From the shelves.",sub:"Amazon affiliate link. We may earn a commission on qualifying purchases."},
+  {title:"Unique Finds",badge:"Curated shelf",sub:"Oddments, tools, and things you didn't know you needed.",cta:"Browse unique finds"},
+  {title:"Same-day delivery",badge:"Arrives today",sub:"Household runs without another trip off the Dale.",cta:"Shop with same-day delivery"},
 ];
-function affiliateNoticeHTML(slot=0){
-  const ad=AFFILIATE_ADS[slot%AFFILIATE_ADS.length];
-  return `<div class="notice" data-filled="true"><span class="tag-ad">Affiliate</span><a href="${ad.href}" target="_blank" rel="sponsored noopener noreferrer"><b>${esc(ad.title)}</b><span>${esc(ad.sub)}</span></a></div>`;
+function affiliateNoticeHTML(slot){
+  const ads=AFFILIATE_ADS;
+  const i=typeof slot==="number"?slot%ads.length:Math.floor(Math.random()*ads.length);
+  const ad=ads[i];
+  return `<div class="notice notice-affiliate" data-aff="${i}"><span class="tag-ad">Affiliate</span><a href="${AFFILIATE_LINK}" target="_blank" rel="sponsored noopener noreferrer">
+    <span class="aff-kicker">Amazon</span>
+    <span class="aff-badge">${esc(ad.badge)}</span>
+    <b class="aff-title">${esc(ad.title)}</b>
+    <span class="aff-sub">${esc(ad.sub)}</span>
+    <span class="aff-cta">${esc(ad.cta)} ↗</span></a></div>`;
 }
 const VALUE_BANDS=[
   {id:"Under $1M",label:"Under $1M",desc:"Full market under $1 million",min:0,max:1e6},
@@ -835,6 +912,18 @@ const TAX_FALLBACK={
 };
 const PROS_ORIGIN="https://townofscarsdale.prosgar.com";
 let PROS_IDS={};
+let PERMITS={meta:{},parcels:{}}, permitFilter="pool";
+let NEWS={meta:{},items:[]}, newsFilter="all";
+async function loadPermits(){
+  try{const r=await fetch("data/permits.json",{cache:"no-store"});if(!r.ok)throw 0;
+    PERMITS=await r.json();}
+  catch(e){console.warn("permits.json missing, run build_permits.py");}
+}
+async function loadNews(){
+  try{const r=await fetch("data/news.json",{cache:"no-store"});if(!r.ok)throw 0;
+    NEWS=await r.json();}
+  catch(e){console.warn("news.json missing, run build_news.py");}
+}
 async function loadProsIds(){
   try{const r=await fetch("data/pros_ids.json",{cache:"no-store"});if(!r.ok)throw 0;
     PROS_IDS=await r.json();}
@@ -926,6 +1015,50 @@ function cmpAddr(a,b){
   return pa.localeCompare(pb);
 }
 function houseNum(addr){const m=(addr||"").trim().match(/^(\d+)/);return m?+m[1]:null;}
+const STREET_ABBR={
+  rd:"road",st:"street",ave:"avenue",av:"avenue",la:"lane",ln:"lane",
+  dr:"drive",pl:"place",ct:"court",crt:"court",cir:"circle",ter:"terrace",
+  pkwy:"parkway",blvd:"boulevard",blv:"boulevard",tr:"trail",cr:"circle",way:"way"
+};
+const OWNER_STOP=new Set(["tr","llc","inc","corp","the","and","et","al","a","c","of"]);
+function streetWords(st){
+  return (st||"").toLowerCase().split(/\s+/).map(w=>STREET_ABBR[w]||w).filter(w=>w.length>1);
+}
+function normStreetQ(q){
+  return (q||"").toLowerCase().replace(/[.,#]/g," ").replace(/\s+/g," ").trim()
+    .split(/\s+/).map(w=>STREET_ABBR[w]||w).join(" ");
+}
+function streetMatches(qStreet,actualStreet){
+  const q=streetWords(normStreetQ(qStreet));
+  if(!q.length) return false;
+  const a=streetWords(actualStreet);
+  return q.every(tok=>a.some(w=>w===tok||w.startsWith(tok)));
+}
+function houseExact(query,addr){
+  const m=String(query).match(/^(\d+)([A-Za-z]?)$/);
+  if(!m) return false;
+  const hp=houseParts(addr);
+  return hp.n===+m[1] && (!m[2]||hp.suf===m[2].toUpperCase());
+}
+function ownerWords(owner){
+  return (owner||"").toLowerCase().replace(/[^a-z\s]/g," ").split(/\s+/)
+    .filter(w=>w.length>1&&!OWNER_STOP.has(w));
+}
+function ownerMatches(tokens,owner,co){
+  const parts=[...ownerWords(owner),...ownerWords(co)];
+  if(!parts.length) return false;
+  return tokens.every(t=>parts.some(p=>p===t||p.startsWith(t)));
+}
+function pidMatches(q,pid){
+  const ql=q.toLowerCase(), pl=pid.toLowerCase();
+  return pl===ql||(ql.length>=4&&pl.startsWith(ql));
+}
+function hasWord(hay,word){
+  if(!word||word.length<2) return false;
+  const w=word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return new RegExp("(?:^|[\\s,./\\-])"+w+"(?:$|[\\s,./\\-])","i").test(" "+hay+" ");
+}
+function ledgerCount(){return store[curYear]?.parcels?.length||0;}
 function schoolOf(addr){
   const s=streetOf(addr), n=houseNum(addr);
   for(const r of SCHOOL_RANGES){
@@ -965,6 +1098,8 @@ async function boot(){
   await loadSchools();
   await loadTaxRates();
   await loadProsIds();
+  await loadPermits();
+  await loadNews();
   honorCache={};
   for(const y of YEARS) store[y]=await loadYear(y);
   // Residential roll only, no commercial, parkways, exempt infrastructure, or municipal parcels.
@@ -974,14 +1109,15 @@ async function boot(){
   }
   for(const y of YEARS) for(const p of store[y].parcels){(index[p.parcel_id]||={})[y]=p;}
   for(const pid in index){
-    const e=index[pid]; const a=rollParcel(e);
-    e._pid=pid; e._addr=a.address||""; e._street=streetOf(a.address);
-    e._school=schoolOf(a.address); e._class=classOf(a);
-    e._search=`${pid} ${a.address||""} ${a.owner||""} ${a.co_owner||""} ${e._school} ${e._class}`.toLowerCase();
+    const e=index[pid];
+    e._pid=pid;
+    const a=e[curYear]||rollParcel(e);
+    e._addr=a?.address||""; e._street=streetOf(e._addr);
+    e._school=schoolOf(e._addr); e._class=a?classOf(a):"Other";
   }
   buildSeal();
   const honorAd=document.getElementById('honorAd');
-  if(honorAd) honorAd.innerHTML=affiliateNoticeHTML(0);
+  if(honorAd) honorAd.innerHTML=affiliateNoticeHTML(Math.floor(Date.now()/864e5)%2);
   applyUrlState(true);
   const warm=()=>{for(const y of YEARS) if(!honorCache[y]) honorCache[y]=buildHonor(y);};
   (window.requestIdleCallback||((fn)=>setTimeout(fn,120)))(warm);
@@ -992,8 +1128,9 @@ function applyUrlState(initial){
   let q=params.get("q")??"";
   if(YEARS.includes(y)){curYear=y;}
   document.querySelectorAll(".yearpick button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.year==String(curYear)));
+  reindexYear();
   updateMeta();
-  const pan=panel&&["lookup","honor","browse"].includes(panel)?panel:"lookup";
+  const pan=panel&&["lookup","honor","browse","permits","news"].includes(panel)?panel:"lookup";
   document.querySelectorAll(".sections button, .app-tabbar button").forEach(b=>{
     b.setAttribute("aria-current",b.dataset.panel===pan?"true":"false");
   });
@@ -1003,6 +1140,8 @@ function applyUrlState(initial){
   renderLookup(q);
   renderHonor();
   renderBrowse();
+  renderPermits();
+  renderNews();
   if(parcel){
     const card=document.querySelector(`#results [data-pid="${CSS.escape(parcel)}"]`);
     if(card){
@@ -1030,11 +1169,9 @@ function openParcelCard(pid){
   applyUrlState(false);
 }
 function updateMeta(){
-  const m=store[curYear].meta, n=store[curYear].parcels.length;
   document.getElementById('ebYear').textContent=String(curYear).slice(2);
-  document.getElementById('ebParcels').textContent=`${n.toLocaleString()} parcels · uniform ${m.uniform_pct_of_value}%`;
   const am=document.getElementById('appMeta');
-  if(am) am.textContent=`${n.toLocaleString()} parcels · ${curYear}`;
+  if(am) am.textContent=`${curYear} roll`;
 }
 function setPanel(name){
   document.querySelectorAll('.sections button, .app-tabbar button').forEach(b=>{
@@ -1053,11 +1190,22 @@ function refreshPanel(name){
   if(name==='lookup') renderLookup(document.getElementById('q').value);
   else if(name==='honor') renderHonor();
   else if(name==='browse') renderBrowse();
+  else if(name==='permits') renderPermits();
+  else if(name==='news') renderNews();
+}
+function reindexYear(){
+  for(const pid in index){
+    const e=index[pid], p=e[curYear];
+    if(!p) continue;
+    e._addr=p.address||""; e._street=streetOf(e._addr);
+    e._school=schoolOf(e._addr); e._class=classOf(p);
+  }
 }
 function setYear(y,silent){
   if(y===curYear&&!silent) return;
   curYear=y;
   document.querySelectorAll('.yearpick button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.year==String(y)));
+  reindexYear();
   updateMeta();
   honorCache={};
   if(silent) return;
@@ -1097,28 +1245,70 @@ function parseQuery(raw){
   if(/\b(cheapest|lowest|smallest)\b/.test(q)&&!/\btax\b/.test(q)){f.sort="asc";f.chips.push("cheapest first");q=q.replace(/\b(cheapest|lowest|smallest)\b/,"");}
   if(/\b(lowest tax|cheapest tax|smallest tax)\b/.test(q)){f.sort="taxasc";f.chips.push("lowest tax");q=q.replace(/\b(lowest tax|cheapest tax|smallest tax)\b/,"");}
   q=q.replace(/\b(in|on|at|near)\b/g," ").replace(/\s+/g," ").trim();
+  if(/^\d+\.\d+/.test(q)){f.parcelId=q; return f;}
+  const am=q.match(/^(\d+[a-z]?)\s+(.+)$/i);
+  if(am){f.houseNum=am[1]; f.street=am[2]; return f;}
+  const sm=q.match(/^(.+?\s+(?:rd|road|st|street|ave|avenue|la|lane|dr|drive|pl|place|ct|court|cir|circle|ter|terrace|pkwy|blvd|blv|way))\s*$/i);
+  if(sm){f.street=sm[1]; return f;}
   f.text=q.split(/\s+/).map(t=>t.trim()).filter(Boolean);
   return f;
 }
+function matchScore(e,f){
+  const p=e[curYear];
+  if(!p) return -1;
+  const addr=p.address||"";
+  const street=streetOf(addr);
+  const owner=p.owner||"";
+  const co=p.co_owner||"";
+  if(f.parcelId) return pidMatches(f.parcelId,e._pid)?2000:-1;
+  if(f.houseNum&&f.street){
+    return houseExact(f.houseNum,addr)&&streetMatches(f.street,street)?1000:-1;
+  }
+  if(f.street&&!f.houseNum) return streetMatches(f.street,street)?300:-1;
+  if(f.text.length){
+    if(ownerMatches(f.text,owner,co)) return 500+f.text.length*10;
+    const joined=f.text.join(" ");
+    if(streetMatches(joined,street)) return 280;
+    const addrLow=addr.toLowerCase();
+    if(f.text.every(t=>{
+      if(/^\d+[a-z]?$/i.test(t)) return houseExact(t,addr);
+      return hasWord(addrLow,t);
+    })) return 200;
+    if(f.text.length===1&&/^\d+\./.test(f.text[0])&&pidMatches(f.text[0],e._pid)) return 1500;
+    return -1;
+  }
+  return 0;
+}
 function applyQuery(list,f){
   const taxOf=e=>{const p=e[curYear]; return p?estTax(p,curYear)?.total:null;};
-  let out=list.filter(e=>{
+  const hasText=!!(f.text.length||f.street||f.houseNum||f.parcelId);
+  let out=list.map(e=>({e,score:matchScore(e,f)})).filter(x=>x.score>=0);
+  out=out.filter(({e})=>{
     const p=e[curYear]; const fmv=p?.full_market; const tx=taxOf(e);
-    if(f.school && e._school!==f.school) return false;
+    if(f.school && schoolOf(p.address)!==f.school) return false;
     if(f.cls && e._class!==f.cls) return false;
     if(f.min!=null && !(fmv>=f.min)) return false;
     if(f.max!=null && !(fmv<=f.max)) return false;
     if(f.taxMin!=null && !(tx!=null&&tx>=f.taxMin)) return false;
     if(f.taxMax!=null && !(tx!=null&&tx<=f.taxMax)) return false;
-    if(f.text.length && !f.text.every(t=>e._search.includes(t))) return false;
     return true;
   });
-  out.sort((a,b)=>{const pa=a[curYear],pb=b[curYear]; if(!!pa!==!!pb)return pa?-1:1;
+  out.sort((a,b)=>{
+    const pa=a.e[curYear], pb=b.e[curYear];
     if(f.sort==="taxdesc"||f.sort==="taxasc"){
-      const ta=taxOf(a)||0,tb=taxOf(b)||0; return f.sort==="taxasc"?ta-tb:tb-ta;}
+      const ta=taxOf(a.e)||0, tb=taxOf(b.e)||0;
+      return f.sort==="taxasc"?ta-tb:tb-ta;
+    }
+    if(f.sort==="asc"||f.sort==="desc"){
+      const va=pa?.full_market||0, vb=pb?.full_market||0;
+      return f.sort==="asc"?va-vb:vb-va;
+    }
+    if(hasText&&a.score!==b.score) return b.score-a.score;
+    if(hasText) return cmpAddr(a.e,b.e);
     const va=pa?.full_market||0, vb=pb?.full_market||0;
-    return f.sort==="asc"? va-vb : vb-va;});
-  return out;
+    return vb-va;
+  });
+  return out.map(x=>x.e);
 }
 
 /* ---- assessed value chart (oldest year left → newest right) ---- */
@@ -1145,22 +1335,6 @@ function chartSVG(e){
     marks+=`<text x="${cx}" y="${lblY}" text-anchor="middle" font-family="Archivo,sans-serif" font-size="10" font-weight="600" fill="${hi?CHART.claret:CHART.ink}">${fmtShort(p.v)}</text>`;
   });
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Assessed value from ${pts[0].y} to ${pts[pts.length-1].y}"><path d="${d.trim()}" fill="none" stroke="${CHART.ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>${marks}</svg>`;
-}
-
-function rollBellCurveSVG(){
-  return `<svg class="hr-bell" viewBox="0 0 300 64" aria-hidden="true">`+
-    `<path class="fill" d="M 14 50 C 36 50 58 48 82 36 C 106 20 126 12 148 12 C 178 12 220 26 286 50 L 286 50 L 14 50 Z"/>`+
-    `<path class="line" d="M 14 50 C 36 50 58 48 82 36 C 106 20 126 12 148 12 C 178 12 220 26 286 50" fill="none"/>`+
-    `</svg>`;
-}
-
-function fmvDistributionInsight(){
-  return {
-    label:"The shape of the roll",
-    wide:true,
-    text:"The roll is centered around a typical home-value range, with fewer homes at the extremes and a longer upper tail of higher-value properties. Percentiles show where a property sits relative to the rest of the village, not the exact dollar distance between homes.",
-    chart:rollBellCurveSVG(),
-  };
 }
 
 /* ---- render: lookup ---- */
@@ -1193,6 +1367,121 @@ function exemptHTML(p){
   const items=codes.map(c=>`<span>${esc(EXEMPT_LABELS[c]||("Exemption "+c))} <span style="color:var(--ink-muted);font-size:12px">(${c})</span></span>`);
   return `<div style="margin-top:12px;padding-top:10px;border-top:1px dotted var(--line)"><h4 style="font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Roll exemptions</h4><div style="display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45">${items.join("")}</div></div>`;
 }
+function permitsForParcel(pid){
+  return PERMITS.parcels?.[pid]||null;
+}
+function permitsComplete(){
+  const m=PERMITS.meta||{};
+  const scraped=m.parcels_scraped||0, total=m.pros_ids_total||Object.keys(PROS_IDS).length||0;
+  return total>0&&scraped>=total;
+}
+function permitSummaryHTML(pid){
+  if(!permitsComplete()) return "";
+  const pack=permitsForParcel(pid);
+  if(!pack?.permits?.length) return "";
+  const recent=pack.permits.slice(0,4).map(p=>{
+    const pool=p.is_pool?' pool':'';
+    return `<div class="row"><span class="k">${esc(p.date)} · ${esc(p.type)}</span><span class="val" style="font-size:13px">${esc(p.description.slice(0,80))}${p.description.length>80?"…":""}</span></div>`;
+  }).join("");
+  const more=pack.permits.length>4?`<div style="font-size:12px;color:var(--ink-muted);margin-top:6px">${pack.permits.length-4} older permits on PROS</div>`:"";
+  const poolTag=pack.has_pool?`<span class="tag school" style="margin-bottom:8px;display:inline-block">Pool on file</span>`:"";
+  return `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><h4 style="font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Permits · PROS</h4>${poolTag}${recent}${more}<a class="pros-link" href="${prosUrl(pid)}" target="_blank" rel="noopener">Full permit history on PROS ↗</a></div>`;
+}
+function parsePermitDate(s){
+  if(!s) return 0;
+  const m=s.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(!m) return 0;
+  return new Date(+m[3],+m[1]-1,+m[2]).getTime();
+}
+function renderPermits(){
+  const stats=document.getElementById("permitsStats");
+  const list=document.getElementById("permitsList");
+  const m=PERMITS.meta||{};
+  const totalPros=m.pros_ids_total||Object.keys(PROS_IDS).length||0;
+  const scraped=m.parcels_scraped||0;
+  const complete=scraped>=totalPros&&totalPros>0;
+  if(stats){
+    stats.innerHTML=complete?[
+      {n:scraped.toLocaleString(),l:"Parcels"},
+      {n:(m.permits_total||0).toLocaleString(),l:"Permit records"},
+      {n:m.pool_parcels||0,l:"Pool parcels"},
+    ].map(s=>`<div class="permits-stat"><div class="n">${s.n}</div><div class="l">${s.l}</div></div>`).join("")
+    :`<div class="permits-stat"><div class="n">${scraped.toLocaleString()} / ${totalPros.toLocaleString()}</div><div class="l">Parcels scraped</div></div>`;
+  }
+  const rows=[];
+  for(const [pid,pack] of Object.entries(PERMITS.parcels||{})){
+    for(const p of pack.permits||[]){
+      if(permitFilter==="pool"&&!p.is_pool) continue;
+      if(permitFilter==="building"&&p.type!=="BUILDING") continue;
+      rows.push({pid,address:pack.address||pid,permit:p,has_pool:pack.has_pool});
+    }
+  }
+  rows.sort((a,b)=>parsePermitDate(b.permit.date)-parsePermitDate(a.permit.date));
+  document.getElementById("permitsStatL").textContent=`${rows.length.toLocaleString()} permit${rows.length===1?"":"s"} shown`;
+  document.getElementById("permitsStatR").textContent=complete?"":"Loading full village…";
+  if(!complete){
+    list.innerHTML=`<div class="empty"><div class="lead">Permit data not ready yet.</div>${scraped.toLocaleString()} of ${totalPros.toLocaleString()} parcels scraped from PROS. Run <code>python build_permits.py --resume</code> to finish the village.</div>`;
+    return;
+  }
+  if(!rows.length){
+    list.innerHTML=`<div class="empty"><div class="lead">No permits on file.</div></div>`;
+    return;
+  }
+  list.innerHTML=rows.slice(0,120).map(r=>{
+    const p=r.permit;
+    const poolCls=p.is_pool?" pool":"";
+    const stCls=/open/i.test(p.status)?" open":"";
+    return `<div class="permit-card"><div class="pc-top"><div><div class="pc-addr">${esc(titleCase(r.address))}</div>
+      <div class="pc-meta"><span class="pc-type${poolCls}">${esc(p.type)}</span><span class="pc-status${stCls}">${esc(p.status)}</span>${r.has_pool?'<span class="pc-type pool">Pool parcel</span>':""}</div></div>
+      <div class="pc-date">${esc(p.date)}</div></div>
+      <div class="pc-desc">${esc(p.description)}</div>
+      <a class="pros-link pc-link" href="${prosUrl(r.pid)}" target="_blank" rel="noopener">PROS parcel ↗</a></div>`;
+  }).join("")+(rows.length>120?`<div class="more-note">${(rows.length-120).toLocaleString()} more in the scrape. Narrow the filter or finish the full run.</div>`:"");
+}
+function parseNewsDate(s){
+  if(!s) return 0;
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return new Date(s+"T12:00:00").getTime();
+  const m=s.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m) return new Date(+m[3],+m[1]-1,+m[2]).getTime();
+  return 0;
+}
+function newsKindLabel(kind){
+  return ({public_meeting:"Public meeting",variance:"Variance",architectural:"Design review",historic:"Historic",permit:"Permit",decisions:"Decisions",agenda:"Agenda"})[kind]||"Item";
+}
+function renderNews(){
+  const list=document.getElementById("newsList");
+  const note=document.getElementById("newsNote");
+  const items=(NEWS.items||[]).filter(it=>newsFilter==="all"||it.board_key===newsFilter);
+  items.sort((a,b)=>parseNewsDate(b.date)-parseNewsDate(a.date));
+  const updated=NEWS.meta?.updated;
+  if(note&&updated){
+    const d=new Date(updated);
+    note.textContent=`Last updated ${d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}. Run python build_news.py to refresh.`;
+  }
+  document.getElementById("newsStatL").textContent=`${items.length.toLocaleString()} item${items.length===1?"":"s"}`;
+  document.getElementById("newsStatR").textContent=updated?new Date(updated).toLocaleDateString("en-US",{month:"short",day:"numeric"}):"";
+  if(!items.length){
+    list.innerHTML=`<div class="empty"><div class="lead">No board news yet.</div>Run <code>python build_news.py</code> to pull agendas from scarsdale.gov.</div>`;
+    return;
+  }
+  list.innerHTML=items.slice(0,80).map(it=>{
+    const boardCls=it.board_key==="planning"||it.kind==="public_meeting"?" planning":"";
+    const kindCls=it.kind==="public_meeting"?" meeting":"";
+    const addr=(it.address||"").replace(/,\s*SCARSDALE.*$/i,"").trim();
+    const title=addr?titleCase(addr):(it.title_clean||it.title);
+    const links=[];
+    if(it.url) links.push(`<a class="pros-link" href="${esc(it.url)}" target="_blank" rel="noopener">Village agenda ↗</a>`);
+    if(it.minutes_url) links.push(`<a class="pros-link" href="${esc(it.minutes_url)}" target="_blank" rel="noopener">Minutes ↗</a>`);
+    if(it.pid) links.push(`<a class="pros-link" href="${prosUrl(it.pid)}" target="_blank" rel="noopener">PROS parcel ↗</a>`);
+    const dateLabel=it.date_label||it.date||"";
+    return `<div class="news-card"><div class="nc-top"><div>
+      <div class="nc-title">${esc(title)}</div>
+      <div class="nc-meta"><span class="nc-board${boardCls}">${esc(it.board)}</span><span class="nc-kind${kindCls}">${esc(newsKindLabel(it.kind))}</span>${it.status?`<span class="nc-kind">${esc(it.status)}</span>`:""}</div>
+    </div><div class="nc-date">${esc(dateLabel)}</div></div>
+    <div class="nc-summary">${esc(it.summary||it.title_clean||it.title)}</div>
+    ${links.length?`<div class="nc-links">${links.join("")}</div>`:""}</div>`;
+  }).join("")+(items.length>80?`<div class="more-note">${(items.length-80).toLocaleString()} more. Narrow the board filter.</div>`:"");
+}
 function detailHTML(e){
   const rows=YEARS_ASC().map(y=>{const p=e[y]; if(!p)return `<div class="row"><span class="k">${y}</span><span class="val" style="color:var(--ink-muted);font-style:italic">not on roll</span></div>`;
     return `<div class="row"><span class="k">${y}${y===curYear?" ◂":""}</span><span class="val">${fmtUSD(p.full_market)} <span style="color:var(--ink-muted);font-size:12px">fmv</span></span></div>`;}).join("");
@@ -1204,6 +1493,7 @@ function detailHTML(e){
     <div class="yeartbl"><div class="row head"><span class="k">Year</span><span class="val">Full market value</span></div>${rows}
       ${tax?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><h4 style="font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Est. property tax · ${curYear} roll · FY ${tax.fy}</h4>${taxBreakdownHTML(tax)}<a class="pros-link" href="${prosUrl(e._pid)}" target="_blank" rel="noopener">Official bill on PROS ↗</a></div>`:""}
       ${exemptHTML(a)}
+      ${permitSummaryHTML(e._pid)}
     </div>
     <div class="meta-extra">
       ${e._school!=="Unzoned"?`<span>Zone <b>${e._school}</b></span>`:`<span style="color:var(--faint)">Zone unmapped</span>`}
@@ -1219,12 +1509,12 @@ function renderLookup(raw){
   // chips
   document.getElementById('chips').innerHTML=f.chips.map(c=>`<span class="chip">${esc(c)}</span>`).join("");
   const total=list.length;
-  document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${Object.keys(index).length.toLocaleString()} parcels on file. Start typing.`;
+  document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${ledgerCount().toLocaleString()} parcels on the ${curYear} roll. Start typing.`;
   document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA. Run extract.py for the full roll</span>`:"";
   if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;return;}
   const shown=list.slice(0,CAP);
   box.innerHTML=shown.map((e,i)=>{let c=cardHTML(e);
-    if(i===4)c+=affiliateNoticeHTML(0);
+    if(i===4)c+=affiliateNoticeHTML(1-(Math.floor(Date.now()/864e5)%2));
     return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more. Narrow your search.</div>`:"");
 }
 
@@ -1404,20 +1694,10 @@ function buildHonor(year){
 
   // ---- editorial insights (computed per year, not rankings) ----
   const insights=[];
-  if(dynasty[0]) insights.push({label:"Top street",
-    text:`${titleCase(dynasty[0][0])} leads all streets for combined full market value, ${dynasty[0][2]} homes deep. The ranking is relative to whichever roll year you have selected, not a single listing price.`});
-  const matched=homes.filter(e=>e[y]?.assessed!=null&&e[y-1]?.assessed!=null);
-  if(matched.length){
-    const unchanged=matched.filter(e=>e[y].assessed===e[y-1].assessed).length;
-    insights.push({label:"Quietly unchanged",
-      text:`About ${Math.round(unchanged/matched.length*100)}% of homes show no change in assessed value year over year on this roll. After two revaluations in two years, the village has earned a quiet one.`});
-  }
-  const fmvAll=homes.map(fmv).filter(v=>v!=null&&!isNaN(v));
-  if(fmvAll.length) insights.push(fmvDistributionInsight());
   return {
     html:awards.join(""),
     ranks,
-    insights,
+    insights:[],
     count:`${awards.length} superlatives, ${homes.length.toLocaleString()} homes on the ${y} roll`,
   };
 }
@@ -1429,13 +1709,6 @@ function renderHonor(){
   HONOR_RANKS=pack.ranks;
   document.getElementById('hrCount').textContent=pack.count;
   g.innerHTML=pack.html;
-  const ins=document.getElementById('hrInsights');
-  if(ins){
-    ins.innerHTML=(pack.insights||[]).map(o=>{
-      const cls=(o.wide?" span2":"")+(o.chart?" hr-insight-chart":"");
-      return `<div class="hr-insight${cls}"><div class="hr-insight-label">${esc(o.label)}</div>${o.chart||""}<p>${esc(o.text)}</p></div>`;
-    }).join("");
-  }
 }
 
 /* ---- render: Browse / groupings ---- */
@@ -1551,6 +1824,16 @@ document.getElementById('browseQuick').addEventListener('click',e=>{
   renderBrowse();});
 document.getElementById('streetFilter').addEventListener('input',e=>{
   streetFilterText=e.target.value.trim(); renderBrowse();});
+document.getElementById('permitsFacets').addEventListener('click',e=>{
+  const b=e.target.closest('[data-permit-filter]'); if(!b)return;
+  permitFilter=b.dataset.permitFilter;
+  document.querySelectorAll('#permitsFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  renderPermits();});
+document.getElementById('newsFacets').addEventListener('click',e=>{
+  const b=e.target.closest('[data-news-filter]'); if(!b)return;
+  newsFilter=b.dataset.newsFilter;
+  document.querySelectorAll('#newsFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  renderNews();});
 document.getElementById('quickpick').addEventListener('click',e=>{
   const b=e.target.closest('button[data-q]'); if(!b)return;
   const inp=document.getElementById('q'); inp.value=b.dataset.q;
