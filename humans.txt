@@ -1,0 +1,16 @@
+/* TEAM */
+The Dale Ledger — independent public-record almanac
+
+/* SITE */
+Standards: HTML5, JSON-LD, llms.txt, sitemap.xml
+Location: Scarsdale, Westchester County, New York (SWIS 555000)
+Data: Village of Scarsdale assessment rolls, PROS, NCES school boundaries
+
+/* THANKS */
+Village of Scarsdale Assessor — public rolls
+Scarsdale Union Free School District — zone reference
+Westchester County — property tax context
+
+/* AI & SEARCH */
+llms.txt and llms-full.txt welcome GPT, Claude, Gemini, Perplexity, and search crawlers.
+Confirm official figures on PROS before citing tax or ownership data.

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="The Dale Ledger  Scarsdale property almanac">
+  <rect width="1200" height="630" fill="#f8f6f1"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#9b1b2f"/>
+  <text x="600" y="120" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#9b1b2f" letter-spacing="12">THE DALE</text>
+  <text x="600" y="250" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="112" font-weight="700" fill="#1f1d1a">Ledger.</text>
+  <line x1="520" y1="280" x2="680" y2="280" stroke="#9b1b2f" stroke-width="4"/>
+  <text x="600" y="360" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" font-style="italic" fill="#3d3a34">Scarsdale assessment roll lookup</text>
+  <text x="600" y="420" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="28" fill="#5c5850">Tax estimates · school zones · permits · Honor Roll</text>
+  <text x="600" y="520" text-anchor="middle" font-family="monospace" font-size="22" fill="#7a756c" letter-spacing="4">SWIS 555000 · WESTCHESTER COUNTY, NY</text>
+  <circle cx="600" cy="580" r="28" fill="none" stroke="#1f1d1a" stroke-width="2"/>
+  <path d="M580 590 Q600 565 620 590" fill="none" stroke="#1f1d1a" stroke-width="2"/>
+  <circle cx="600" cy="572" r="6" fill="none" stroke="#9b1b2f" stroke-width="2"/>
+  <path d="M600 595 C595 590 590 592 590 597 C590 601 595 603 600 608 C605 603 610 601 610 597 C610 592 605 590 600 595Z" fill="#9b1b2f"/>
+</svg>

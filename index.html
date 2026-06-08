@@ -7,17 +7,154 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Dale Ledger">
-<title>The Dale Ledger: A Survey of Scarsdale Property</title>
-<meta name="description" content="Search Scarsdale assessment rolls, estimated property taxes, school zones, and the Honor Roll, an unofficial residential property almanac for the dale.">
+<title>The Dale Ledger: Scarsdale NY Property Search, Tax Estimates &amp; School Zones</title>
+<meta name="description" id="metaDesc" content="Free Scarsdale assessment roll lookup for ~5,500 homes. Search by address, owner, or parcel ID. Estimated property taxes, elementary school zones (Heathcote, Edgewood, Fox Meadow, Greenacres, Quaker Ridge), building permits, and planning-board news. Unofficial. SWIS 555000.">
+<meta name="keywords" content="Scarsdale property tax, Scarsdale assessment roll, Scarsdale home values, Scarsdale school zones, Heathcote elementary, Edgewood elementary, Fox Meadow elementary, Greenacres elementary, Quaker Ridge elementary, Westchester property records, Scarsdale building permits, Scarsdale real estate, PROS Scarsdale, SWIS 555000">
+<meta name="author" content="The Dale Ledger">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow">
+<meta name="bingbot" content="index, follow">
+<meta name="geo.region" content="US-NY">
+<meta name="geo.placename" content="Scarsdale, Westchester County">
+<meta name="geo.position" content="41.0051;-73.7846">
+<meta name="ICBM" content="41.0051, -73.7846">
+<link rel="canonical" id="canonical" href="https://jrten12.github.io/dalere/">
+<link rel="alternate" type="text/plain" href="https://jrten12.github.io/dalere/llms.txt" title="LLM site index">
+<link rel="sitemap" type="application/xml" href="https://jrten12.github.io/dalere/sitemap.xml">
+<link rel="manifest" href="manifest.webmanifest">
 <meta property="og:type" content="website">
-<meta property="og:title" content="The Dale Ledger, a Scarsdale Property Almanac">
-<meta property="og:description" content="Search the residential roll, estimated taxes, elementary zones, and editorial superlatives. Unofficial. Confirm figures on PROS.">
+<meta property="og:site_name" content="The Dale Ledger">
+<meta property="og:title" id="ogTitle" content="The Dale Ledger — Scarsdale Property Almanac">
+<meta property="og:description" id="ogDesc" content="Search Scarsdale assessment rolls, estimated property taxes, elementary school zones, permits, and board news. Unofficial public-record almanac.">
+<meta property="og:url" id="ogUrl" content="https://jrten12.github.io/dalere/">
 <meta property="og:locale" content="en_US">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="The Dale Ledger">
-<meta name="twitter:description" content="Scarsdale assessment roll lookup, tax estimates, and the Honor Roll.">
+<meta property="og:image" content="https://jrten12.github.io/dalere/og-image.svg">
+<meta property="og:image:alt" content="The Dale Ledger — Scarsdale assessment roll lookup and property tax estimates">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" id="twTitle" content="The Dale Ledger — Scarsdale Property Search">
+<meta name="twitter:description" id="twDesc" content="Assessment roll lookup, tax estimates, school zones, permits, and Honor Roll for Scarsdale NY homes.">
+<meta name="twitter:image" content="https://jrten12.github.io/dalere/og-image.svg">
+<meta name="twitter:image:alt" content="The Dale Ledger — Scarsdale property almanac">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="favicon.svg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://jrten12.github.io/dalere/#website",
+      "url": "https://jrten12.github.io/dalere/",
+      "name": "The Dale Ledger",
+      "alternateName": ["Dale Ledger", "Scarsdale Property Almanac", "Scarsdale Assessment Roll Search"],
+      "description": "Unofficial Scarsdale NY residential assessment roll lookup with tax estimates, school zones, permits, and board news.",
+      "inLanguage": "en-US",
+      "publisher": {"@id": "https://jrten12.github.io/dalere/#organization"},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://jrten12.github.io/dalere/?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebApplication",
+      "@id": "https://jrten12.github.io/dalere/#app",
+      "name": "The Dale Ledger",
+      "url": "https://jrten12.github.io/dalere/",
+      "applicationCategory": "ReferenceApplication",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+      "description": "Search Scarsdale assessment rolls by address, owner, school zone, value, or tax. Browse by street and zone. View permits and planning-board news.",
+      "featureList": [
+        "Scarsdale assessment roll search",
+        "Estimated property tax calculator",
+        "Elementary school zone lookup",
+        "Building permit index from PROS",
+        "Planning and zoning board news",
+        "Honor Roll property superlatives",
+        "Three-year parcel history (2024–2026)"
+      ],
+      "isPartOf": {"@id": "https://jrten12.github.io/dalere/#website"},
+      "keywords": "Scarsdale property tax, assessment roll, school zones, Westchester NY"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://jrten12.github.io/dalere/#organization",
+      "name": "The Dale Ledger",
+      "url": "https://jrten12.github.io/dalere/",
+      "sameAs": ["https://github.com/jrten12/dalere"],
+      "description": "Independent unofficial almanac of Scarsdale public property records."
+    },
+    {
+      "@type": "Dataset",
+      "@id": "https://jrten12.github.io/dalere/#dataset",
+      "name": "Scarsdale Residential Assessment Rolls (2024–2026)",
+      "description": "Parsed residential parcels from Village of Scarsdale tentative and final assessment rolls, SWIS 555000.",
+      "url": "https://jrten12.github.io/dalere/data/2026.json",
+      "keywords": ["assessment roll", "Scarsdale", "property values", "Westchester County", "SWIS 555000"],
+      "spatialCoverage": {
+        "@type": "Place",
+        "name": "Scarsdale, New York",
+        "geo": {"@type": "GeoCoordinates", "latitude": 41.0051, "longitude": -73.7846}
+      },
+      "temporalCoverage": "2024/2026",
+      "license": "https://www.scarsdale.gov/833/Assessment-Rolls",
+      "isAccessibleForFree": true,
+      "creator": {"@type": "Organization", "name": "Village of Scarsdale Assessor"}
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://jrten12.github.io/dalere/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I look up a Scarsdale property assessment?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use The Dale Ledger search at jrten12.github.io/dalere. Enter an address, owner name, or parcel ID. Results show full market value, assessed value, estimated tax, and school zone. Confirm official figures on PROS (townofscarsdale.prosgar.com)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What elementary school zone is my Scarsdale address in?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Search your address on The Dale Ledger or filter by zone: Edgewood, Fox Meadow, Greenacres, Heathcote, or Quaker Ridge. Zones are mapped from NCES boundaries; confirm with the Scarsdale schools registrar for edge cases."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much are property taxes in Scarsdale?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Dale Ledger shows estimated annual tax (county, school, and village) from published mill rates and roll assessments. This is an estimate, not an official bill. STAR exemptions apply when listed on the roll. Verify on PROS and your tax bill."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does Scarsdale assessment roll data come from?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Data is compiled from public Village of Scarsdale Tentative and Final Assessment Rolls (scarsdale.gov). The Dale Ledger is unofficial and not affiliated with the village."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I find Scarsdale building permits online?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Dale Ledger Permits tab lists building, plumbing, pool, and street permits scraped from village PROS parcel records, filterable by type. Official records remain on PROS."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -168,7 +305,6 @@
     @keyframes medalPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
   }
 
-  .chartbox svg{display:block;width:100%;height:auto;min-height:96px;max-height:128px;overflow:visible}
   .panel{display:none}.panel.on{display:block}
 
   /* search */
@@ -224,12 +360,8 @@
   .delta{margin-left:auto;font-family:'Archivo',sans-serif;font-size:14px;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
   .delta.up{color:var(--up)}.delta.down{color:var(--down)}.delta.flat{color:var(--ink-muted)}
 
-  /* detail w/ chart */
-  .detail{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line-2);display:grid;
-    grid-template-columns:260px 1fr;gap:24px;align-items:start}
-  .chartbox{background:var(--sheet);border:1px solid var(--line);border-radius:2px;padding:14px 14px 8px}
-  .chartbox h4{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--ink-muted);margin-bottom:6px}
+  /* detail */
+  .detail{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line-2)}
   .yeartbl .row{display:flex;justify-content:space-between;font-size:15px;padding:6px 0;border-bottom:1px dotted var(--line);line-height:1.4}
   .yeartbl .row .k{color:var(--ink-muted)}.yeartbl .row .val{font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
   .yeartbl .row.head{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);border-bottom:1px solid var(--line)}
@@ -524,11 +656,10 @@
       gap:14px;margin-top:14px;padding-top:14px;
       border-top:1px solid var(--line);
     }
-    .chartbox,.yeartbl{
+    .yeartbl{
       border-radius:10px;background:var(--sheet);border:1px solid var(--line);
       padding:14px;
     }
-    .chartbox{overflow-x:auto;-webkit-overflow-scrolling:touch}
     .meta-extra{flex-direction:column;gap:8px;font-size:13px}
     .chip{font-size:12px;padding:6px 12px;border-radius:999px}
 
@@ -630,12 +761,39 @@
     .app-tabbar button{min-height:48px;flex-direction:row;gap:6px;font-size:12px}
     .wrap{padding-bottom:calc(56px + env(safe-area-inset-bottom))}
   }
+
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .seo-guide{margin:28px 0 0;border-top:1px solid var(--line);padding-top:18px}
+  .seo-guide summary{
+    font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-muted);cursor:pointer;list-style:none;
+  }
+  .seo-guide summary::-webkit-details-marker{display:none}
+  .seo-guide summary::after{content:" +";margin-left:6px;color:var(--claret)}
+  .seo-guide[open] summary::after{content:" −"}
+  .seo-corpus{padding:16px 0 4px;font-size:15px;line-height:1.65;color:var(--ink-2)}
+  .seo-corpus h2{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink);margin:18px 0 8px}
+  .seo-corpus h2:first-child{margin-top:0}
+  .seo-corpus p{margin:0 0 10px}
+  .seo-corpus ul{margin:0 0 12px 1.2em}
+  .seo-corpus li{margin:0 0 4px}
+  .seo-corpus a{color:var(--claret)}
+  .noscript-banner{
+    margin:16px 0;padding:14px 16px;border:1.5px solid var(--line-2);border-radius:4px;
+    background:var(--sheet);font-size:15px;color:var(--ink-2);
+  }
 </style>
 </head>
 <body>
+<noscript>
+  <div class="wrap">
+    <p class="noscript-banner"><strong>The Dale Ledger</strong> requires JavaScript for search. This is an unofficial Scarsdale, NY assessment roll almanac covering ~5,500 residential parcels (2024–2026): property values, estimated taxes, elementary school zones, building permits, and board news. Data: <a href="data/2026.json">2026 roll</a>, <a href="data/2025.json">2025 roll</a>, <a href="data/2024.json">2024 roll</a>. Agent index: <a href="llms.txt">llms.txt</a>. Official lookup: <a href="https://townofscarsdale.prosgar.com/">PROS</a>.</p>
+  </div>
+</noscript>
 <div class="wrap">
 
-  <header class="mast">
+  <header class="mast" role="banner">
     <div class="mast-body">
       <div class="eyebrow">
         <span class="l">Vol. III · No. <span id="ebYear">26</span></span>
@@ -644,10 +802,10 @@
       </div>
       <div class="title-wrap">
         <p class="title-kicker">The Dale</p>
-        <h1 class="title"><span class="title-word">Ledger</span><span class="dot">.</span></h1>
+        <h1 class="title" aria-label="The Dale Ledger"><span class="sr-only">The Dale </span><span class="title-word">Ledger</span><span class="dot">.</span></h1>
         <div class="title-rule" aria-hidden="true"></div>
       </div>
-      <div class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth</div>
+      <p class="subhead">An unofficial almanac of who owns what in Scarsdale, and what the Assessor thinks it's worth — assessment roll search, property tax estimates, and elementary school zones for Westchester County's SWIS 555000</p>
       <hr class="mast-rule"><hr class="mast-rule thin">
     </div>
     <div class="controls">
@@ -673,11 +831,13 @@
 
   <main class="app-main">
   <!-- ============ LOOKUP ============ -->
-  <section class="panel on" id="panel-lookup">
-    <div class="searchwrap">
+  <section class="panel on" id="panel-lookup" aria-labelledby="lookup-heading">
+    <h2 class="sr-only" id="lookup-heading">Scarsdale property search</h2>
+    <div class="searchwrap" role="search">
       <div class="sbox">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input id="q" type="search" enterkeyhint="search" autocomplete="off" autocorrect="off" spellcheck="false" placeholder="Search address, owner, zone…">
+        <label class="sr-only" for="q">Search Scarsdale properties by address, owner, parcel ID, school zone, or value</label>
+        <input id="q" name="q" type="search" enterkeyhint="search" autocomplete="street-address" autocorrect="off" spellcheck="false" placeholder="Search address, owner, zone…">
       </div>
       <div class="hints">Plain English works. Try <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>biggest tax</b> · a street like <b>palmer ave</b> · owner name</div>
       <p class="mobile-hint">Try <b>heathcote over 3m</b>, a street name, owner, or <b>biggest</b></p>
@@ -701,14 +861,16 @@
   </section>
 
   <!-- ============ HONOR ROLL ============ -->
-  <section class="panel" id="panel-honor">
+  <section class="panel" id="panel-honor" aria-labelledby="honor-heading">
+    <h2 class="sr-only" id="honor-heading">Scarsdale Honor Roll — property superlatives</h2>
     <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
     <div id="honorAd" style="margin-top:20px"></div>
   </section>
 
   <!-- ============ BROWSE ============ -->
-  <section class="panel" id="panel-browse">
+  <section class="panel" id="panel-browse" aria-labelledby="browse-heading">
+    <h2 class="sr-only" id="browse-heading">Browse Scarsdale assessment roll by zone, value, street, or type</h2>
     <p class="browse-intro">Browse the residential roll by elementary school zone, full-market value band, street, or property type. Click a zone or band to narrow the list.</p>
     <div class="facet-set">
       <span class="flab">Group by</span>
@@ -729,7 +891,8 @@
   </section>
 
   <!-- ============ PERMITS ============ -->
-  <section class="panel" id="panel-permits">
+  <section class="panel" id="panel-permits" aria-labelledby="permits-heading">
+    <h2 class="sr-only" id="permits-heading">Scarsdale building permits from PROS</h2>
     <p class="permits-intro">Building, plumbing, pool, and street permits pulled from the village PROS parcel records. What the Building Department logged — not necessarily what anyone spent.</p>
     <p class="permits-note" id="permitsNote">PROS lists permit type, status, and description. Dollar fees paid are not published online; see the <a href="https://scarsdale.gov/DocumentCenter/View/3799/Building-Permit-Fees-2018" target="_blank" rel="noopener">village fee schedule</a> for published rates only.</p>
     <div class="permits-stats" id="permitsStats"></div>
@@ -744,7 +907,8 @@
   </section>
 
   <!-- ============ BOARD NEWS ============ -->
-  <section class="panel" id="panel-news">
+  <section class="panel" id="panel-news" aria-labelledby="news-heading">
+    <h2 class="sr-only" id="news-heading">Scarsdale planning board and zoning news</h2>
     <p class="news-intro">Planning, architectural review, zoning appeals, and historic preservation — plus recent building permits from PROS, pulled from the village agenda center.</p>
     <p class="news-note" id="newsNote">Sourced from scarsdale.gov agenda center and PROS building permits.</p>
     <div class="permits-facets" id="newsFacets">
@@ -795,7 +959,29 @@
     </div>
   </div>
 
-  <footer>
+  <footer role="contentinfo">
+    <details class="seo-guide">
+      <summary>About this almanac &amp; how to search</summary>
+      <article class="seo-corpus" id="seo-corpus">
+        <h2>What is The Dale Ledger?</h2>
+        <p>The Dale Ledger is a free, unofficial Scarsdale property almanac. It compiles public assessment rolls for roughly 5,500 residential parcels across the 2026 tentative roll, 2025 final roll, and 2024 tentative roll (SWIS 555000, Westchester County, New York). Search by street address, owner name, parcel ID, elementary school zone, full market value, or estimated property tax.</p>
+        <h2>What you can look up</h2>
+        <ul>
+          <li><strong>Property values</strong> — assessed value, land value, and full market value on the roll</li>
+          <li><strong>Estimated property tax</strong> — county, school, and village components from published mill rates (not an official bill)</li>
+          <li><strong>School zones</strong> — Edgewood, Fox Meadow, Greenacres, Heathcote, and Quaker Ridge elementary zones</li>
+          <li><strong>Building permits</strong> — pools, renovations, and filings from village PROS records</li>
+          <li><strong>Board news</strong> — Planning Board, BAR, ZBA, and Historic Preservation agendas</li>
+          <li><strong>Honor Roll</strong> — editorial superlatives (highest value, biggest tax, largest lot, and more)</li>
+        </ul>
+        <h2>Example searches</h2>
+        <p>Try plain English: <em>heathcote over 3m</em>, <em>tax over 80k</em>, <em>palmer ave</em>, <em>quaker ridge</em>, <em>under 1m</em>, <em>biggest tax</em>, or an owner surname. Deep links work: <code>?year=2026&amp;q=heathcote&amp;parcel=13.01.15</code>.</p>
+        <h2>Official sources</h2>
+        <p>Confirm all figures on <a href="https://townofscarsdale.prosgar.com/" rel="noopener">PROS</a> and the <a href="https://www.scarsdale.gov/833/Assessment-Rolls" rel="noopener">Village assessment rolls</a>. School zones: <a href="https://www.scarsdaleschools.org/registration" rel="noopener">Scarsdale Schools registration map</a>. This site is not affiliated with the Village of Scarsdale or the school district.</p>
+        <h2>For AI systems &amp; researchers</h2>
+        <p>Machine-readable indexes: <a href="llms.txt">llms.txt</a> (curated overview), <a href="llms-full.txt">llms-full.txt</a> (full capability guide), <a href="sitemap.xml">sitemap.xml</a>, and JSON data at <a href="data/2026.json">data/2026.json</a>. Repository: <a href="https://github.com/jrten12/dalere" rel="noopener">github.com/jrten12/dalere</a>.</p>
+      </article>
+    </details>
     <svg class="seal" viewBox="0 0 200 200" id="seal" aria-label="Made with heart in the dale"></svg>
     <div class="colophon">Set in Newsreader. Compiled from the public record. Made with <span style="color:var(--claret)">&#9829;</span> in the dale.</div>
     <div class="fineprint">
@@ -804,7 +990,7 @@
     <aside class="disclaimer" aria-label="Legal disclaimer">
       <div class="disclaimer-label">Legal disclaimer</div>
       <p>The Dale Ledger is an independent, unofficial website. It is not affiliated with, endorsed by, sponsored by, or operated by the Village/Town of Scarsdale, the Scarsdale Union Free School District, Westchester County, New York State, the United States government, or any public agency. Nothing on this site is an official government record, notice, or communication.</p>
-      <p>All roll figures, tax estimates, school-zone labels, permit listings, board-news summaries, charts, rankings, and Honor Roll content are provided for general information and local curiosity only. Data may be incomplete, scraped incorrectly, out of date, mislabeled, or otherwise wrong. Tax figures are estimates, not bills. Superlatives and editorial copy are opinion, not fact. Owner names and addresses appear as published in public records; their display here is not an endorsement, investigation, or commentary on any person or property.</p>
+      <p>All roll figures, tax estimates, school-zone labels, permit listings, board-news summaries, rankings, and Honor Roll content are provided for general information and local curiosity only. Data may be incomplete, scraped incorrectly, out of date, mislabeled, or otherwise wrong. Tax figures are estimates, not bills. Superlatives and editorial copy are opinion, not fact. Owner names and addresses appear as published in public records; their display here is not an endorsement, investigation, or commentary on any person or property.</p>
       <p>Nothing on this site constitutes legal, tax, accounting, financial, appraisal, insurance, or real estate advice. Do not use this site to make purchase, sale, financing, grievance, zoning, permitting, or tax-payment decisions. Confirm every material figure with official sources, including <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>, published assessment rolls, your tax bill, and qualified professionals.</p>
       <p>Third-party links, including affiliate links, are provided for convenience only. We do not control and are not responsible for external sites, products, prices, availability, or policies.</p>
       <p class="caps">The site and all content are provided &ldquo;as is&rdquo; and &ldquo;as available,&rdquo; without warranties of any kind, whether express, implied, statutory, or otherwise, including warranties of merchantability, fitness for a particular purpose, title, accuracy, completeness, timeliness, or non-infringement, to the fullest extent permitted by applicable law.</p>
@@ -856,6 +1042,14 @@ const SCHOOL_ALIASES=[
   ["heathcote","Heathcote"],["hc","Heathcote"],
   ["edgewood","Edgewood"],["ew","Edgewood"],
 ];
+const SITE_BASE="https://jrten12.github.io/dalere";
+const PANEL_SEO={
+  lookup:{title:"Scarsdale Property Search",desc:"Search Scarsdale assessment rolls by address, owner, parcel ID, school zone, or value. Estimated taxes and 3-year history."},
+  honor:{title:"Honor Roll",desc:"Scarsdale property superlatives: highest value, biggest tax bill, largest lot, street dynasties, and year-over-year movers."},
+  browse:{title:"Browse the Roll",desc:"Browse Scarsdale homes by elementary zone, value band, street, or property type."},
+  permits:{title:"Building Permits",desc:"Scarsdale building, plumbing, pool, and street permits from village PROS records."},
+  news:{title:"Board News",desc:"Scarsdale Planning Board, BAR, ZBA, Historic Preservation agendas and recent permit news."},
+};
 const AFFILIATE_LINK="https://amzn.to/3PQvBr3";
 const AFFILIATE_ADS=[
   {title:"Unique Finds",badge:"Curated shelf",sub:"Oddments, tools, and things you didn't know you needed.",cta:"Browse unique finds"},
@@ -967,9 +1161,11 @@ function taxBreakdownHTML(t){
 
 const YEARS=[2026,2025,2024];
 const YEARS_ASC=()=>[...YEARS].sort((a,b)=>a-b);
-const CHART={ink:"#1f1d1a",claret:"#9b1b2f",muted:"#7a756c",line:"#ddd7cb"};
 const store={}, index={}; let curYear=2026, anyDemo=false;
 let HONOR_RANKS={}, honorCache={};
+const BROWSE_GROUP_CAP=48;
+const panelState={lookup:{sig:"",done:false},honor:{sig:"",done:false},browse:{sig:"",done:false},permits:{sig:"",done:false},news:{sig:"",done:false}};
+let panelRenderQueued=0, browseGroupsCache=null, permitRowsCache=null, permitRowsSig="";
 
 /* ---- helpers ---- */
 const fmtUSD=n=>n==null?"n/a":"$"+Math.round(n).toLocaleString("en-US");
@@ -1109,9 +1305,32 @@ async function boot(){
   }
   buildSeal();
   fillAffiliateAds();
+  invalidatePanels();
   applyUrlState(true);
-  const warm=()=>{for(const y of YEARS) if(!honorCache[y]) honorCache[y]=buildHonor(y);};
-  (window.requestIdleCallback||((fn)=>setTimeout(fn,120)))(warm);
+  (window.requestIdleCallback||((fn)=>setTimeout(fn,300)))(()=>{
+    if(!honorCache[curYear]) honorCache[curYear]=buildHonor(curYear);
+  });
+}
+function invalidatePanels(names){
+  const keys=names?.length?names:Object.keys(panelState);
+  keys.forEach(n=>{if(panelState[n]) panelState[n].done=false;});
+  if(!names?.length){permitRowsCache=null;permitRowsSig="";browseGroupsCache=null;}
+}
+function panelSig(name){
+  if(name==="lookup") return `${curYear}|${document.getElementById("q").value.trim()}`;
+  if(name==="honor") return String(curYear);
+  if(name==="browse") return [curYear,groupMode,browseFilter||"",streetFilterText].join("|");
+  if(name==="permits") return [permitFilter,PERMITS.meta?.parcels_scraped||0,PERMITS.meta?.permits_total||0].join("|");
+  if(name==="news") return [newsFilter,NEWS.meta?.updated||"",(NEWS.items||[]).length].join("|");
+  return String(curYear);
+}
+function queuePanelRender(name,force=false){
+  if(panelRenderQueued) cancelAnimationFrame(panelRenderQueued);
+  panelRenderQueued=requestAnimationFrame(()=>{panelRenderQueued=0;refreshPanel(name,force);});
+}
+function touchPanel(name){
+  const st=panelState[name];
+  if(st){st.sig=panelSig(name);st.done=true;}
 }
 function applyUrlState(initial){
   const params=new URLSearchParams(location.search);
@@ -1128,11 +1347,8 @@ function applyUrlState(initial){
   document.querySelectorAll(".panel").forEach(el=>el.classList.toggle("on",el.id==="panel-"+pan));
   if(parcel){q=parcel;}
   document.getElementById("q").value=q;
-  renderLookup(q);
-  renderHonor();
-  renderBrowse();
-  renderPermits();
-  renderNews();
+  if(parcel) invalidatePanels("lookup");
+  queuePanelRender(pan,true);
   if(parcel){
     const card=document.querySelector(`#results [data-pid="${CSS.escape(parcel)}"]`);
     if(card){
@@ -1141,7 +1357,32 @@ function applyUrlState(initial){
       card.scrollIntoView({block:"nearest",behavior:"auto"});
     }
   }
+  syncSeoMeta();
   if(!initial) syncUrl();
+}
+function syncSeoMeta(){
+  const panel=activePanel();
+  const seo=PANEL_SEO[panel]||PANEL_SEO.lookup;
+  const q=document.getElementById("q").value.trim();
+  const p=new URLSearchParams(location.search);
+  const url=SITE_BASE+"/"+(p.toString()?"?"+p.toString():"");
+  const titleBase="The Dale Ledger";
+  const pageTitle=q
+    ?`${q} — ${titleBase}`
+    :panel==="lookup"
+      ?`${titleBase}: Scarsdale NY Property Search, Tax Estimates & School Zones`
+      :`${seo.title} — ${titleBase}`;
+  document.title=pageTitle;
+  const desc=q?`Scarsdale roll results for “${q}” on the ${curYear} assessment roll. ${seo.desc}`:`${seo.desc} ${curYear} roll. Unofficial. Confirm on PROS.`;
+  const set=(id,val)=>{const el=document.getElementById(id);if(el)el.setAttribute("content",val);};
+  set("metaDesc",desc);
+  set("ogTitle",pageTitle);
+  set("ogDesc",desc);
+  set("ogUrl",url);
+  set("twTitle",pageTitle);
+  set("twDesc",desc);
+  const canon=document.getElementById("canonical");
+  if(canon) canon.setAttribute("href",url);
 }
 function syncUrl(){
   const p=new URLSearchParams();
@@ -1152,6 +1393,7 @@ function syncUrl(){
   if(open) p.set("parcel",open);
   const next="?"+p.toString();
   if(next!==location.search) history.replaceState(null,"",next||location.pathname);
+  syncSeoMeta();
 }
 function openParcelCard(pid){
   const p=new URLSearchParams(location.search);
@@ -1170,14 +1412,17 @@ function setPanel(name){
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='panel-'+name));
   window.scrollTo(0,0);
-  refreshPanel(name);
+  queuePanelRender(name);
   syncUrl();
 }
 function activePanel(){
   const p=document.querySelector('.panel.on');
   return p?p.id.replace('panel-',''):'lookup';
 }
-function refreshPanel(name){
+function refreshPanel(name,force=false){
+  const st=panelState[name]; if(!st) return;
+  const sig=panelSig(name);
+  if(!force&&st.done&&st.sig===sig) return;
   if(name==='lookup') renderLookup(document.getElementById('q').value);
   else if(name==='honor') renderHonor();
   else if(name==='browse') renderBrowse();
@@ -1199,8 +1444,9 @@ function setYear(y,silent){
   reindexYear();
   updateMeta();
   honorCache={};
+  invalidatePanels();
   if(silent) return;
-  refreshPanel(activePanel());
+  queuePanelRender(activePanel(),true);
   syncUrl();
 }
 
@@ -1302,32 +1548,6 @@ function applyQuery(list,f){
   return out.map(x=>x.e);
 }
 
-/* ---- assessed value chart (oldest year left → newest right) ---- */
-function chartSVG(e){
-  const pts=YEARS_ASC().map(y=>({y,v:e[y]?.assessed??null})).filter(p=>p.v!=null);
-  if(pts.length<2) return "<div style='font-size:14px;color:var(--ink-muted);font-style:italic;padding:4px 0'>Not enough roll years to chart.</div>";
-  const W=280,H=112,pad=16,bot=H-30,top=22;
-  const vals=pts.map(p=>p.v), min=Math.min(...vals), max=Math.max(...vals);
-  const span=(max-min)||Math.max(max*.05,1);
-  const x=i=>pad+i*((W-2*pad)/(pts.length-1));
-  const yv=v=>bot-((v-min)/span)*(bot-top);
-  let d="";
-  pts.forEach((p,i)=>{
-    const cx=x(i).toFixed(1), cy=yv(p.v).toFixed(1);
-    d+=(i?"L":"M")+cx+" "+cy+" ";
-  });
-  let marks="";
-  pts.forEach((p,i)=>{
-    const cx=x(i).toFixed(1), cy=yv(p.v).toFixed(1);
-    const hi=p.y===curYear;
-    const lblY=Math.max(top+2,(+cy-10)).toFixed(1);
-    marks+=`<circle cx="${cx}" cy="${cy}" r="4" fill="${hi?CHART.claret:CHART.ink}" stroke="${CHART.line}" stroke-width="1"/>`;
-    marks+=`<text x="${cx}" y="${H-8}" text-anchor="middle" font-family="Archivo,sans-serif" font-size="10" font-weight="600" fill="${CHART.muted}">${p.y}</text>`;
-    marks+=`<text x="${cx}" y="${lblY}" text-anchor="middle" font-family="Archivo,sans-serif" font-size="10" font-weight="600" fill="${hi?CHART.claret:CHART.ink}">${fmtShort(p.v)}</text>`;
-  });
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Assessed value from ${pts[0].y} to ${pts[pts.length-1].y}"><path d="${d.trim()}" fill="none" stroke="${CHART.ink}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>${marks}</svg>`;
-}
-
 /* ---- render: lookup ---- */
 let CAP=80;
 function cardHTML(e,withInline){
@@ -1384,6 +1604,21 @@ function parsePermitDate(s){
   if(!m) return 0;
   return new Date(+m[3],+m[1]-1,+m[2]).getTime();
 }
+function getPermitRows(){
+  const sig=panelSig("permits");
+  if(permitRowsCache&&permitRowsSig===sig) return permitRowsCache;
+  const rows=[];
+  for(const [pid,pack] of Object.entries(PERMITS.parcels||{})){
+    for(const p of pack.permits||[]){
+      if(permitFilter==="pool"&&!p.is_pool) continue;
+      if(permitFilter==="building"&&p.type!=="BUILDING") continue;
+      rows.push({pid,address:pack.address||pid,permit:p,has_pool:pack.has_pool});
+    }
+  }
+  rows.sort((a,b)=>parsePermitDate(b.permit.date)-parsePermitDate(a.permit.date));
+  permitRowsCache=rows; permitRowsSig=sig;
+  return rows;
+}
 function renderPermits(){
   const stats=document.getElementById("permitsStats");
   const list=document.getElementById("permitsList");
@@ -1399,15 +1634,7 @@ function renderPermits(){
     ].map(s=>`<div class="permits-stat"><div class="n">${s.n}</div><div class="l">${s.l}</div></div>`).join("")
     :"";
   }
-  const rows=[];
-  for(const [pid,pack] of Object.entries(PERMITS.parcels||{})){
-    for(const p of pack.permits||[]){
-      if(permitFilter==="pool"&&!p.is_pool) continue;
-      if(permitFilter==="building"&&p.type!=="BUILDING") continue;
-      rows.push({pid,address:pack.address||pid,permit:p,has_pool:pack.has_pool});
-    }
-  }
-  rows.sort((a,b)=>parsePermitDate(b.permit.date)-parsePermitDate(a.permit.date));
+  const rows=getPermitRows();
   document.getElementById("permitsStatL").textContent=`${rows.length.toLocaleString()} permit${rows.length===1?"":"s"} shown`;
   document.getElementById("permitsStatR").textContent="";
   if(!complete){
@@ -1428,6 +1655,7 @@ function renderPermits(){
       <div class="pc-desc">${esc(p.description)}</div>
       <a class="pros-link pc-link" href="${prosUrl(r.pid)}" target="_blank" rel="noopener">PROS parcel ↗</a></div>`;
   }).join("")+(rows.length>120?`<div class="more-note">${(rows.length-120).toLocaleString()} more permits. Narrow the filter.</div>`:"");
+  touchPanel("permits");
 }
 function parseNewsDate(s){
   if(!s) return 0;
@@ -1478,6 +1706,7 @@ function renderNews(){
     <div class="nc-summary">${esc(it.summary||it.title_clean||it.title)}</div>
     ${links.length?`<div class="nc-links">${links.join("")}</div>`:""}</div>`;
   }).join("")+(items.length>80?`<div class="more-note">${(items.length-80).toLocaleString()} more. Narrow the board filter.</div>`:"");
+  touchPanel("news");
 }
 function detailHTML(e){
   const rows=YEARS_ASC().map(y=>{const p=e[y]; if(!p)return `<div class="row"><span class="k">${y}</span><span class="val" style="color:var(--ink-muted);font-style:italic">not on roll</span></div>`;
@@ -1486,7 +1715,6 @@ function detailHTML(e){
   const tax=estTax(a,curYear);
   const uni=store[curYear]?.meta?.uniform_pct_of_value;
   return `<div class="detail">
-    <div class="chartbox"><h4>Assessed value · ${YEARS_ASC().join(" → ")}</h4>${chartSVG(e)}</div>
     <div class="yeartbl"><div class="row head"><span class="k">Year</span><span class="val">Full market value</span></div>${rows}
       ${tax?`<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)"><h4 style="font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin:0 0 8px">Est. property tax · ${curYear} roll · FY ${tax.fy}</h4>${taxBreakdownHTML(tax)}<a class="pros-link" href="${prosUrl(e._pid)}" target="_blank" rel="noopener">Official bill on PROS ↗</a></div>`:""}
       ${exemptHTML(a)}
@@ -1508,11 +1736,12 @@ function renderLookup(raw){
   const total=list.length;
   document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${ledgerCount().toLocaleString()} parcels on the ${curYear} roll. Start typing.`;
   document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA. Run extract.py for the full roll</span>`:"";
-  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;return;}
+  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;touchPanel("lookup");return;}
   const shown=list.slice(0,CAP);
   box.innerHTML=shown.map((e,i)=>{let c=cardHTML(e);
     if(i===4)c+=affiliateNoticeHTML(1+Math.floor(Date.now()/864e5)%2);
     return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more. Narrow your search.</div>`:"");
+  touchPanel("lookup");
 }
 
 /* ---- render: Honor Roll ---- */
@@ -1699,13 +1928,25 @@ function buildHonor(year){
   };
 }
 
-function renderHonor(){
-  const g=document.getElementById('honorGrid');
-  if(!honorCache[curYear]) honorCache[curYear]=buildHonor(curYear);
+let honorRenderToken=0;
+function paintHonor(){
   const pack=honorCache[curYear];
+  if(!pack) return;
   HONOR_RANKS=pack.ranks;
   document.getElementById('hrCount').textContent=pack.count;
-  g.innerHTML=pack.html;
+  document.getElementById('honorGrid').innerHTML=pack.html;
+  touchPanel("honor");
+}
+function renderHonor(){
+  const g=document.getElementById('honorGrid');
+  if(honorCache[curYear]){paintHonor();return;}
+  const token=++honorRenderToken;
+  g.innerHTML=emptyHTML("Loading","Pulling superlatives from the roll.");
+  requestAnimationFrame(()=>{
+    if(token!==honorRenderToken) return;
+    honorCache[curYear]=buildHonor(curYear);
+    paintHonor();
+  });
 }
 
 /* ---- render: Browse / groupings ---- */
@@ -1734,6 +1975,12 @@ function renderBrowseQuick(ents){
       `</div>`;
   } else el.innerHTML="";
   document.getElementById("streetFilterWrap").style.display=groupMode==="street"?"block":"none";
+}
+function browseListHTML(list){
+  const sorted=list.slice().sort(cmpAddr);
+  const shown=sorted.slice(0,BROWSE_GROUP_CAP);
+  return shown.map(e=>cardHTML(e)).join("")+
+    (sorted.length>BROWSE_GROUP_CAP?`<div class="more-note">${(sorted.length-BROWSE_GROUP_CAP).toLocaleString()} more in this group. Narrow the filter.</div>`:"");
 }
 function renderBrowse(){
   const ents=Object.values(index).filter(e=>e[curYear]); const wrap=document.getElementById('groups');
@@ -1765,13 +2012,16 @@ function renderBrowse(){
     browseFilter?`${groups[browseFilter]?.list.length||0} parcels in ${browseFilter}`:
     `${keys.length} ${groupMode==="band"?"bands":groupMode==="school"?"zones":groupMode==="class"?"types":"streets"} · ${ents.length.toLocaleString()} parcels`;
   document.getElementById('bStatR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA</span>`:"";
-  if(!keys.length){wrap.innerHTML=`<div class="empty"><div class="lead">Nothing here.</div>Try another zone, band, or street filter.</div>`;return;}
+  if(!keys.length){wrap.innerHTML=`<div class="empty"><div class="lead">Nothing here.</div>Try another zone, band, or street filter.</div>`;touchPanel("browse");return;}
+  browseGroupsCache=groups;
+  const eager=keys.length===1;
   wrap.innerHTML=keys.map((k,gi)=>{const G=groups[k];const avg=G.sum/G.list.length;
-    const list=G.list.slice().sort(cmpAddr);
-    const inner=list.map(e=>cardHTML(e)).join("");
+    const loadNow=eager||(gi===0&&!browseFilter);
+    const inner=loadNow?browseListHTML(G.list):`<div class="browse-lazy" data-k="${esc(k)}"></div>`;
     const title=groupMode==="band"?(bandLabels[k]||k):groupMode==="school"?k+" Elementary":titleCase(k===k.toUpperCase()?k:k);
-    return `<div class="group${gi===0?" open":""}" data-k="${esc(k)}"><h3>${esc(title)} <span class="gstat">${G.list.length} parcels · ${fmtShort(G.sum)} total · ${fmtShort(avg)} avg <span class="caret">▸</span></span></h3><div class="glist">${inner}</div></div>`;
+    return `<div class="group${loadNow?" open":""}" data-k="${esc(k)}"><h3>${esc(title)} <span class="gstat">${G.list.length} parcels · ${fmtShort(G.sum)} total · ${fmtShort(avg)} avg <span class="caret">▸</span></span></h3><div class="glist">${inner}</div></div>`;
   }).join("");
+  touchPanel("browse");
 }
 
 /* ---- seal (hand-built emblem) ---- */
@@ -1800,8 +2050,8 @@ function buildSeal(){
 }
 
 /* ---- events ---- */
-let tmr;
-document.getElementById('q').addEventListener('input',e=>{clearTimeout(tmr);CAP=80;tmr=setTimeout(()=>{renderLookup(e.target.value);syncUrl();},100);});
+let tmr,streetTmr;
+document.getElementById('q').addEventListener('input',e=>{clearTimeout(tmr);CAP=80;tmr=setTimeout(()=>{queuePanelRender("lookup",true);syncUrl();},120);});
 document.querySelectorAll('.sections button, .app-tabbar button').forEach(b=>b.addEventListener('click',()=>setPanel(b.dataset.panel)));
 document.getElementById('honorGrid').addEventListener('click',e=>{
   const b=e.target.closest('[data-honor]'); if(b) openHonorModal(b.dataset.honor);
@@ -1813,23 +2063,27 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape') closeHonorModal();}
 document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
 document.querySelectorAll('#groupFacets .fbtn').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  groupMode=b.dataset.group; browseFilter=null; streetFilterText=""; renderBrowse();}));
+  groupMode=b.dataset.group; browseFilter=null; streetFilterText=""; invalidatePanels("browse"); renderBrowse();}));
 document.getElementById('browseQuick').addEventListener('click',e=>{
   const b=e.target.closest('.qbtn'); if(!b)return;
   browseFilter=b.dataset.filter||null;
   document.querySelectorAll('#browseQuick .qbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  renderBrowse();});
+  invalidatePanels("browse"); renderBrowse();});
 document.getElementById('streetFilter').addEventListener('input',e=>{
-  streetFilterText=e.target.value.trim(); renderBrowse();});
+  streetFilterText=e.target.value.trim();
+  clearTimeout(streetTmr);
+  streetTmr=setTimeout(()=>{invalidatePanels("browse");queuePanelRender("browse",true);},150);});
 document.getElementById('permitsFacets').addEventListener('click',e=>{
   const b=e.target.closest('[data-permit-filter]'); if(!b)return;
   permitFilter=b.dataset.permitFilter;
   document.querySelectorAll('#permitsFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  invalidatePanels("permits");
   renderPermits();});
 document.getElementById('newsFacets').addEventListener('click',e=>{
   const b=e.target.closest('[data-news-filter]'); if(!b)return;
   newsFilter=b.dataset.newsFilter;
   document.querySelectorAll('#newsFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  invalidatePanels("news");
   renderNews();});
 document.getElementById('quickpick').addEventListener('click',e=>{
   const b=e.target.closest('button[data-q]'); if(!b)return;
@@ -1847,7 +2101,16 @@ function bindCardClicks(container){container.addEventListener('click',e=>{
 bindCardClicks(document.getElementById('results'));
 bindCardClicks(document.getElementById('groups'));
 document.getElementById('groups').addEventListener('click',e=>{
-  const h=e.target.closest('.group > h3'); if(h)h.parentElement.classList.toggle('open');});
+  const h=e.target.closest('.group > h3'); if(!h) return;
+  const g=h.parentElement;
+  g.classList.toggle('open');
+  if(!g.classList.contains('open')) return;
+  const lazy=g.querySelector('.browse-lazy');
+  if(!lazy) return;
+  const k=lazy.dataset.k;
+  const G=browseGroupsCache?.[k];
+  if(G) lazy.outerHTML=browseListHTML(G.list);
+});
 
 boot();
 </script>

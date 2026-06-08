@@ -1,0 +1,20 @@
+{
+  "name": "The Dale Ledger",
+  "short_name": "Dale Ledger",
+  "description": "Search Scarsdale NY assessment rolls, property tax estimates, elementary school zones, building permits, and board news.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f6f1",
+  "theme_color": "#f8f6f1",
+  "lang": "en-US",
+  "categories": ["news", "finance", "utilities"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
