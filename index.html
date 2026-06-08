@@ -956,10 +956,10 @@
     <div class="facet-set">
       <span class="flab">Group by</span>
       <div class="facets" id="groupFacets">
-        <button class="fbtn" data-group="school" aria-pressed="true">Elementary school</button>
-        <button class="fbtn" data-group="band">Value band</button>
-        <button class="fbtn" data-group="street">Street</button>
-        <button class="fbtn" data-group="class">Property type</button>
+        <button type="button" class="fbtn" data-group="school" aria-pressed="true">Elementary school</button>
+        <button type="button" class="fbtn" data-group="band">Value band</button>
+        <button type="button" class="fbtn" data-group="street">Street</button>
+        <button type="button" class="fbtn" data-group="class">Property type</button>
       </div>
     </div>
     <div id="browseQuick" class="browse-quick"></div>
@@ -1308,18 +1308,20 @@ function syncNewsFacets(){
   const counts=newsBoardCounts();
   document.querySelectorAll("#newsFacets [data-news-filter]").forEach(btn=>{
     const k=btn.getAttribute("data-news-filter");
-    if(!k) return;
+    if(k==null) return;
     btn.setAttribute("aria-pressed",k===newsFilter?"true":"false");
-    const n=counts[k]??0;
+    const n=k==="all"?(counts.all??0):(counts[k]??0);
     btn.innerHTML=`${NEWS_BOARD_LABELS[k]||k}<span class="qcount">${n}</span>`;
   });
 }
 function setNewsFilter(f){
   if(!NEWS_BOARDS.includes(f)) f="all";
+  if(f===newsFilter&&activePanel()==="news"){syncNewsFacets();return;}
   newsFilter=f;
   syncNewsFacets();
   invalidatePanels("news");
-  queuePanelRender("news",true);
+  if(activePanel()==="news") renderNews();
+  else queuePanelRender("news",true);
   syncUrl();
 }
 const titleCase=s=>(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Ny|Llc|Iii|Ii)\b/g,m=>m.toUpperCase());
@@ -1494,6 +1496,15 @@ function applyUrlState(initial){
   const board=params.get("board");
   if(board&&NEWS_BOARDS.includes(board)) newsFilter=board;
   else if(pan!=="news") newsFilter="all";
+  const zone=params.get("zone"), band=params.get("band");
+  if(pan==="browse"){
+    if(zone&&(zone==="Unzoned"||SCHOOLS.includes(zone))){groupMode="school";browseFilter=zone;}
+    else if(band&&VALUE_BANDS.some(b=>b.id===band)){groupMode="band";browseFilter=band;}
+    else if(!zone&&!band) browseFilter=null;
+    document.querySelectorAll("#groupFacets .fbtn").forEach(b=>{
+      b.setAttribute("aria-pressed",b.dataset.group===groupMode?"true":"false");
+    });
+  }else if(pan!=="browse") browseFilter=null;
   syncNewsFacets();
   document.querySelectorAll(".sections button, .app-tabbar button").forEach(b=>{
     b.setAttribute("aria-current",b.dataset.panel===pan?"true":"false");
@@ -1543,6 +1554,10 @@ function syncUrl(){
   p.set("year",String(curYear));
   const panel=activePanel(); if(panel!=="lookup") p.set("panel",panel);
   if(panel==="news"&&newsFilter!=="all") p.set("board",newsFilter);
+  if(panel==="browse"&&browseFilter){
+    if(groupMode==="school") p.set("zone",browseFilter);
+    else if(groupMode==="band") p.set("band",browseFilter);
+  }
   const q=document.getElementById("q").value.trim(); if(q) p.set("q",q);
   const open=document.querySelector("#results .card .detail")?.closest(".card")?.dataset?.pid;
   if(open) p.set("parcel",open);
@@ -2115,22 +2130,36 @@ function valueBand(v){
   for(const b of VALUE_BANDS) if(v>=b.min&&v<b.max) return b.id;
   return "$10M +";
 }
+function browseFilterFromAttr(raw){
+  return raw==null||raw===""?null:raw;
+}
+function setBrowseFilter(raw){
+  const next=browseFilterFromAttr(raw);
+  if(next===browseFilter&&activePanel()==="browse") return;
+  browseFilter=next;
+  invalidatePanels("browse");
+  if(activePanel()==="browse"){
+    renderBrowse();
+    document.getElementById("groups")?.scrollIntoView({block:"nearest",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+  }else queuePanelRender("browse",true);
+  syncUrl();
+}
 function renderBrowseQuick(ents){
   const el=document.getElementById("browseQuick");
   if(groupMode==="school"){
     const counts={}; for(const sc of SCHOOLS) counts[sc]=0; counts.Unzoned=0;
     ents.forEach(e=>{counts[e._school]=(counts[e._school]||0)+1;});
     el.innerHTML=`<span class="flab">Pick a zone</span><div class="facets">`+
-      `<button class="fbtn qbtn" data-filter="" aria-pressed="${!browseFilter}">All <span class="qcount">${ents.length}</span></button>`+
-      SCHOOLS.map(sc=>`<button class="fbtn qbtn" data-filter="${sc}" aria-pressed="${browseFilter===sc}">${sc} <span class="qcount">${counts[sc]||0}</span></button>`).join("")+
-      (counts.Unzoned?`<button class="fbtn qbtn" data-filter="Unzoned" aria-pressed="${browseFilter==="Unzoned"}">Unzoned <span class="qcount">${counts.Unzoned}</span></button>`:"")+
+      `<button type="button" class="fbtn qbtn" data-filter="" aria-pressed="${browseFilter?"false":"true"}">All <span class="qcount">${ents.length}</span></button>`+
+      SCHOOLS.map(sc=>`<button type="button" class="fbtn qbtn" data-filter="${esc(sc)}" aria-pressed="${browseFilter===sc?"true":"false"}">${sc} <span class="qcount">${counts[sc]||0}</span></button>`).join("")+
+      (counts.Unzoned?`<button type="button" class="fbtn qbtn" data-filter="Unzoned" aria-pressed="${browseFilter==="Unzoned"?"true":"false"}">Unzoned <span class="qcount">${counts.Unzoned}</span></button>`:"")+
       `</div>`;
   } else if(groupMode==="band"){
     const counts={}; VALUE_BANDS.forEach(b=>counts[b.id]=0); counts.Unknown=0;
     ents.forEach(e=>{const b=valueBand(e[curYear]?.full_market); counts[b]=(counts[b]||0)+1;});
     el.innerHTML=`<span class="flab">Pick a value band (full market value)</span><div class="facets">`+
-      `<button class="fbtn qbtn" data-filter="" aria-pressed="${!browseFilter}">All <span class="qcount">${ents.length}</span></button>`+
-      VALUE_BANDS.map(b=>`<button class="fbtn qbtn" data-filter="${b.id}" aria-pressed="${browseFilter===b.id}" title="${b.desc}">${b.label} <span class="qcount">${counts[b.id]||0}</span></button>`).join("")+
+      `<button type="button" class="fbtn qbtn" data-filter="" aria-pressed="${browseFilter?"false":"true"}">All <span class="qcount">${ents.length}</span></button>`+
+      VALUE_BANDS.map(b=>`<button type="button" class="fbtn qbtn" data-filter="${esc(b.id)}" aria-pressed="${browseFilter===b.id?"true":"false"}" title="${esc(b.desc)}">${b.label} <span class="qcount">${counts[b.id]||0}</span></button>`).join("")+
       `</div>`;
   } else el.innerHTML="";
   document.getElementById("streetFilterWrap").style.display=groupMode==="street"?"block":"none";
@@ -2173,6 +2202,12 @@ function renderBrowse(){
   document.getElementById('bStatR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA</span>`:"";
   if(!keys.length){wrap.innerHTML=`<div class="empty"><div class="lead">Nothing here.</div>Try another zone, band, or street filter.</div>`;touchPanel("browse");return;}
   browseGroupsCache=groups;
+  if(browseFilter&&(groupMode==="school"||groupMode==="band")){
+    const list=groups[browseFilter]?.list||[];
+    wrap.innerHTML=list.length?browseListHTML(list):`<div class="empty"><div class="lead">Nothing here.</div>Try another zone or band.</div>`;
+    touchPanel("browse");
+    return;
+  }
   const eager=keys.length===1;
   wrap.innerHTML=keys.map((k,gi)=>{const G=groups[k];const avg=G.sum/G.list.length;
     const loadNow=eager||(gi===0&&!browseFilter);
@@ -2221,13 +2256,19 @@ document.getElementById('hrModal').addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{if(e.key==='Escape') closeHonorModal();});
 document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
 document.querySelectorAll('#groupFacets .fbtn').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  groupMode=b.dataset.group; browseFilter=null; streetFilterText=""; invalidatePanels("browse"); renderBrowse();}));
+  document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b?"true":"false"));
+  groupMode=b.dataset.group; browseFilter=null; streetFilterText="";
+  document.getElementById("streetFilter").value="";
+  invalidatePanels("browse");
+  if(activePanel()==="browse") renderBrowse();
+  else queuePanelRender("browse",true);
+  syncUrl();
+}));
 document.getElementById('browseQuick').addEventListener('click',e=>{
-  const b=e.target.closest('.qbtn'); if(!b)return;
-  browseFilter=b.dataset.filter||null;
-  document.querySelectorAll('#browseQuick .qbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
-  invalidatePanels("browse"); renderBrowse();});
+  const b=e.target.closest('.qbtn'); if(!b||!document.getElementById('browseQuick').contains(b)) return;
+  e.preventDefault();
+  setBrowseFilter(b.getAttribute('data-filter'));
+});
 document.getElementById('streetFilter').addEventListener('input',e=>{
   streetFilterText=e.target.value.trim();
   clearTimeout(streetTmr);
