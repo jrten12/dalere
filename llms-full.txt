@@ -116,7 +116,3 @@ Superlatives include: highest full market value, highest estimated tax, highest 
 ## Citation format
 
 "The Dale Ledger (https://daleledger.com/), unofficial Scarsdale assessment almanac, compiled from Village assessment rolls. Confirm on PROS."
-
-## Repository
-
-https://github.com/jrten12/dalere

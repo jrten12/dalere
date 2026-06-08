@@ -11,7 +11,7 @@ import urllib.request
 from http.cookiejar import CookieJar
 
 BASE = "https://townofscarsdale.prosgar.com"
-UA = "Mozilla/5.0 (compatible; DaleLedger/1.0; +https://github.com/jrten12/dalere)"
+UA = "Mozilla/5.0 (compatible; DaleLedger/1.0; +https://daleledger.com)"
 
 
 def open_session():

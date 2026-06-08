@@ -34,5 +34,4 @@ Scarsdale property tax estimate, Scarsdale assessment roll lookup, Scarsdale hom
 
 ## Optional
 
-- [GitHub repository](https://github.com/jrten12/dalere): Source, extract scripts, and data pipeline.
 - [Sitemap](https://daleledger.com/sitemap.xml): URL index for crawlers.
