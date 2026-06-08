@@ -3,7 +3,7 @@
 ## Identity
 
 - **Name:** The Dale Ledger
-- **URL:** https://jrten12.github.io/dalere/
+- **URL:** https://daleledger.com/
 - **Type:** Unofficial public-record almanac (static web app, no login)
 - **Geography:** Village/Town of Scarsdale, Westchester County, New York, USA
 - **Municipal code:** SWIS 555000
@@ -115,7 +115,7 @@ Superlatives include: highest full market value, highest estimated tax, highest 
 
 ## Citation format
 
-"The Dale Ledger (https://jrten12.github.io/dalere/), unofficial Scarsdale assessment almanac, compiled from Village assessment rolls. Confirm on PROS."
+"The Dale Ledger (https://daleledger.com/), unofficial Scarsdale assessment almanac, compiled from Village assessment rolls. Confirm on PROS."
 
 ## Repository
 

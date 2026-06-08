@@ -8,25 +8,25 @@ Official figures: confirm on [PROS](https://townofscarsdale.prosgar.com/) and pu
 
 ## Main app
 
-- [Home / Property search](https://jrten12.github.io/dalere/): Smart lookup by address, owner name, parcel ID, school zone, value band, or tax range. Example queries: `heathcote over 3m`, `tax over 80k`, `palmer ave`, `biggest tax`.
-- [Honor Roll](https://jrten12.github.io/dalere/?panel=honor): Editorial superlatives — highest assessed, biggest tax bill, largest lot, street dynasties, year-over-year movers.
-- [Browse the roll](https://jrten12.github.io/dalere/?panel=browse): Slice ~5,500 residential parcels by elementary zone, full-market value band, street, or property type.
-- [Permits](https://jrten12.github.io/dalere/?panel=permits): Building, plumbing, pool, and street permits from village PROS records.
-- [Board news](https://jrten12.github.io/dalere/?panel=news): Planning Board, BAR, ZBA, Historic Preservation agendas plus recent permit activity.
+- [Home / Property search](https://daleledger.com/): Smart lookup by address, owner name, parcel ID, school zone, value band, or tax range. Example queries: `heathcote over 3m`, `tax over 80k`, `palmer ave`, `biggest tax`.
+- [Honor Roll](https://daleledger.com/?panel=honor): Editorial superlatives — highest assessed, biggest tax bill, largest lot, street dynasties, year-over-year movers.
+- [Browse the roll](https://daleledger.com/?panel=browse): Slice ~5,500 residential parcels by elementary zone, full-market value band, street, or property type.
+- [Permits](https://daleledger.com/?panel=permits): Building, plumbing, pool, and street permits from village PROS records.
+- [Board news](https://daleledger.com/?panel=news): Planning Board, BAR, ZBA, Historic Preservation agendas plus recent permit activity.
 
 ## Data files (JSON, public record derivatives)
 
-- [2026 roll](https://jrten12.github.io/dalere/data/2026.json): Tentative assessment roll parcels and assessed values.
-- [2025 roll](https://jrten12.github.io/dalere/data/2025.json): Final assessment roll.
-- [2024 roll](https://jrten12.github.io/dalere/data/2024.json): Tentative assessment roll.
-- [School zone map](https://jrten12.github.io/dalere/data/schools.json): Street-to-elementary-zone mapping (Edgewood, Fox Meadow, Greenacres, Heathcote, Quaker Ridge).
-- [Tax rate reference](https://jrten12.github.io/dalere/data/tax_rates.json): County, village, and school mill rates for estimates.
-- [Permits index](https://jrten12.github.io/dalere/data/permits.json): PROS permit scrape by parcel.
-- [Board news feed](https://jrten12.github.io/dalere/data/news.json): Agenda center and permit headlines.
+- [2026 roll](https://daleledger.com/data/2026.json): Tentative assessment roll parcels and assessed values.
+- [2025 roll](https://daleledger.com/data/2025.json): Final assessment roll.
+- [2024 roll](https://daleledger.com/data/2024.json): Tentative assessment roll.
+- [School zone map](https://daleledger.com/data/schools.json): Street-to-elementary-zone mapping (Edgewood, Fox Meadow, Greenacres, Heathcote, Quaker Ridge).
+- [Tax rate reference](https://daleledger.com/data/tax_rates.json): County, village, and school mill rates for estimates.
+- [Permits index](https://daleledger.com/data/permits.json): PROS permit scrape by parcel.
+- [Board news feed](https://daleledger.com/data/news.json): Agenda center and permit headlines.
 
 ## Full agent documentation
 
-- [llms-full.txt](https://jrten12.github.io/dalere/llms-full.txt): Complete capability guide, query grammar, disclaimers, and citation guidance for AI systems.
+- [llms-full.txt](https://daleledger.com/llms-full.txt): Complete capability guide, query grammar, disclaimers, and citation guidance for AI systems.
 
 ## Topics this site answers
 
@@ -35,4 +35,4 @@ Scarsdale property tax estimate, Scarsdale assessment roll lookup, Scarsdale hom
 ## Optional
 
 - [GitHub repository](https://github.com/jrten12/dalere): Source, extract scripts, and data pipeline.
-- [Sitemap](https://jrten12.github.io/dalere/sitemap.xml): URL index for crawlers.
+- [Sitemap](https://daleledger.com/sitemap.xml): URL index for crawlers.

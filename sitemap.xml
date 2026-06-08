@@ -2,87 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://jrten12.github.io/dalere/</loc>
+    <loc>https://daleledger.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?panel=lookup</loc>
+    <loc>https://daleledger.com/?panel=lookup</loc>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?panel=honor</loc>
+    <loc>https://daleledger.com/?panel=honor</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?panel=browse</loc>
+    <loc>https://daleledger.com/?panel=browse</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?panel=permits</loc>
+    <loc>https://daleledger.com/?panel=permits</loc>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?panel=news</loc>
+    <loc>https://daleledger.com/?panel=news</loc>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?year=2026</loc>
+    <loc>https://daleledger.com/?year=2026</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?year=2025</loc>
+    <loc>https://daleledger.com/?year=2025</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?year=2024</loc>
+    <loc>https://daleledger.com/?year=2024</loc>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?q=heathcote</loc>
+    <loc>https://daleledger.com/?q=heathcote</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?q=edgewood</loc>
+    <loc>https://daleledger.com/?q=edgewood</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?q=fox%20meadow</loc>
+    <loc>https://daleledger.com/?q=fox%20meadow</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?q=greenacres</loc>
+    <loc>https://daleledger.com/?q=greenacres</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?q=quaker%20ridge</loc>
+    <loc>https://daleledger.com/?q=quaker%20ridge</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/?q=over%203m</loc>
+    <loc>https://daleledger.com/?q=over%203m</loc>
     <changefreq>weekly</changefreq>
     <priority>0.65</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/llms.txt</loc>
+    <loc>https://daleledger.com/llms.txt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://jrten12.github.io/dalere/llms-full.txt</loc>
+    <loc>https://daleledger.com/llms-full.txt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

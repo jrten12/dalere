@@ -51,7 +51,7 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://jrten12.github.io/dalere/sitemap.xml
+Sitemap: https://daleledger.com/sitemap.xml
 
 # Agent-readable site index (llms.txt convention)
 # https://llmstxt.org/
