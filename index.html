@@ -237,8 +237,6 @@
     display:flex;gap:24px;flex-wrap:wrap;padding-top:6px;line-height:1.5}.meta-extra b{color:var(--ink);font-weight:600}
 
   /* honor roll */
-  .hr-intro{text-align:center;max-width:640px;margin:24px auto 8px;font-family:'Newsreader',Georgia,serif;
-    font-style:italic;font-size:18px;color:var(--ink-2);line-height:1.6}
   .hr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin-top:20px;
     border-top:2px solid var(--rule);border-left:1px solid var(--line)}
   .award{padding:22px 24px 24px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);
@@ -252,21 +250,6 @@
   .award .winner{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:19px;color:var(--ink);line-height:1.25;margin-top:4px}
   .award .stat{font-family:'Archivo',sans-serif;font-size:13px;font-weight:600;color:var(--ink-muted);margin-top:4px;font-variant-numeric:tabular-nums}
   .award .quip{font-family:'Newsreader',Georgia,serif;font-style:italic;font-size:16px;color:var(--ink-2);margin-top:10px;line-height:1.55}
-  .hr-nonsibi{text-align:center;max-width:640px;margin:0 auto 4px;font-family:'Newsreader',Georgia,serif;
-    font-size:15px;color:var(--ink-2);line-height:1.55}
-  .hr-nonsibi b{color:var(--claret);font-weight:700;letter-spacing:.01em}
-  .hr-civic{margin-top:24px;border:1px solid var(--line);border-top:3px solid var(--claret);
-    background:var(--sheet);padding:22px 24px}
-  .hr-civic-label{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--claret);margin-bottom:6px}
-  .hr-civic h3{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:22px;color:var(--ink);margin:0 0 12px;line-height:1.2}
-  .hr-civic ul{margin:0;padding:0;list-style:none}
-  .hr-civic li{font-family:'Newsreader',Georgia,serif;font-size:16px;color:var(--ink-2);line-height:1.55;
-    padding:9px 0;border-bottom:1px dotted var(--line)}
-  .hr-civic li:last-child{border-bottom:none}
-  .hr-civic li b{color:var(--ink);font-weight:700}
-  .hr-civic-note{margin:14px 0 0;font-family:'Archivo',sans-serif;font-size:12px;color:var(--ink-muted);line-height:1.5}
-
   /* browse / facets */
   .facets{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 8px}
   .facet-set{margin-bottom:8px}
@@ -550,18 +533,10 @@
     .chip{font-size:12px;padding:6px 12px;border-radius:999px}
 
     /* honor roll, card stack */
-    .hr-intro{
-      font-size:16px;line-height:1.5;text-align:left;margin:10px 0 6px;padding:0;
-      color:var(--ink-2);
-    }
     .hr-grid{
       display:flex;flex-direction:column;gap:12px;
       margin-top:12px;border:none;
     }
-    .hr-nonsibi{text-align:left;font-size:14px;margin:8px 0 4px}
-    .hr-civic{border-radius:var(--ios-radius);box-shadow:var(--ios-shadow);padding:18px 16px;margin-top:18px}
-    .hr-civic h3{font-size:20px}
-    .hr-civic li{font-size:15px}
     .award{
       border-radius:var(--ios-radius);border:1px solid var(--line);
       border-right:1px solid var(--line);
@@ -722,11 +697,11 @@
     </div>
     <div class="statline"><span id="statL">Start typing to search the roll.</span><span id="statR"></span></div>
     <div id="results"></div>
+    <div id="lookupAd"></div>
   </section>
 
   <!-- ============ HONOR ROLL ============ -->
   <section class="panel" id="panel-honor">
-    <p class="hr-intro">Thirteen superlatives pulled straight from the public assessment roll, the same roll the whole village has argued about since the revaluations of 2014 and 2016. These figures are already public record. Nothing here is meant to flatter anyone or put them on the spot. It is just Scarsdale, counted up.</p>
     <div class="statline" style="margin-top:12px;border:none;padding-bottom:0"><span id="hrCount"></span><span></span></div>
     <div class="hr-grid" id="honorGrid"></div>
     <div id="honorAd" style="margin-top:20px"></div>
@@ -750,6 +725,7 @@
     </div>
     <div class="statline"><span id="bStatL"></span><span id="bStatR"></span></div>
     <div id="groups"></div>
+    <div id="browseAd"></div>
   </section>
 
   <!-- ============ PERMITS ============ -->
@@ -760,15 +736,16 @@
     <div class="permits-facets" id="permitsFacets">
       <button class="fbtn" data-permit-filter="pool" aria-pressed="true">Pools</button>
       <button class="fbtn" data-permit-filter="building" aria-pressed="false">Building</button>
-      <button class="fbtn" data-permit-filter="all" aria-pressed="false">All scraped</button>
+      <button class="fbtn" data-permit-filter="all" aria-pressed="false">All permits</button>
     </div>
     <div class="statline"><span id="permitsStatL"></span><span id="permitsStatR"></span></div>
     <div class="permit-list" id="permitsList"></div>
+    <div id="permitsAd"></div>
   </section>
 
   <!-- ============ BOARD NEWS ============ -->
   <section class="panel" id="panel-news">
-    <p class="news-intro">Planning, architectural review, zoning appeals, and historic preservation — plus recent building permits from PROS. Pulled from the village agenda center and refreshed when you run the scraper.</p>
+    <p class="news-intro">Planning, architectural review, zoning appeals, and historic preservation — plus recent building permits from PROS, pulled from the village agenda center.</p>
     <p class="news-note" id="newsNote">Sourced from scarsdale.gov agenda center and PROS building permits.</p>
     <div class="permits-facets" id="newsFacets">
       <button class="fbtn" data-news-filter="all" aria-pressed="true">All</button>
@@ -780,6 +757,7 @@
     </div>
     <div class="statline"><span id="newsStatL"></span><span id="newsStatR"></span></div>
     <div class="news-list" id="newsList"></div>
+    <div id="newsAd"></div>
   </section>
   </main>
 
@@ -823,13 +801,16 @@
     <div class="fineprint">
       Source: Village of Scarsdale Assessor, Tentative &amp; Final Assessment Rolls (<a href="https://www.scarsdale.gov/833/Assessment-Rolls" target="_blank" rel="noopener">scarsdale.gov</a>). Official parcel lookup: <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>. Elementary zones mapped from NCES attendance boundaries (<a href="https://www.scarsdaleschools.org/registration" target="_blank" rel="noopener">district map</a>). Owner names appear as published in the roll.
     </div>
-    <aside class="disclaimer" aria-label="Terms of use">
-      <div class="disclaimer-label">Terms of use</div>
-      <p>The Dale Ledger is an independent, unofficial site. It is not affiliated with, endorsed by, or operated by the Village/Town of Scarsdale, the Scarsdale Union Free School District, Westchester County, or any government agency.</p>
-      <p>Roll data, tax estimates, school-zone labels, charts, and Honor Roll content may be incomplete, outdated, or wrong. Estimates are not official tax bills. Superlatives are editorial. Nothing here is legal, tax, financial, or real estate advice. Verify every figure with official sources (including <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a> and the published rolls) before you rely on it.</p>
-      <p class="caps">The site is provided &ldquo;as is&rdquo; and &ldquo;as available,&rdquo; without warranties of any kind, express or implied, including merchantability, fitness for a particular purpose, accuracy, or non-infringement, to the fullest extent permitted by applicable law.</p>
-      <p class="caps">To the maximum extent permitted by the laws of the State of New York, the site operators shall not be liable for any direct, indirect, incidental, consequential, or special damages arising from your access to or use of this site, even if advised of the possibility of such damages.</p>
-      <p>By viewing or using this site, you agree to these terms. If you do not agree, do not use the site. These terms are governed by the laws of the State of New York, without regard to conflict-of-law rules. You consent to the exclusive jurisdiction of the state and federal courts located in Westchester County, New York, for any dispute relating to these terms or your use of the site.</p>
+    <aside class="disclaimer" aria-label="Legal disclaimer">
+      <div class="disclaimer-label">Legal disclaimer</div>
+      <p>The Dale Ledger is an independent, unofficial website. It is not affiliated with, endorsed by, sponsored by, or operated by the Village/Town of Scarsdale, the Scarsdale Union Free School District, Westchester County, New York State, the United States government, or any public agency. Nothing on this site is an official government record, notice, or communication.</p>
+      <p>All roll figures, tax estimates, school-zone labels, permit listings, board-news summaries, charts, rankings, and Honor Roll content are provided for general information and local curiosity only. Data may be incomplete, scraped incorrectly, out of date, mislabeled, or otherwise wrong. Tax figures are estimates, not bills. Superlatives and editorial copy are opinion, not fact. Owner names and addresses appear as published in public records; their display here is not an endorsement, investigation, or commentary on any person or property.</p>
+      <p>Nothing on this site constitutes legal, tax, accounting, financial, appraisal, insurance, or real estate advice. Do not use this site to make purchase, sale, financing, grievance, zoning, permitting, or tax-payment decisions. Confirm every material figure with official sources, including <a href="https://townofscarsdale.prosgar.com/" target="_blank" rel="noopener">PROS</a>, published assessment rolls, your tax bill, and qualified professionals.</p>
+      <p>Third-party links, including affiliate links, are provided for convenience only. We do not control and are not responsible for external sites, products, prices, availability, or policies.</p>
+      <p class="caps">The site and all content are provided &ldquo;as is&rdquo; and &ldquo;as available,&rdquo; without warranties of any kind, whether express, implied, statutory, or otherwise, including warranties of merchantability, fitness for a particular purpose, title, accuracy, completeness, timeliness, or non-infringement, to the fullest extent permitted by applicable law.</p>
+      <p class="caps">To the maximum extent permitted by law, the site owners, operators, contributors, and affiliates disclaim all liability for any loss, injury, claim, or damage of any kind arising from or related to your access to, use of, reliance on, inability to use, or interruption of this site or its content, including direct, indirect, incidental, consequential, special, exemplary, and punitive damages, and damages for lost profits, lost data, business interruption, or reputational harm, whether based in contract, tort, negligence, strict liability, or otherwise, even if advised of the possibility of such damages.</p>
+      <p class="caps">You use this site at your own risk. You are solely responsible for how you interpret and use the information shown here.</p>
+      <p>By accessing or using this site in any manner, you agree to this disclaimer and these terms of use. If you do not agree, you must not use the site. These terms are governed by the laws of the State of New York, without regard to conflict-of-law principles. You agree that any dispute arising out of or relating to this site or these terms shall be brought exclusively in the state or federal courts located in Westchester County, New York, and you consent to personal jurisdiction and venue in those courts.</p>
     </aside>
   </footer>
 </div>
@@ -882,7 +863,7 @@ const AFFILIATE_ADS=[
 ];
 function affiliateNoticeHTML(slot){
   const ads=AFFILIATE_ADS;
-  const i=typeof slot==="number"?slot%ads.length:Math.floor(Math.random()*ads.length);
+  const i=typeof slot==="number"?((slot%ads.length)+ads.length)%ads.length:Math.floor(Math.random()*ads.length);
   const ad=ads[i];
   return `<div class="notice notice-affiliate" data-aff="${i}"><span class="tag-ad">Affiliate</span><a href="${AFFILIATE_LINK}" target="_blank" rel="sponsored noopener noreferrer">
     <span class="aff-kicker">Amazon</span>
@@ -890,6 +871,14 @@ function affiliateNoticeHTML(slot){
     <b class="aff-title">${esc(ad.title)}</b>
     <span class="aff-sub">${esc(ad.sub)}</span>
     <span class="aff-cta">${esc(ad.cta)} ↗</span></a></div>`;
+}
+const AFFILIATE_SLOT_IDS=["lookupAd","honorAd","browseAd","permitsAd","newsAd"];
+function fillAffiliateAds(){
+  const base=Math.floor(Date.now()/864e5)%2;
+  AFFILIATE_SLOT_IDS.forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el) el.innerHTML=affiliateNoticeHTML(base+i);
+  });
 }
 const VALUE_BANDS=[
   {id:"Under $1M",label:"Under $1M",desc:"Full market under $1 million",min:0,max:1e6},
@@ -986,6 +975,9 @@ let HONOR_RANKS={}, honorCache={};
 const fmtUSD=n=>n==null?"n/a":"$"+Math.round(n).toLocaleString("en-US");
 const fmtShort=n=>n==null?"n/a":n>=1e6?"$"+(n/1e6).toFixed(n>=1e7?1:2)+"M":n>=1e3?"$"+Math.round(n/1e3)+"k":"$"+n;
 const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function emptyHTML(lead,sub){
+  return `<div class="empty"><div class="lead">${esc(lead)}</div>${sub?`<div style="margin-top:8px;font-family:'Newsreader',Georgia,serif;font-size:15px;color:var(--ink-2);line-height:1.45">${esc(sub)}</div>`:""}</div>`;
+}
 const titleCase=s=>(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Ny|Llc|Iii|Ii)\b/g,m=>m.toUpperCase());
 function streetOf(addr){ if(!addr) return ""; return addr.replace(/^\s*\d+[A-Z]?\s+/,"").trim().toUpperCase(); }
 function houseParts(addr){
@@ -1116,8 +1108,7 @@ async function boot(){
     e._school=schoolOf(e._addr); e._class=a?classOf(a):"Other";
   }
   buildSeal();
-  const honorAd=document.getElementById('honorAd');
-  if(honorAd) honorAd.innerHTML=affiliateNoticeHTML(Math.floor(Date.now()/864e5)%2);
+  fillAffiliateAds();
   applyUrlState(true);
   const warm=()=>{for(const y of YEARS) if(!honorCache[y]) honorCache[y]=buildHonor(y);};
   (window.requestIdleCallback||((fn)=>setTimeout(fn,120)))(warm);
@@ -1406,7 +1397,7 @@ function renderPermits(){
       {n:(m.permits_total||0).toLocaleString(),l:"Permit records"},
       {n:m.pool_parcels||0,l:"Pool parcels"},
     ].map(s=>`<div class="permits-stat"><div class="n">${s.n}</div><div class="l">${s.l}</div></div>`).join("")
-    :`<div class="permits-stat"><div class="n">${scraped.toLocaleString()} / ${totalPros.toLocaleString()}</div><div class="l">Parcels scraped</div></div>`;
+    :"";
   }
   const rows=[];
   for(const [pid,pack] of Object.entries(PERMITS.parcels||{})){
@@ -1418,13 +1409,13 @@ function renderPermits(){
   }
   rows.sort((a,b)=>parsePermitDate(b.permit.date)-parsePermitDate(a.permit.date));
   document.getElementById("permitsStatL").textContent=`${rows.length.toLocaleString()} permit${rows.length===1?"":"s"} shown`;
-  document.getElementById("permitsStatR").textContent=complete?"":"Loading full village…";
+  document.getElementById("permitsStatR").textContent="";
   if(!complete){
-    list.innerHTML=`<div class="empty"><div class="lead">Permit data not ready yet.</div>${scraped.toLocaleString()} of ${totalPros.toLocaleString()} parcels scraped from PROS. Run <code>python build_permits.py --resume</code> to finish the village.</div>`;
+    list.innerHTML=emptyHTML("Coming soon","Village permit records are still being collected.");
     return;
   }
   if(!rows.length){
-    list.innerHTML=`<div class="empty"><div class="lead">No permits on file.</div></div>`;
+    list.innerHTML=emptyHTML("No information yet","Nothing matches this filter right now.");
     return;
   }
   list.innerHTML=rows.slice(0,120).map(r=>{
@@ -1436,7 +1427,7 @@ function renderPermits(){
       <div class="pc-date">${esc(p.date)}</div></div>
       <div class="pc-desc">${esc(p.description)}</div>
       <a class="pros-link pc-link" href="${prosUrl(r.pid)}" target="_blank" rel="noopener">PROS parcel ↗</a></div>`;
-  }).join("")+(rows.length>120?`<div class="more-note">${(rows.length-120).toLocaleString()} more in the scrape. Narrow the filter or finish the full run.</div>`:"");
+  }).join("")+(rows.length>120?`<div class="more-note">${(rows.length-120).toLocaleString()} more permits. Narrow the filter.</div>`:"");
 }
 function parseNewsDate(s){
   if(!s) return 0;
@@ -1454,14 +1445,20 @@ function renderNews(){
   const items=(NEWS.items||[]).filter(it=>newsFilter==="all"||it.board_key===newsFilter);
   items.sort((a,b)=>parseNewsDate(b.date)-parseNewsDate(a.date));
   const updated=NEWS.meta?.updated;
-  if(note&&updated){
-    const d=new Date(updated);
-    note.textContent=`Last updated ${d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}. Run python build_news.py to refresh.`;
+  if(note){
+    note.textContent=updated
+      ?`Last updated ${new Date(updated).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}.`
+      :"Sourced from scarsdale.gov agenda center and PROS building permits.";
   }
-  document.getElementById("newsStatL").textContent=`${items.length.toLocaleString()} item${items.length===1?"":"s"}`;
+  const allItems=NEWS.items||[];
+  document.getElementById("newsStatL").textContent=allItems.length?`${items.length.toLocaleString()} item${items.length===1?"":"s"}`:"";
   document.getElementById("newsStatR").textContent=updated?new Date(updated).toLocaleDateString("en-US",{month:"short",day:"numeric"}):"";
+  if(!allItems.length){
+    list.innerHTML=emptyHTML("Coming soon","Planning and zoning items from the village will appear here.");
+    return;
+  }
   if(!items.length){
-    list.innerHTML=`<div class="empty"><div class="lead">No board news yet.</div>Run <code>python build_news.py</code> to pull agendas from scarsdale.gov.</div>`;
+    list.innerHTML=emptyHTML("No information yet","Nothing posted for this board right now.");
     return;
   }
   list.innerHTML=items.slice(0,80).map(it=>{
@@ -1514,7 +1511,7 @@ function renderLookup(raw){
   if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;return;}
   const shown=list.slice(0,CAP);
   box.innerHTML=shown.map((e,i)=>{let c=cardHTML(e);
-    if(i===4)c+=affiliateNoticeHTML(1-(Math.floor(Date.now()/864e5)%2));
+    if(i===4)c+=affiliateNoticeHTML(1+Math.floor(Date.now()/864e5)%2);
     return c;}).join("")+(total>CAP?`<div class="more-note">${(total-CAP).toLocaleString()} more. Narrow your search.</div>`:"");
 }
 
@@ -1689,7 +1686,7 @@ function buildHonor(year){
 
   if(steady[0])W("steady","steady","Year Over Year Stability","Steady Eddie",steady[0],
     `${chg(steady[0]).pct>=0?"+":""}${chg(steady[0]).pct.toFixed(2)}% assessed since ${y-1}, ${fmtUSD(fmv(steady[0]))} full market`,
-    `Unchanged year over year. In a village that revalued twice in two years, holding perfectly still is practically a civic skill. No Scarsdale Bowl for it, but it should count.`,
+    `Unchanged year over year. In a village that revalued twice in two years, holding perfectly still is practically a civic skill.`,
     steady,e=>(chg(e).pct>=0?"+":"")+chg(e).pct.toFixed(2)+"%, "+fmtShort(fmv(e)));
 
   // ---- editorial insights (computed per year, not rankings) ----
