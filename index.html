@@ -71,7 +71,7 @@
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "description": "Search Scarsdale assessment rolls by address, owner, school zone, value, or tax. Browse by street and zone. View permits and planning-board news.",
       "featureList": [
-        "RollSpeak plain-English property search",
+        "RollSpeak™ plain-English property search",
         "Scarsdale assessment roll search",
         "Estimated property tax calculator",
         "Elementary school zone lookup",
@@ -333,6 +333,7 @@
   .rollspeak-brand{display:flex;align-items:baseline;gap:8px;margin:0 0 14px;flex-wrap:wrap}
   .rollspeak-mark{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;
     text-transform:uppercase;color:var(--claret)}
+  .rollspeak-mark .tm{font-size:8px;letter-spacing:0;vertical-align:super;font-weight:700;opacity:.9;margin-left:1px}
   .rollspeak-tag{font-family:'Newsreader',Georgia,serif;font-size:13px;font-style:italic;color:var(--ink-muted)}
   .hints{font-family:'Newsreader',Georgia,serif;font-size:14px;color:var(--ink-muted);font-style:italic;
     margin:10px 2px 0;line-height:1.65}
@@ -432,13 +433,15 @@
   .street-filter input{width:100%;font-family:'Newsreader',Georgia,serif;font-size:16px;padding:11px 14px;
     border:1.5px solid var(--line-2);border-radius:3px;background:var(--sheet);outline:none;color:var(--ink)}
   .street-filter input:focus{border-color:var(--ink-muted);box-shadow:0 0 0 3px var(--claret-soft)}
-  .quickpick{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin:12px 0 0}
-  .quickpick .qplab{font-family:'Archivo',sans-serif;font-size:11px;font-weight:600;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--claret);margin-right:4px}
-  .quickpick button{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;letter-spacing:.02em;
+  .quickpick-groups{display:flex;flex-direction:column;gap:11px;margin:14px 0 0}
+  .quickpick-row{display:grid;grid-template-columns:92px 1fr;gap:10px 12px;align-items:start}
+  .quickpick-row .qplab{font-family:'Archivo',sans-serif;font-size:10px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--claret);padding-top:8px;line-height:1.2}
+  .qpbtns{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .qpbtns button{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;letter-spacing:.02em;
     background:var(--newsprint-deep);border:1.5px solid var(--line-2);color:var(--ink-2);padding:6px 13px;
-    border-radius:999px;cursor:pointer;transition:.12s}
-  .quickpick button:hover{border-color:var(--claret);color:var(--claret);background:var(--claret-soft)}
+    border-radius:999px;cursor:pointer;transition:.12s;white-space:nowrap}
+  .qpbtns button:hover{border-color:var(--claret);color:var(--claret);background:var(--claret-soft)}
   .group{margin-top:20px;border-top:2px solid var(--rule)}
   .group h3{font-family:'Newsreader',Georgia,serif;font-weight:700;font-size:19px;color:var(--ink);
     display:flex;justify-content:space-between;align-items:baseline;padding:14px 4px 8px;cursor:pointer;line-height:1.3}
@@ -670,17 +673,15 @@
       display:block;font-size:15px;line-height:1.5;color:var(--ink-muted);margin-top:10px;font-style:italic;
     }
     .mobile-hint b{color:var(--claret);font-weight:600;font-style:normal}
-    .quickpick{
+    .quickpick-groups{gap:12px;margin-top:12px}
+    .quickpick-row{grid-template-columns:1fr;gap:6px}
+    .quickpick-row .qplab{padding-top:0;font-size:10px}
+    .qpbtns{
       flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
-      gap:8px;margin-top:10px;padding:2px 2px 8px;
-      scroll-snap-type:x proximity;scrollbar-width:none;
+      gap:8px;padding:2px 2px 6px;scroll-snap-type:x proximity;scrollbar-width:none;
     }
-    .quickpick::-webkit-scrollbar{display:none}
-    .quickpick .qplab{
-      flex:0 0 auto;font-size:11px;color:var(--claret);margin:0;padding:8px 2px 8px 0;
-      width:auto;
-    }
-    .quickpick button{
+    .qpbtns::-webkit-scrollbar{display:none}
+    .qpbtns button{
       flex:0 0 auto;scroll-snap-align:start;
       min-height:40px;padding:0 16px;font-size:15px;font-weight:500;
       border-radius:999px;background:var(--sheet);border:1.5px solid var(--line-2);
@@ -927,32 +928,44 @@
     <h2 class="sr-only" id="lookup-heading" tabindex="-1">Scarsdale property search</h2>
     <div class="searchwrap" role="search">
       <div class="rollspeak-brand">
-        <span class="rollspeak-mark">RollSpeak</span>
+        <span class="rollspeak-mark">RollSpeak<span class="tm" aria-hidden="true">™</span></span>
         <span class="rollspeak-tag">plain-English roll search</span>
       </div>
       <div class="sbox">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <label class="sr-only" for="q">RollSpeak — search Scarsdale properties by address, owner, parcel ID, school zone, or value</label>
-        <input id="q" name="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="street-address" autocorrect="off" spellcheck="false" placeholder="RollSpeak: heathcote over 3m, palmer ave, owner smith…">
+        <label class="sr-only" for="q">RollSpeak™ — search Scarsdale properties by address, owner, parcel ID, school zone, or value</label>
+        <input id="q" name="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="street-address" autocorrect="off" spellcheck="false" placeholder="Try: heathcote over 3m, palmer ave, owner smith…">
       </div>
-      <div class="hints">RollSpeak understands plain English. Try <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>owned by smith</b> · <b>with pool</b> · <b>biggest lot</b></div>
-      <p class="mobile-hint">RollSpeak: <b>heathcote over 3m</b>, <b>palmer ave</b>, <b>owner smith</b>, or <b>biggest tax</b></p>
-      <div class="quickpick" id="quickpick">
-        <span class="qplab">Schools</span>
-        <button type="button" data-q="heathcote">Heathcote</button>
-        <button type="button" data-q="edgewood">Edgewood</button>
-        <button type="button" data-q="fox meadow">Fox Meadow</button>
-        <button type="button" data-q="greenacres">Greenacres</button>
-        <button type="button" data-q="quaker ridge">Quaker Ridge</button>
-        <span class="qplab" style="margin-left:8px">Value</span>
-        <button type="button" data-q="over 3m">Over $3M</button>
-        <button type="button" data-q="1m to 2m">$1M to $2M</button>
-        <button type="button" data-q="under 1m">Under $1M</button>
-        <span class="qplab" style="margin-left:8px">RollSpeak</span>
-        <button type="button" data-q="heathcote over 3m">Heathcote $3M+</button>
-        <button type="button" data-q="biggest tax">Biggest tax</button>
-        <button type="button" data-q="with pool">Pool parcels</button>
-        <button type="button" data-q="reassessed up">Reassessed up</button>
+      <div class="hints">RollSpeak™ understands plain English. Try <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>owned by smith</b> · <b>with pool</b> · <b>biggest lot</b></div>
+      <p class="mobile-hint">Try <b>heathcote over 3m</b>, <b>palmer ave</b>, <b>owner smith</b>, or <b>biggest tax</b></p>
+      <div class="quickpick-groups" id="quickpick">
+        <div class="quickpick-row">
+          <span class="qplab">School zones</span>
+          <div class="qpbtns">
+            <button type="button" data-q="heathcote">Heathcote</button>
+            <button type="button" data-q="edgewood">Edgewood</button>
+            <button type="button" data-q="fox meadow">Fox Meadow</button>
+            <button type="button" data-q="greenacres">Greenacres</button>
+            <button type="button" data-q="quaker ridge">Quaker Ridge</button>
+          </div>
+        </div>
+        <div class="quickpick-row">
+          <span class="qplab">Value</span>
+          <div class="qpbtns">
+            <button type="button" data-q="over 3m">Over $3M</button>
+            <button type="button" data-q="1m to 2m">$1M to $2M</button>
+            <button type="button" data-q="under 1m">Under $1M</button>
+          </div>
+        </div>
+        <div class="quickpick-row">
+          <span class="qplab">Examples</span>
+          <div class="qpbtns">
+            <button type="button" data-q="heathcote over 3m">Heathcote $3M+</button>
+            <button type="button" data-q="biggest tax">Biggest tax</button>
+            <button type="button" data-q="with pool">Pool parcels</button>
+            <button type="button" data-q="reassessed up">Reassessed up</button>
+          </div>
+        </div>
       </div>
       <div class="chips" id="chips"></div>
       <div class="rollspeak-read" id="rollspeakRead" aria-live="polite"></div>
@@ -1763,8 +1776,8 @@ function parseQuery(raw){
 }
 function rollSpeakSummary(f,raw){
   if(!(raw||"").trim()) return "";
-  if(f.chips.length) return "RollSpeak read: "+f.chips.join(" · ");
-  return "RollSpeak read: "+(raw||"").trim();
+  if(f.chips.length) return "RollSpeak™ read: "+f.chips.join(" · ");
+  return "RollSpeak™ read: "+(raw||"").trim();
 }
 function matchScore(e,f){
   const p=e[curYear];
@@ -2032,7 +2045,7 @@ function renderLookup(raw){
   const total=list.length;
   document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${ledgerCount().toLocaleString()} parcels on the ${curYear} roll. Start typing.`;
   document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA. Run extract.py for the full roll</span>`:"";
-  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>RollSpeak: try <b>palmer ave</b>, <b>owned by smith</b>, <b>heathcote over 3m</b>, or <b>with pool</b>.</div>`;touchPanel("lookup");return;}
+  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try <b>palmer ave</b>, <b>owned by smith</b>, <b>heathcote over 3m</b>, or <b>with pool</b>.</div>`;touchPanel("lookup");return;}
   const shown=list.slice(0,CAP);
   const chunks=shown.map((e,i)=>{let c=cardHTML(e);
     if(i===4)c+=affiliateNoticeHTML(1+Math.floor(Date.now()/864e5)%2);
