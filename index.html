@@ -1494,9 +1494,9 @@ async function boot(){
   });
 }
 function invalidatePanels(names){
-  const keys=names?.length?names:Object.keys(panelState);
+  const keys=names==null?Object.keys(panelState):Array.isArray(names)?names:[names];
   keys.forEach(n=>{if(panelState[n]) panelState[n].done=false;});
-  if(!names?.length){permitRowsCache=null;permitRowsSig="";browseGroupsCache=null;}
+  if(names==null){permitRowsCache=null;permitRowsSig="";browseGroupsCache=null;}
 }
 function panelSig(name){
   if(name==="lookup") return `${curYear}|${document.getElementById("q").value.trim()}`;
