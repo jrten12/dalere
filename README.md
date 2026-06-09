@@ -53,6 +53,26 @@ Cards show **estimated** annual tax (county + school + village) from `data/tax_r
 ## Ad slots
 Marked `.notice` in index.html: one inline in Lookup (after result 5), one on the Honor Roll page.
 
+## Board news & permits (automated)
+
+GitHub Actions refresh public data on a schedule (no server required):
+
+| Workflow | Schedule | What it does |
+|----------|----------|----------------|
+| [refresh-news.yml](.github/workflows/refresh-news.yml) | Daily | `python build_news.py` → updates `data/news.json` from village agendas + recent permits |
+| [refresh-permits.yml](.github/workflows/refresh-permits.yml) | Sundays | `python build_permits.py --resume` then `build_news.py` → updates `data/permits.json` and news |
+
+Both workflows commit to `main` when data changes; GitHub Pages redeploys automatically.
+
+Manual run: **Actions** tab → pick a workflow → **Run workflow**.
+
+Optional: add repository secret `OPENAI_API_KEY` to enable `--ai` one-line summaries in automated runs.
+
+Local one-off:
+
+    python build_news.py
+    python build_permits.py --resume
+
 ## Notes
 - Commercial parcels are filtered out on load — the ledger is residential-only.
 - Uniform % of value differs by year (2026 66.91%, 2025 69.73%, 2024 74.94%); read per-roll.
