@@ -1,6 +1,6 @@
 {
   "meta": {
-    "updated": "2026-06-09T04:24:53Z",
+    "updated": "2026-06-09T13:46:57Z",
     "item_count": 111,
     "sources": [
       "agenda_center",
@@ -101,15 +101,12 @@
       "date_label": "June 23, 2026",
       "title": "Committee for Historic Preservation Meeting for June 23, 2026",
       "title_clean": "Committee for Historic Preservation Meeting for June 23, 2026",
-      "address": "1001 POST ROAD",
+      "address": null,
       "kind": "historic",
       "has_minutes": false,
       "url": "https://www.scarsdale.gov/AgendaCenter/ViewFile/Agenda/_06232026-1394",
       "minutes_url": null,
-      "summary": "Historic Preservation listed a historic-preservation item for 1001 POST ROAD.",
-      "addresses": [
-        "1001 POST ROAD"
-      ]
+      "summary": "Historic Preservation regular session \u2014 agenda posted on the village site."
     },
     {
       "id": "bar-06152026-1396",
@@ -154,15 +151,12 @@
       "date_label": "June 10, 2026",
       "title": "Zoning Board of Appeals Regular Meeting Agenda",
       "title_clean": "Zoning Board of Appeals Regular Meeting",
-      "address": "1001 Post Road",
+      "address": null,
       "kind": "variance",
       "has_minutes": false,
       "url": "https://www.scarsdale.gov/AgendaCenter/ViewFile/Agenda/_06102026-1395",
       "minutes_url": null,
-      "summary": "Zoning Board of Appeals posted a variance matter for 1001 Post Road.",
-      "addresses": [
-        "1001 Post Road"
-      ]
+      "summary": "Zoning Board of Appeals regular session \u2014 agenda posted on the village site."
     },
     {
       "id": "permit-02.05.5-6-4-2026-building",
@@ -367,15 +361,12 @@
       "date_label": "May 19, 2026",
       "title": "Committee for Historic Preservation Meeting and Results for May 19, 2026",
       "title_clean": "Committee for Historic Preservation Meeting and Results for May 19, 2026",
-      "address": "1001 POST ROAD",
+      "address": null,
       "kind": "historic",
       "has_minutes": false,
       "url": "https://www.scarsdale.gov/AgendaCenter/ViewFile/Agenda/_05192026-1389",
       "minutes_url": null,
-      "summary": "Historic Preservation listed a historic-preservation item for 1001 POST ROAD.",
-      "addresses": [
-        "1001 POST ROAD"
-      ]
+      "summary": "Historic Preservation regular session \u2014 agenda and decisions posted."
     },
     {
       "id": "permit-05.09.27-5-19-2026-building",
@@ -684,15 +675,12 @@
       "date_label": "April 21, 2026",
       "title": "Committee for Historic Preservation Agenda and Results for April 21, 2026 Meeting",
       "title_clean": "Committee for Historic Preservation Agenda and Results for April 21, 2026 Meeting",
-      "address": "1001 POST ROAD",
+      "address": null,
       "kind": "historic",
       "has_minutes": false,
       "url": "https://www.scarsdale.gov/AgendaCenter/ViewFile/Agenda/_04212026-1384",
       "minutes_url": null,
-      "summary": "Historic Preservation listed a historic-preservation item for 1001 POST ROAD.",
-      "addresses": [
-        "1001 POST ROAD"
-      ]
+      "summary": "Historic Preservation regular session \u2014 agenda and decisions posted."
     },
     {
       "id": "bar-04202026-1386",
@@ -929,15 +917,12 @@
       "date_label": "March 24, 2026",
       "title": "Committee for Historic Preservation Agenda and Results for March 24, 2026 Meeting",
       "title_clean": "Committee for Historic Preservation Agenda and Results for March 24, 2026 Meeting",
-      "address": "1001 POST ROAD",
+      "address": null,
       "kind": "historic",
       "has_minutes": false,
       "url": "https://www.scarsdale.gov/AgendaCenter/ViewFile/Agenda/_03242026-1379",
       "minutes_url": null,
-      "summary": "Historic Preservation listed a historic-preservation item for 1001 POST ROAD.",
-      "addresses": [
-        "1001 POST ROAD"
-      ]
+      "summary": "Historic Preservation regular session \u2014 agenda and decisions posted."
     },
     {
       "id": "bar-03232026-1381",
