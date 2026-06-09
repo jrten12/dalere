@@ -1,4 +1,4 @@
-const CACHE = "dale-ledger-v8";
+const CACHE = "dale-ledger-v11";
 const PRECACHE = [
   "./",
   "./index.html",
@@ -33,6 +33,11 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
+  if (url.pathname === "/" || url.pathname.endsWith("/index.html")) {
+    e.respondWith(networkFirst(e.request));
+    return;
+  }
+
   e.respondWith(cacheFirst(e.request));
 });
 
@@ -47,6 +52,20 @@ async function cacheFirst(request) {
     }
     return res;
   } catch {
+    return cached || Response.error();
+  }
+}
+
+async function networkFirst(request) {
+  try {
+    const res = await fetch(request);
+    if (res.ok) {
+      const copy = res.clone();
+      caches.open(CACHE).then((c) => c.put(request, copy));
+    }
+    return res;
+  } catch {
+    const cached = await caches.match(request);
     return cached || Response.error();
   }
 }
