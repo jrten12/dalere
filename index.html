@@ -1029,17 +1029,6 @@
     </button>
   </nav>
 
-  <div class="hr-modal" id="hrModal" aria-hidden="true">
-    <div class="hr-modal-backdrop" data-close="1"></div>
-    <div class="hr-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="hrModalTitle">
-      <div class="hr-modal-head">
-        <div><h2 id="hrModalTitle"></h2><div class="hr-modal-sub" id="hrModalSub"></div></div>
-        <button type="button" class="hr-modal-close" aria-label="Close">&times;</button>
-      </div>
-      <ol class="hr-modal-list" id="hrModalList"></ol>
-    </div>
-  </div>
-
   <footer role="contentinfo">
     <details class="seo-guide">
       <summary>About this almanac &amp; how to search</summary>
@@ -1080,6 +1069,17 @@
       <p>By accessing or using this site in any manner, you agree to this disclaimer and these terms of use. If you do not agree, you must not use the site. These terms are governed by the laws of the State of New York, without regard to conflict-of-law principles.</p>
     </aside>
   </footer>
+</div>
+
+<div class="hr-modal" id="hrModal" aria-hidden="true">
+  <div class="hr-modal-backdrop" data-close></div>
+  <div class="hr-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="hrModalTitle">
+    <div class="hr-modal-head">
+      <div><h2 id="hrModalTitle"></h2><div class="hr-modal-sub" id="hrModalSub"></div></div>
+      <button type="button" class="hr-modal-close" aria-label="Close" data-close>&times;</button>
+    </div>
+    <ol class="hr-modal-list" id="hrModalList"></ol>
+  </div>
 </div>
 
 <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
@@ -1496,15 +1496,17 @@ function applyUrlState(initial){
   const board=params.get("board");
   if(board&&NEWS_BOARDS.includes(board)) newsFilter=board;
   else if(pan!=="news") newsFilter="all";
-  const zone=params.get("zone"), band=params.get("band");
+  const zone=params.get("zone"), band=params.get("band"), group=params.get("group");
   if(pan==="browse"){
-    if(zone&&(zone==="Unzoned"||SCHOOLS.includes(zone))){groupMode="school";browseFilter=zone;}
-    else if(band&&VALUE_BANDS.some(b=>b.id===band)){groupMode="band";browseFilter=band;}
-    else if(!zone&&!band) browseFilter=null;
-    document.querySelectorAll("#groupFacets .fbtn").forEach(b=>{
-      b.setAttribute("aria-pressed",b.dataset.group===groupMode?"true":"false");
-    });
-  }else if(pan!=="browse") browseFilter=null;
+    if(group&&BROWSE_GROUPS.has(group)) groupMode=group;
+    else if(!group&&!zone&&!band) groupMode="school";
+    if(groupMode==="school"){
+      browseFilter=(zone&&(zone==="Unzoned"||SCHOOLS.includes(zone)))?zone:null;
+    }else if(groupMode==="band"){
+      browseFilter=(band&&VALUE_BANDS.some(b=>b.id===band))?band:null;
+    }else browseFilter=null;
+    syncGroupFacetsUI();
+  }else if(pan!=="browse"){browseFilter=null;groupMode="school";}
   syncNewsFacets();
   document.querySelectorAll(".sections button, .app-tabbar button").forEach(b=>{
     b.setAttribute("aria-current",b.dataset.panel===pan?"true":"false");
@@ -1554,9 +1556,10 @@ function syncUrl(){
   p.set("year",String(curYear));
   const panel=activePanel(); if(panel!=="lookup") p.set("panel",panel);
   if(panel==="news"&&newsFilter!=="all") p.set("board",newsFilter);
-  if(panel==="browse"&&browseFilter){
-    if(groupMode==="school") p.set("zone",browseFilter);
-    else if(groupMode==="band") p.set("band",browseFilter);
+  if(panel==="browse"){
+    p.set("group",groupMode);
+    if(browseFilter&&groupMode==="school") p.set("zone",browseFilter);
+    else if(browseFilter&&groupMode==="band") p.set("band",browseFilter);
   }
   const q=document.getElementById("q").value.trim(); if(q) p.set("q",q);
   const open=document.querySelector("#results .card .detail")?.closest(".card")?.dataset?.pid;
@@ -1582,7 +1585,8 @@ function setPanel(name){
   });
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='panel-'+name));
   window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
-  queuePanelRender(name);
+  if(name==="browse") flushBrowseRender();
+  else queuePanelRender(name);
   syncUrl();
   document.getElementById(name+"-heading")?.focus({preventScroll:true});
 }
@@ -2124,7 +2128,32 @@ function renderHonor(){
 }
 
 /* ---- render: Browse / groupings ---- */
+const BROWSE_GROUPS=new Set(["school","band","street","class"]);
 let groupMode="school", browseFilter=null, streetFilterText="";
+function syncGroupFacetsUI(){
+  document.querySelectorAll("#groupFacets .fbtn").forEach(b=>{
+    b.setAttribute("aria-pressed",b.dataset.group===groupMode?"true":"false");
+  });
+}
+function flushBrowseRender(){
+  if(panelRenderQueued){cancelAnimationFrame(panelRenderQueued);panelRenderQueued=0;}
+  invalidatePanels("browse");
+  if(activePanel()==="browse"){
+    renderBrowse();
+    document.getElementById("groups")?.scrollIntoView({block:"nearest",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+  }else queuePanelRender("browse",true);
+}
+function setGroupMode(mode){
+  if(!BROWSE_GROUPS.has(mode)) return;
+  groupMode=mode;
+  browseFilter=null;
+  streetFilterText="";
+  const sf=document.getElementById("streetFilter");
+  if(sf) sf.value="";
+  syncGroupFacetsUI();
+  flushBrowseRender();
+  syncUrl();
+}
 function valueBand(v){
   if(v==null) return "Unknown";
   for(const b of VALUE_BANDS) if(v>=b.min&&v<b.max) return b.id;
@@ -2134,18 +2163,14 @@ function browseFilterFromAttr(raw){
   return raw==null||raw===""?null:raw;
 }
 function setBrowseFilter(raw){
-  const next=browseFilterFromAttr(raw);
-  if(next===browseFilter&&activePanel()==="browse") return;
-  browseFilter=next;
-  invalidatePanels("browse");
-  if(activePanel()==="browse"){
-    renderBrowse();
-    document.getElementById("groups")?.scrollIntoView({block:"nearest",behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
-  }else queuePanelRender("browse",true);
+  if(groupMode!=="school"&&groupMode!=="band") return;
+  browseFilter=browseFilterFromAttr(raw);
+  flushBrowseRender();
   syncUrl();
 }
 function renderBrowseQuick(ents){
   const el=document.getElementById("browseQuick");
+  syncGroupFacetsUI();
   if(groupMode==="school"){
     const counts={}; for(const sc of SCHOOLS) counts[sc]=0; counts.Unzoned=0;
     ents.forEach(e=>{counts[e._school]=(counts[e._school]||0)+1;});
@@ -2171,7 +2196,10 @@ function browseListHTML(list){
     (sorted.length>BROWSE_GROUP_CAP?`<div class="more-note">${(sorted.length-BROWSE_GROUP_CAP).toLocaleString()} more in this group. Narrow the filter.</div>`:"");
 }
 function renderBrowse(){
-  const ents=Object.values(index).filter(e=>e[curYear]); const wrap=document.getElementById('groups');
+  const ents=Object.values(index).filter(e=>e[curYear]);
+  const wrap=document.getElementById("groups");
+  if(!wrap) return;
+  if(groupMode!=="school"&&groupMode!=="band") browseFilter=null;
   renderBrowseQuick(ents);
   const keyFn={
     street:e=>e._street||"(no street)",
@@ -2250,29 +2278,32 @@ document.querySelectorAll('.sections button, .app-tabbar button').forEach(b=>b.a
 document.getElementById('honorGrid').addEventListener('click',e=>{
   const b=e.target.closest('[data-honor]'); if(b) openHonorModal(b.dataset.honor);
 });
-document.getElementById('hrModal').addEventListener('click',e=>{
+const hrModal=document.getElementById('hrModal');
+hrModal.addEventListener('click',e=>{
   if(e.target.closest('[data-close]')||e.target.closest('.hr-modal-close')) closeHonorModal();
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape') closeHonorModal();});
-document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
-document.querySelectorAll('#groupFacets .fbtn').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('#groupFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b?"true":"false"));
-  groupMode=b.dataset.group; browseFilter=null; streetFilterText="";
-  document.getElementById("streetFilter").value="";
-  invalidatePanels("browse");
-  if(activePanel()==="browse") renderBrowse();
-  else queuePanelRender("browse",true);
-  syncUrl();
-}));
-document.getElementById('browseQuick').addEventListener('click',e=>{
-  const b=e.target.closest('.qbtn'); if(!b||!document.getElementById('browseQuick').contains(b)) return;
-  e.preventDefault();
-  setBrowseFilter(b.getAttribute('data-filter'));
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&hrModal.classList.contains('open')) closeHonorModal();
 });
-document.getElementById('streetFilter').addEventListener('input',e=>{
+document.querySelectorAll('.yearpick button').forEach(b=>b.addEventListener('click',()=>setYear(+b.dataset.year)));
+document.getElementById("panel-browse").addEventListener("click",e=>{
+  const groupBtn=e.target.closest("#groupFacets .fbtn[data-group]");
+  if(groupBtn){
+    e.preventDefault();
+    setGroupMode(groupBtn.getAttribute("data-group"));
+    return;
+  }
+  const zoneBtn=e.target.closest("#browseQuick .qbtn[data-filter]");
+  if(zoneBtn){
+    e.preventDefault();
+    setBrowseFilter(zoneBtn.getAttribute("data-filter"));
+  }
+});
+document.getElementById("streetFilter").addEventListener("input",e=>{
   streetFilterText=e.target.value.trim();
   clearTimeout(streetTmr);
-  streetTmr=setTimeout(()=>{invalidatePanels("browse");queuePanelRender("browse",true);},150);});
+  streetTmr=setTimeout(()=>flushBrowseRender(),150);
+});
 document.getElementById('permitsFacets').addEventListener('click',e=>{
   const b=e.target.closest('[data-permit-filter]'); if(!b)return;
   permitFilter=b.dataset.permitFilter;

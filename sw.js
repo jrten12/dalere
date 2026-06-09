@@ -1,4 +1,4 @@
-const CACHE = "dale-ledger-v3";
+const CACHE = "dale-ledger-v4";
 const PRECACHE = [
   "./",
   "./index.html",
