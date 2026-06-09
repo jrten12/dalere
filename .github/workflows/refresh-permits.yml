@@ -28,9 +28,9 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           if [ -n "$OPENAI_API_KEY" ]; then
-            python build_news.py --ai
+            python build_news.py --ai --pdf-depth 4
           else
-            python build_news.py
+            python build_news.py --pdf-depth 4
           fi
 
       - name: Commit and push

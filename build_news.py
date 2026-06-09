@@ -3,7 +3,8 @@
 
 Sources:
   - Scarsdale CivicEngage Agenda Center (Planning, BAR, ZBA, Historic Preservation)
-  - data/permits.json (recent BUILDING permits from PROS scrape)
+  - Agenda PDF text (addresses / projects from recent meeting packets)
+  - data/permits.json (recent BUILDING + BAR permits from PROS scrape)
 
 Writes data/news.json. Re-run on a schedule (cron, GitHub Action) to refresh.
 Optional: set OPENAI_API_KEY for one-line AI summaries on project-specific items.
@@ -13,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import io
 import json
 import os
 import re
@@ -21,6 +23,11 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
+
+try:
+    from pypdf import PdfReader
+except ImportError:
+    PdfReader = None  # type: ignore
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "data" / "news.json"
@@ -40,18 +47,12 @@ ADDR = re.compile(
     r"(?:Road|Rd|Avenue|Ave|Lane|Ln|Drive|Dr|Place|Pl|Court|Ct|Way|Blvd|Terrace|Ter)\.?)",
     re.I,
 )
-PROJECT_KW = re.compile(
-    r"public meeting|site plan|subdivision|variance|demolition|renovation|addition|"
-    r"construction|alteration|extension|deck|garage|pool|dormer|fence|tear.?down|"
-    r"new (?:home|house|building|dwelling)|special permit|historic preservation|"
-    r"adjourned|snow event",
+TITLE_DATE = re.compile(
+    r"for\s+([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})",
     re.I,
 )
-GENERIC_MEETING = re.compile(
-    r"(regular meeting|meeting agenda and (results|decisions)|agenda and results for|"
-    r"meeting (and results )?for [a-z]+ \d|committee for historic preservation (meeting|agenda))",
-    re.I,
-)
+PERMIT_NEWS_TYPES = frozenset({"BUILDING", "BAR"})
+AGENDA_PDF_DEPTH = 4
 MONTHS = {
     "january": 1,
     "february": 2,
@@ -78,11 +79,31 @@ def fetch(url: str) -> str:
         return proc.stdout.decode("utf-8", "replace")
 
 
+def fetch_bytes(url: str) -> bytes | None:
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            return resp.read()
+    except Exception as exc:
+        print(f"  fetch failed {url}: {exc}")
+        return None
+
+
 def parse_date(label: str) -> str | None:
     if not label:
         return None
     label = re.sub(r"\s+", " ", html.unescape(label)).strip()
-    m = re.match(r"([A-Za-z]+)\s+(\d{1,2}),\s+(\d{4})", label)
+    m = re.match(r"([A-Za-z]+)\s+(\d{1,2}),?\s+(\d{4})", label)
+    if not m:
+        return None
+    month = MONTHS.get(m.group(1).lower())
+    if not month:
+        return None
+    return f"{int(m.group(3)):04d}-{month:02d}-{int(m.group(2)):02d}"
+
+
+def parse_date_from_title(title: str) -> str | None:
+    m = TITLE_DATE.search(title or "")
     if not m:
         return None
     month = MONTHS.get(m.group(1).lower())
@@ -131,19 +152,73 @@ def item_kind(board_key: str, title: str) -> str:
     return "agenda"
 
 
-def is_relevant(title: str) -> bool:
-    if ADDR.search(title):
-        return True
-    if GENERIC_MEETING.search(title):
+def valid_pdf_address(addr: str) -> bool:
+    if len(addr) < 10 or len(addr) > 60:
         return False
-    scrubbed = re.sub(
-        r"committee for historic preservation|board of architectural review|"
-        r"planning board|zoning board of appeals",
-        "",
-        title,
-        flags=re.I,
-    )
-    return bool(PROJECT_KW.search(scrubbed))
+    if not re.match(r"^\d{1,5}\s+[A-Za-z]", addr):
+        return False
+    if re.search(r"\d+\.\d+", addr):
+        return False
+    if re.search(r"\b(project|corp|realestate|dev|planning|board|referral|amend)\b", addr, re.I):
+        return False
+    words = [w for w in addr.split() if w]
+    if len(words) < 3:
+        return False
+    name_words = words[1:-1]
+    if not name_words or not all(re.search(r"[A-Za-z]", w) for w in name_words):
+        return False
+    return True
+
+
+def pdf_addresses(pdf_bytes: bytes) -> list[str]:
+    if not PdfReader:
+        return []
+    try:
+        reader = PdfReader(io.BytesIO(pdf_bytes))
+        text = "\n".join((p.extract_text() or "") for p in reader.pages)
+    except Exception as exc:
+        print(f"  pdf parse: {exc}")
+        return []
+    text = re.sub(r"\s+", " ", text)
+    found: list[str] = []
+    seen: set[str] = set()
+    for m in ADDR.finditer(text):
+        addr = re.sub(r"\s+", " ", m.group(1)).strip()
+        if not valid_pdf_address(addr):
+            continue
+        key = addr.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        found.append(addr)
+    return found[:8]
+
+
+def enrich_agenda_pdf(item: dict, slug_id: str) -> list[dict]:
+    """Pull property addresses out of agenda PDFs; emit extra cards when found."""
+    url = f"{BASE}/AgendaCenter/ViewFile/Agenda/{slug_id}"
+    raw = fetch_bytes(url)
+    if not raw or raw[:5] != b"%PDF-":
+        return []
+    addrs = pdf_addresses(raw)
+    if not addrs:
+        return []
+    item["addresses"] = addrs
+    if not item.get("address"):
+        item["address"] = addrs[0]
+    extras: list[dict] = []
+    primary = (item.get("address") or "").lower()
+    for i, addr in enumerate(addrs):
+        if addr.lower() == primary:
+            continue
+        spin = dict(item)
+        spin["id"] = f"{item['id']}-loc-{i}"
+        spin["source"] = "agenda_pdf"
+        spin["address"] = addr
+        spin["title_clean"] = f"{item.get('title_clean') or item['title']} — {addr}"
+        spin["summary"] = summarize_heuristic(spin)
+        extras.append(spin)
+    return extras
 
 
 def summarize_heuristic(item: dict) -> str:
@@ -156,7 +231,8 @@ def summarize_heuristic(item: dict) -> str:
     if item.get("source") == "permits":
         desc = item.get("description") or "building work"
         where = f" at {addr}" if addr else ""
-        return f"Building permit on file{where}: {desc.rstrip('.')}."
+        label = "BAR filing" if item.get("permit_type") == "BAR" else "Building permit"
+        return f"{label} on file{where}: {desc.rstrip('.')}."
 
     if addr:
         if kind == "public_meeting" or "public meeting" in low:
@@ -171,12 +247,21 @@ def summarize_heuristic(item: dict) -> str:
             return f"{board} posted decisions touching {addr}."
         return f"{board} posted an agenda item for {addr}."
 
+    addrs = item.get("addresses") or []
+    if addrs and not addr:
+        preview = ", ".join(addrs[:3])
+        if len(addrs) > 3:
+            preview += f" (+{len(addrs) - 3} more)"
+        return f"{board} session — properties on the agenda include {preview}."
+
     if "adjourned" in low or "snow" in low:
         return f"{board} session rescheduled — see village agenda for the new date."
-    if "regular meeting" in low and item.get("has_minutes"):
+    if item.get("has_minutes"):
         return f"{board} regular session — minutes posted on the village site."
-    if "decisions" in low:
+    if "decisions" in low or "results" in low:
         return f"{board} regular session — agenda and decisions posted."
+    if "regular meeting" in low or "meeting for" in low or "meeting agenda" in low:
+        return f"{board} regular session — agenda posted on the village site."
     return f"{board}: {title}."
 
 
@@ -235,9 +320,10 @@ def ai_summarize(items: list[dict], api_key: str) -> dict[str, str]:
     return out
 
 
-def parse_board_page(board: dict, html_text: str) -> list[dict]:
+def parse_board_page(board: dict, html_text: str, pdf_depth: int = 0) -> list[dict]:
     rows = re.findall(r'<tr id="row[^"]+" class="catAgendaRow">(.*?)</tr>', html_text, re.S)
-    items = []
+    items: list[dict] = []
+    pdf_queue: list[tuple[dict, str]] = []
     for row in rows:
         date_m = re.search(r'aria-label="Agenda for ([^"]+)"', row)
         title_m = re.search(
@@ -248,10 +334,8 @@ def parse_board_page(board: dict, html_text: str) -> list[dict]:
             continue
         slug_id = title_m.group(1)
         raw_title = re.sub(r"\s+", " ", title_m.group(2)).strip()
-        if not is_relevant(raw_title):
-            continue
         date_label = date_m.group(1) if date_m else ""
-        iso = parse_date(date_label)
+        iso = parse_date(date_label) or parse_date_from_title(raw_title)
         minutes_m = re.search(r'href="/AgendaCenter/ViewFile/Minutes/(_[^"?]+)', row)
         agenda_url = f"{BASE}/AgendaCenter/ViewFile/Agenda/{slug_id}"
         minutes_url = (
@@ -265,7 +349,7 @@ def parse_board_page(board: dict, html_text: str) -> list[dict]:
             "board_key": board["key"],
             "board": board["name"],
             "date": iso or date_label,
-            "date_label": date_label,
+            "date_label": date_label or raw_title,
             "title": raw_title,
             "title_clean": title_clean,
             "address": addr,
@@ -276,10 +360,17 @@ def parse_board_page(board: dict, html_text: str) -> list[dict]:
         }
         item["summary"] = summarize_heuristic(item)
         items.append(item)
+        if pdf_depth > 0:
+            pdf_queue.append((item, slug_id))
+    if pdf_depth > 0 and pdf_queue:
+        for meeting, slug_id in pdf_queue[:pdf_depth]:
+            extras = enrich_agenda_pdf(meeting, slug_id)
+            meeting["summary"] = summarize_heuristic(meeting)
+            items.extend(extras)
     return items
 
 
-def permits_as_news(limit: int = 50) -> list[dict]:
+def permits_as_news(limit: int = 80) -> list[dict]:
     if not PERMITS.exists():
         return []
     try:
@@ -290,7 +381,8 @@ def permits_as_news(limit: int = 50) -> list[dict]:
     rows = []
     for pid, pack in (data.get("parcels") or {}).items():
         for p in pack.get("permits") or []:
-            if p.get("type") != "BUILDING":
+            ptype = (p.get("type") or "").upper()
+            if ptype not in PERMIT_NEWS_TYPES:
                 continue
             desc = (p.get("description") or "").strip()
             if not desc or desc.upper() == "PERMIT APPLIED":
@@ -325,17 +417,19 @@ def permits_as_news(limit: int = 50) -> list[dict]:
         d = p.get("date") or ""
         iso = permit_iso(d)
         addr = re.sub(r",\s*SCARSDALE.*$", "", r["address"] or "", flags=re.I).strip()
+        board_label = "BAR filing" if ptype == "BAR" else "Building permit"
         item = {
-            "id": f"permit-{r['pid']}-{d.replace('/', '-')}",
+            "id": f"permit-{r['pid']}-{d.replace('/', '-')}-{ptype.lower()}",
             "source": "permits",
             "board_key": "permits",
             "board": "Building permits",
             "date": iso or d,
             "date_label": d,
-            "title": p.get("description") or "Building permit",
-            "title_clean": p.get("description") or "Building permit",
+            "title": p.get("description") or board_label,
+            "title_clean": p.get("description") or board_label,
             "address": addr or r["address"],
             "kind": "permit",
+            "permit_type": ptype,
             "description": p.get("description"),
             "status": p.get("status"),
             "pid": r["pid"],
@@ -353,18 +447,18 @@ def sort_key(item: dict):
     return "0000-00-00"
 
 
-def build(use_ai: bool = False) -> dict:
+def build(use_ai: bool = False, pdf_depth: int = AGENDA_PDF_DEPTH) -> dict:
     items: list[dict] = []
     for board in BOARDS:
         url = f"{BASE}/AgendaCenter/{board['slug']}"
         print(f"Fetching {board['name']}…")
         page = fetch(url)
-        found = parse_board_page(board, page)
-        print(f"  {len(found)} relevant items")
+        found = parse_board_page(board, page, pdf_depth=pdf_depth)
+        print(f"  {len(found)} items")
         items.extend(found)
 
     permit_items = permits_as_news()
-    print(f"Permits: {len(permit_items)} recent building records")
+    print(f"Permits: {len(permit_items)} recent BUILDING/BAR records")
     items.extend(permit_items)
 
     items.sort(key=sort_key, reverse=True)
@@ -381,8 +475,10 @@ def build(use_ai: bool = False) -> dict:
         "meta": {
             "updated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "item_count": len(items),
-            "sources": ["agenda_center", "permits"],
+            "sources": ["agenda_center", "agenda_pdf", "permits"],
             "boards": [b["name"] for b in BOARDS],
+            "permit_types": sorted(PERMIT_NEWS_TYPES),
+            "agenda_pdf_depth": pdf_depth,
         },
         "items": items,
     }
@@ -391,8 +487,14 @@ def build(use_ai: bool = False) -> dict:
 def main():
     ap = argparse.ArgumentParser(description="Build data/news.json from village agendas + permits")
     ap.add_argument("--ai", action="store_true", help="Use OPENAI_API_KEY for brief summaries")
+    ap.add_argument(
+        "--pdf-depth",
+        type=int,
+        default=AGENDA_PDF_DEPTH,
+        help="recent agendas per board to scan for property addresses in PDFs (0=off)",
+    )
     args = ap.parse_args()
-    payload = build(use_ai=args.ai)
+    payload = build(use_ai=args.ai, pdf_depth=max(0, args.pdf_depth))
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Wrote {OUT} ({payload['meta']['item_count']} items)")

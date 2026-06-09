@@ -59,8 +59,8 @@ GitHub Actions refresh public data on a schedule (no server required):
 
 | Workflow | Schedule | What it does |
 |----------|----------|----------------|
-| [refresh-news.yml](.github/workflows/refresh-news.yml) | Daily | `python build_news.py` → updates `data/news.json` from village agendas + recent permits |
-| [refresh-permits.yml](.github/workflows/refresh-permits.yml) | Sundays | `python build_permits.py --resume` then `build_news.py` → updates `data/permits.json` and news |
+| [refresh-news.yml](.github/workflows/refresh-news.yml) | Daily | `build_permits.py --resume` (missing parcels) + `build_news.py --pdf-depth 4` → agendas, PDF addresses, PROS permits |
+| [refresh-permits.yml](.github/workflows/refresh-permits.yml) | Sundays | Full `build_permits.py --resume` then `build_news.py --pdf-depth 4` |
 
 Both workflows commit to `main` when data changes; GitHub Pages redeploys automatically.
 

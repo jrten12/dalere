@@ -71,6 +71,7 @@
       "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
       "description": "Search Scarsdale assessment rolls by address, owner, school zone, value, or tax. Browse by street and zone. View permits and planning-board news.",
       "featureList": [
+        "RollSpeak plain-English property search",
         "Scarsdale assessment roll search",
         "Estimated property tax calculator",
         "Elementary school zone lookup",
@@ -329,10 +330,20 @@
   .sbox input:focus{border-color:var(--ink-muted);box-shadow:0 0 0 3px var(--claret-soft),inset 0 1px 2px rgba(31,29,26,.03)}
   .sbox input::placeholder{color:var(--faint);font-style:italic}
   .sbox svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ink-muted)}
+  .rollspeak-brand{display:flex;align-items:baseline;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+  .rollspeak-mark{font-family:'Archivo',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--claret)}
+  .rollspeak-tag{font-family:'Newsreader',Georgia,serif;font-size:13px;font-style:italic;color:var(--ink-muted)}
   .hints{font-family:'Newsreader',Georgia,serif;font-size:14px;color:var(--ink-muted);font-style:italic;
     margin:10px 2px 0;line-height:1.65}
   .hints b{color:var(--claret);font-weight:600;font-style:normal}
   .mobile-hint{display:none}
+  .rollspeak-read{
+    font-family:'Archivo',sans-serif;font-size:12px;font-weight:500;color:var(--ink-2);
+    margin:12px 0 0;padding:10px 12px;border-left:3px solid var(--claret);
+    background:var(--newsprint-deep);border-radius:0 6px 6px 0;line-height:1.45;
+  }
+  .rollspeak-read:empty{display:none}
   .chips{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 0;min-height:0}
   .chip{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;letter-spacing:.03em;background:var(--claret);
     color:#fff;padding:5px 11px;border-radius:2px}
@@ -915,13 +926,17 @@
   <section class="panel on" id="panel-lookup" aria-labelledby="lookup-heading">
     <h2 class="sr-only" id="lookup-heading" tabindex="-1">Scarsdale property search</h2>
     <div class="searchwrap" role="search">
+      <div class="rollspeak-brand">
+        <span class="rollspeak-mark">RollSpeak</span>
+        <span class="rollspeak-tag">plain-English roll search</span>
+      </div>
       <div class="sbox">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <label class="sr-only" for="q">Search Scarsdale properties by address, owner, parcel ID, school zone, or value</label>
-        <input id="q" name="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="street-address" autocorrect="off" spellcheck="false" placeholder="Search address, owner, zone…">
+        <label class="sr-only" for="q">RollSpeak — search Scarsdale properties by address, owner, parcel ID, school zone, or value</label>
+        <input id="q" name="q" type="search" inputmode="search" enterkeyhint="search" autocomplete="street-address" autocorrect="off" spellcheck="false" placeholder="RollSpeak: heathcote over 3m, palmer ave, owner smith…">
       </div>
-      <div class="hints">Plain English works. Try <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>biggest tax</b> · a street like <b>palmer ave</b> · owner name</div>
-      <p class="mobile-hint">Try <b>heathcote over 3m</b>, a street name, owner, or <b>biggest</b></p>
+      <div class="hints">RollSpeak understands plain English. Try <b>heathcote over 3m</b> · <b>tax over 80k</b> · <b>owned by smith</b> · <b>with pool</b> · <b>biggest lot</b></div>
+      <p class="mobile-hint">RollSpeak: <b>heathcote over 3m</b>, <b>palmer ave</b>, <b>owner smith</b>, or <b>biggest tax</b></p>
       <div class="quickpick" id="quickpick">
         <span class="qplab">Schools</span>
         <button type="button" data-q="heathcote">Heathcote</button>
@@ -933,8 +948,14 @@
         <button type="button" data-q="over 3m">Over $3M</button>
         <button type="button" data-q="1m to 2m">$1M to $2M</button>
         <button type="button" data-q="under 1m">Under $1M</button>
+        <span class="qplab" style="margin-left:8px">RollSpeak</span>
+        <button type="button" data-q="heathcote over 3m">Heathcote $3M+</button>
+        <button type="button" data-q="biggest tax">Biggest tax</button>
+        <button type="button" data-q="with pool">Pool parcels</button>
+        <button type="button" data-q="reassessed up">Reassessed up</button>
       </div>
       <div class="chips" id="chips"></div>
+      <div class="rollspeak-read" id="rollspeakRead" aria-live="polite"></div>
     </div>
     <div class="statline"><span id="statL">Start typing to search the roll.</span><span id="statR"></span></div>
     <div id="results"></div>
@@ -990,8 +1011,8 @@
   <!-- ============ BOARD NEWS ============ -->
   <section class="panel" id="panel-news" aria-labelledby="news-heading">
     <h2 class="sr-only" id="news-heading" tabindex="-1">Scarsdale planning board and zoning news</h2>
-    <p class="news-intro">Planning, architectural review, zoning appeals, and historic preservation — plus recent building permits from PROS, pulled from the village agenda center.</p>
-    <p class="news-note" id="newsNote">Sourced from scarsdale.gov agenda center and PROS building permits.</p>
+    <p class="news-intro">Planning, architectural review, zoning appeals, and historic preservation — village agenda sessions, addresses pulled from meeting packets, plus recent PROS building and BAR filings.</p>
+    <p class="news-note" id="newsNote">Sourced from scarsdale.gov agenda center (including PDF packets) and PROS permits. Refreshed daily.</p>
     <div class="permits-facets facet-scroll" id="newsFacets" role="group" aria-label="Board news filter">
       <button type="button" class="fbtn" data-news-filter="all" aria-pressed="true">All</button>
       <button type="button" class="fbtn" data-news-filter="planning" aria-pressed="false">Planning</button>
@@ -1314,14 +1335,17 @@ function syncNewsFacets(){
     btn.innerHTML=`${NEWS_BOARD_LABELS[k]||k}<span class="qcount">${n}</span>`;
   });
 }
-function setNewsFilter(f){
-  if(!NEWS_BOARDS.includes(f)) f="all";
-  if(f===newsFilter&&activePanel()==="news"){syncNewsFacets();return;}
-  newsFilter=f;
-  syncNewsFacets();
+function flushNewsRender(){
+  if(panelRenderQueued){cancelAnimationFrame(panelRenderQueued);panelRenderQueued=0;}
   invalidatePanels("news");
   if(activePanel()==="news") renderNews();
   else queuePanelRender("news",true);
+}
+function setNewsFilter(f){
+  if(!NEWS_BOARDS.includes(f)) f="all";
+  newsFilter=f;
+  syncNewsFacets();
+  flushNewsRender();
   syncUrl();
 }
 const titleCase=s=>(s||"").toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()).replace(/\b(Ny|Llc|Iii|Ii)\b/g,m=>m.toUpperCase());
@@ -1586,6 +1610,7 @@ function setPanel(name){
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on', p.id==='panel-'+name));
   window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
   if(name==="browse") flushBrowseRender();
+  else if(name==="news") flushNewsRender();
   else queuePanelRender(name);
   syncUrl();
   document.getElementById(name+"-heading")?.focus({preventScroll:true});
@@ -1625,45 +1650,121 @@ function setYear(y,silent){
   syncUrl();
 }
 
-/* ---- deterministic query parser (no model) ---- */
+/* ---- RollSpeak: plain-English roll search (deterministic, no model) ---- */
+const ROLLSPEAK_FILLER=/\b(show me|find me|find|search for|looking for|get me|list|give me|any|all the)\b/g;
+function rollSpeakNum(s){
+  s=String(s||"").replace(/[$,\s]/g,"");
+  const m=s.match(/^([\d.]+)(m|k)?$/);
+  if(!m) return null;
+  let v=parseFloat(m[1]);
+  if(m[2]==="m") v*=1e6;
+  else if(m[2]==="k") v*=1e3;
+  else if(v<100) v*=1e6;
+  return v;
+}
+function preprocessRollSpeak(raw){
+  let q=(raw||"").trim().toLowerCase();
+  q=q.replace(/[''"]/g,"");
+  q=q.replace(ROLLSPEAK_FILLER," ");
+  q=q.replace(/\b(\d+(?:\.\d+)?)\s*million\b/g,"$1m");
+  q=q.replace(/\b(\d+)\s*grand\b/g,"$1k");
+  q=q.replace(/\b(valued|worth|value)\s+(over|above|under|below)\b/g,"$2");
+  q=q.replace(/\b(homes?|houses?|properties|parcels?|residents?)\b/g," ");
+  q=q.replace(/\b(elementary|school|zone|district)\b/g," ");
+  q=q.replace(/\b(in|on|at|near|around|within|from)\b/g," ");
+  return q.replace(/\s+/g," ").trim();
+}
 function parseQuery(raw){
-  let q=(raw||"").trim().toLowerCase(); const f={text:[],min:null,max:null,taxMin:null,taxMax:null,school:null,cls:null,sort:null,chips:[]};
+  let q=preprocessRollSpeak(raw);
+  const f={text:[],min:null,max:null,taxMin:null,taxMax:null,acreMin:null,acreMax:null,
+    school:null,cls:null,sort:null,pool:false,yoyDir:null,chips:[]};
   if(!q) return f;
-  q=q.replace(/\b(elementary|school|zone|district)\b/g," ").replace(/\s+/g," ").trim();
-  const num=s=>{s=s.replace(/[$,\s]/g,""); let m=s.match(/^([\d.]+)(m|k)?$/); if(!m)return null;
-    let v=parseFloat(m[1]); if(m[2]==="m")v*=1e6; else if(m[2]==="k")v*=1e3; else if(v<100)v*=1e6; return v;}
   let m;
-  if(m=q.match(/(?:tax\s*)?(?:over|above|>|more than|at least)\s*\$?([\d.,]+\s*(?:k|m)?)\s*(?:in\s*)?(?:tax|taxes)/)){f.taxMin=num(m[1]);f.chips.push(`tax over ${fmtShort(f.taxMin)}`);q=q.replace(m[0],"");}
-  if(m=q.match(/(?:tax\s*)?(?:under|below|<|less than|up to)\s*\$?([\d.,]+\s*(?:k|m)?)\s*(?:in\s*)?(?:tax|taxes)/)){f.taxMax=num(m[1]);f.chips.push(`tax under ${fmtShort(f.taxMax)}`);q=q.replace(m[0],"");}
+  if(m=q.match(/\b(?:owned by|owner(?:\s+name)?|last name)\s+([a-z][a-z\s'\-]+)/)){
+    f.text=m[1].trim().split(/\s+/).filter(Boolean);
+    f.chips.push("owner "+m[1].trim());
+    q=q.replace(m[0],"").trim();
+  }
+  if(/\b(with pool|has pool|pool parcel|pool home)\b/.test(q)){
+    f.pool=true; f.chips.push("pool on file"); q=q.replace(/\b(with pool|has pool|pool parcel|pool home)\b/,"");
+  }
+  if(/\b(reassessed up|value up|went up|increased|assessment up)\b/.test(q)){
+    f.yoyDir="up"; f.chips.push("reassessed up"); q=q.replace(/\b(reassessed up|value up|went up|increased|assessment up)\b/,"");
+  }
+  if(/\b(reassessed down|value down|went down|decreased|assessment down)\b/.test(q)){
+    f.yoyDir="down"; f.chips.push("reassessed down"); q=q.replace(/\b(reassessed down|value down|went down|decreased|assessment down)\b/,"");
+  }
+  if(m=q.match(/(?:tax\s*)?(?:over|above|>|more than|at least)\s*\$?([\d.,]+\s*(?:k|m)?)\s*(?:in\s*)?(?:tax|taxes)/)){
+    f.taxMin=rollSpeakNum(m[1]); f.chips.push(`tax over ${fmtShort(f.taxMin)}`); q=q.replace(m[0],"");
+  }
+  if(m=q.match(/(?:tax\s*)?(?:under|below|<|less than|up to)\s*\$?([\d.,]+\s*(?:k|m)?)\s*(?:in\s*)?(?:tax|taxes)/)){
+    f.taxMax=rollSpeakNum(m[1]); f.chips.push(`tax under ${fmtShort(f.taxMax)}`); q=q.replace(m[0],"");
+  }
+  if(m=q.match(/(?:over|above|>|more than|at least)\s*([\d.]+)\s*acres?\b/)){
+    f.acreMin=parseFloat(m[1]); f.chips.push(`over ${f.acreMin} ac`); q=q.replace(m[0],"");
+  }
+  if(m=q.match(/(?:under|below|<|less than|up to)\s*([\d.]+)\s*acres?\b/)){
+    f.acreMax=parseFloat(m[1]); f.chips.push(`under ${f.acreMax} ac`); q=q.replace(m[0],"");
+  }
   if(m=q.match(/between\s+\$?([\d.,]+)\s*(?:m|million)?\s*(?:and|to|-)\s*\$?([\d.,]+)\s*(?:m|million)?/)){
-    f.min=num(m[1]+"m"); f.max=num(m[2]+"m"); f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");}
+    f.min=rollSpeakNum(m[1]+"m"); f.max=rollSpeakNum(m[2]+"m");
+    f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");
+  }
   if(m=q.match(/(\$?[\d.,]+\s*(?:m|million)?)\s*[-–to]+\s*(\$?[\d.,]+\s*(?:m|million)?)/)){
-    f.min=num(m[1]); f.max=num(m[2]); f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");}
-  if(m=q.match(/(?:over|above|>|more than|at least)\s*\$?([\d.,]+\s*(?:m|million|k)?)/)){f.min=num(m[1]);f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
-  if(m=q.match(/(?:under|below|<|less than|up to)\s*\$?([\d.,]+\s*(?:m|million|k)?)/)){f.max=num(m[1]);f.chips.push(`under ${fmtShort(f.max)}`);q=q.replace(m[0],"");}
-  if(m=q.match(/\$?([\d.]+)\s*m\+/)){f.min=num(m[1]+"m");f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
+    f.min=rollSpeakNum(m[1]); f.max=rollSpeakNum(m[2]);
+    f.chips.push(`${fmtShort(f.min)}–${fmtShort(f.max)}`); q=q.replace(m[0],"");
+  }
+  if(m=q.match(/(?:over|above|>|more than|at least)\s*\$?([\d.,]+\s*(?:m|million|k)?)/)){
+    f.min=rollSpeakNum(m[1]); f.chips.push(`over ${fmtShort(f.min)}`); q=q.replace(m[0],"");
+  }
+  if(m=q.match(/(?:under|below|<|less than|up to)\s*\$?([\d.,]+\s*(?:m|million|k)?)/)){
+    f.max=rollSpeakNum(m[1]); f.chips.push(`under ${fmtShort(f.max)}`); q=q.replace(m[0],"");
+  }
+  if(m=q.match(/\$?([\d.]+)\s*m\+/)){f.min=rollSpeakNum(m[1]+"m");f.chips.push(`over ${fmtShort(f.min)}`);q=q.replace(m[0],"");}
   if(/\bunder \$?1\s*m\b/.test(q)){f.max=1e6;f.chips.push("under $1M");q=q.replace(/\bunder \$?1\s*m\b/,"");}
   if(/\bover \$?10\s*m\b/.test(q)){f.min=1e7;f.chips.push("over $10M");q=q.replace(/\bover \$?10\s*m\b/,"");}
   for(const[alias,sc]of SCHOOL_ALIASES.sort((a,b)=>b[0].length-a[0].length)){
-    if(q.includes(alias)){f.school=sc;f.chips.push(sc+" zone");q=q.replace(alias,"");break;}}
-  for(const sc of SCHOOLS){ if(q.includes(sc.toLowerCase())){f.school=sc;f.chips.push(sc+" zone");q=q.replace(sc.toLowerCase(),"");break;}}
+    if(q.includes(alias)){f.school=sc;f.chips.push(sc+" zone");q=q.replace(new RegExp(alias.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"g"),"");break;}
+  }
+  for(const sc of SCHOOLS){
+    const low=sc.toLowerCase();
+    if(q.includes(low)){f.school=sc;f.chips.push(sc+" zone");q=q.replace(low,"");break;}
+  }
   if(q.includes("unzoned")){f.school="Unzoned";f.chips.push("Unzoned");q=q.replace("unzoned","");}
   const clsmap={vacant:"Vacant / land",land:"Vacant / land","vacant land":"Vacant / land",
     condo:"Condo",condos:"Condo",house:"Single-family",houses:"Single-family",
     "single family":"Single-family","multi family":"Multi-family","multi-family":"Multi-family",multifamily:"Multi-family"};
-  for(const k of Object.keys(clsmap).sort((a,b)=>b.length-a.length)){ if(q.includes(k)){f.cls=clsmap[k];f.chips.push(clsmap[k]);q=q.replace(k,"");break;}}
-  if(/\b(biggest|highest|priciest|most expensive|top)\b/.test(q)&&!/\btax\b/.test(q)){f.sort="desc";f.chips.push("biggest first");q=q.replace(/\b(biggest|highest|priciest|most expensive|top)\b/,"");}
-  if(/\b(highest tax|biggest tax|most tax|top tax)\b/.test(q)){f.sort="taxdesc";f.chips.push("highest tax");q=q.replace(/\b(highest tax|biggest tax|most tax|top tax)\b/,"");}
-  if(/\b(cheapest|lowest|smallest)\b/.test(q)&&!/\btax\b/.test(q)){f.sort="asc";f.chips.push("cheapest first");q=q.replace(/\b(cheapest|lowest|smallest)\b/,"");}
-  if(/\b(lowest tax|cheapest tax|smallest tax)\b/.test(q)){f.sort="taxasc";f.chips.push("lowest tax");q=q.replace(/\b(lowest tax|cheapest tax|smallest tax)\b/,"");}
-  q=q.replace(/\b(in|on|at|near)\b/g," ").replace(/\s+/g," ").trim();
-  if(/^\d+\.\d+/.test(q)){f.parcelId=q; return f;}
+  for(const k of Object.keys(clsmap).sort((a,b)=>b.length-a.length)){
+    if(q.includes(k)){f.cls=clsmap[k];f.chips.push(clsmap[k]);q=q.replace(k,"");break;}
+  }
+  if(/\b(biggest|largest|most)\s+(lot|acre|acreage|land)\b/.test(q)){
+    f.sort="acredesc"; f.chips.push("biggest lot"); q=q.replace(/\b(biggest|largest|most)\s+(lot|acre|acreage|land)\b/,"");
+  }
+  if(/\b(biggest|highest|priciest|most expensive|top)\b/.test(q)&&!/\btax\b/.test(q)){
+    f.sort="desc"; f.chips.push("biggest first"); q=q.replace(/\b(biggest|highest|priciest|most expensive|top)\b/,"");
+  }
+  if(/\b(highest tax|biggest tax|most tax|top tax)\b/.test(q)){
+    f.sort="taxdesc"; f.chips.push("highest tax"); q=q.replace(/\b(highest tax|biggest tax|most tax|top tax)\b/,"");
+  }
+  if(/\b(cheapest|lowest|smallest)\b/.test(q)&&!/\btax\b/.test(q)){
+    f.sort="asc"; f.chips.push("cheapest first"); q=q.replace(/\b(cheapest|lowest|smallest)\b/,"");
+  }
+  if(/\b(lowest tax|cheapest tax|smallest tax)\b/.test(q)){
+    f.sort="taxasc"; f.chips.push("lowest tax"); q=q.replace(/\b(lowest tax|cheapest tax|smallest tax)\b/,"");
+  }
+  q=q.replace(/\s+/g," ").trim();
+  if(/^\d+\.\d+/.test(q)){f.parcelId=q; f.chips.push("parcel "+q); return f;}
   const am=q.match(/^(\d+[a-z]?)\s+(.+)$/i);
-  if(am){f.houseNum=am[1]; f.street=am[2]; return f;}
+  if(am){f.houseNum=am[1]; f.street=am[2]; f.chips.push(am[1]+" "+titleCase(am[2])); return f;}
   const sm=q.match(/^(.+?\s+(?:rd|road|st|street|ave|avenue|la|lane|dr|drive|pl|place|ct|court|cir|circle|ter|terrace|pkwy|blvd|blv|way))\s*$/i);
-  if(sm){f.street=sm[1]; return f;}
-  f.text=q.split(/\s+/).map(t=>t.trim()).filter(Boolean);
+  if(sm){f.street=sm[1]; f.chips.push(titleCase(sm[1])); return f;}
+  if(q) f.text=[...f.text,...q.split(/\s+/).map(t=>t.trim()).filter(Boolean)];
   return f;
+}
+function rollSpeakSummary(f,raw){
+  if(!(raw||"").trim()) return "";
+  if(f.chips.length) return "RollSpeak read: "+f.chips.join(" · ");
+  return "RollSpeak read: "+(raw||"").trim();
 }
 function matchScore(e,f){
   const p=e[curYear];
@@ -1691,18 +1792,30 @@ function matchScore(e,f){
   }
   return 0;
 }
+function parcelHasPool(e){return !!(PERMITS.parcels?.[e._pid]?.has_pool);}
 function applyQuery(list,f){
   const taxOf=e=>{const p=e[curYear]; return p?estTax(p,curYear)?.total:null;};
+  const acreOf=e=>rollParcel(e)?.acreage;
   const hasText=!!(f.text.length||f.street||f.houseNum||f.parcelId);
   let out=list.map(e=>({e,score:matchScore(e,f)})).filter(x=>x.score>=0);
   out=out.filter(({e})=>{
     const p=e[curYear]; const fmv=p?.full_market; const tx=taxOf(e);
-    if(f.school && schoolOf(p.address)!==f.school) return false;
+    const ac=acreOf(e);
+    if(f.school && schoolOf(p?.address)!==f.school) return false;
     if(f.cls && e._class!==f.cls) return false;
     if(f.min!=null && !(fmv>=f.min)) return false;
     if(f.max!=null && !(fmv<=f.max)) return false;
     if(f.taxMin!=null && !(tx!=null&&tx>=f.taxMin)) return false;
     if(f.taxMax!=null && !(tx!=null&&tx<=f.taxMax)) return false;
+    if(f.acreMin!=null && !(ac!=null&&ac>=f.acreMin)) return false;
+    if(f.acreMax!=null && !(ac!=null&&ac<=f.acreMax)) return false;
+    if(f.pool && !parcelHasPool(e)) return false;
+    if(f.yoyDir){
+      const pct=yoyPct(e,curYear);
+      if(pct==null) return false;
+      if(f.yoyDir==="up" && pct<=5) return false;
+      if(f.yoyDir==="down" && pct>=-5) return false;
+    }
     return true;
   });
   out.sort((a,b)=>{
@@ -1710,6 +1823,10 @@ function applyQuery(list,f){
     if(f.sort==="taxdesc"||f.sort==="taxasc"){
       const ta=taxOf(a.e)||0, tb=taxOf(b.e)||0;
       return f.sort==="taxasc"?ta-tb:tb-ta;
+    }
+    if(f.sort==="acredesc"){
+      const aa=acreOf(a.e)||0, ab=acreOf(b.e)||0;
+      return ab-aa;
     }
     if(f.sort==="asc"||f.sort==="desc"){
       const va=pa?.full_market||0, vb=pb?.full_market||0;
@@ -1850,9 +1967,10 @@ function renderNews(){
   items.sort((a,b)=>parseNewsDate(b.date)-parseNewsDate(a.date));
   const updated=NEWS.meta?.updated;
   if(note){
+    const src=NEWS.meta?.sources?.length?` Sources: ${NEWS.meta.sources.join(", ").replace(/_/g," ")}.`:"";
     note.textContent=updated
-      ?`Last updated ${new Date(updated).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})}.`
-      :"Sourced from scarsdale.gov agenda center and PROS building permits.";
+      ?`Last updated ${new Date(updated).toLocaleString("en-US",{month:"short",day:"numeric",year:"numeric",hour:"numeric",minute:"2-digit",timeZoneName:"short"})}.${src}`
+      :"Sourced from scarsdale.gov agenda center (PDF packets) and PROS permits. Refreshed daily.";
   }
   const allItems=NEWS.items||[];
   const filterLabel=newsFilter==="all"?"":` · ${NEWS_BOARD_LABELS[newsFilter]||newsFilter}`;
@@ -1869,7 +1987,7 @@ function renderNews(){
   list.innerHTML=items.slice(0,80).map(it=>{
     const boardCls=it.board_key==="planning"||it.kind==="public_meeting"?" planning":"";
     const kindCls=it.kind==="public_meeting"?" meeting":"";
-    const addr=(it.address||"").replace(/,\s*SCARSDALE.*$/i,"").trim();
+    const addr=(it.address||(it.addresses&&it.addresses[0])||"").replace(/,\s*SCARSDALE.*$/i,"").trim();
     const title=addr?titleCase(addr):(it.title_clean||it.title);
     const links=[];
     if(it.url) links.push(`<a class="pros-link" href="${esc(it.url)}" target="_blank" rel="noopener">Village agenda ↗</a>`);
@@ -1878,7 +1996,7 @@ function renderNews(){
     const dateLabel=it.date_label||it.date||"";
     return `<div class="news-card"><div class="nc-top"><div>
       <div class="nc-title">${esc(title)}</div>
-      <div class="nc-meta"><span class="nc-board${boardCls}">${esc(it.board)}</span><span class="nc-kind${kindCls}">${esc(newsKindLabel(it.kind))}</span>${it.status?`<span class="nc-kind">${esc(it.status)}</span>`:""}</div>
+      <div class="nc-meta"><span class="nc-board${boardCls}">${esc(it.board)}</span><span class="nc-kind${kindCls}">${esc(newsKindLabel(it.kind))}</span>${it.permit_type?`<span class="nc-kind">${esc(it.permit_type)}</span>`:""}${it.status?`<span class="nc-kind">${esc(it.status)}</span>`:""}</div>
     </div><div class="nc-date">${esc(dateLabel)}</div></div>
     <div class="nc-summary">${esc(it.summary||it.title_clean||it.title)}</div>
     ${links.length?`<div class="nc-links">${links.join("")}</div>`:""}</div>`;
@@ -1908,12 +2026,13 @@ function detailHTML(e){
 function renderLookup(raw){
   const f=parseQuery(raw); const box=document.getElementById('results');
   let list=applyQuery(Object.values(index),f);
-  // chips
   document.getElementById('chips').innerHTML=f.chips.map(c=>`<span class="chip">${esc(c)}</span>`).join("");
+  const rs=document.getElementById('rollspeakRead');
+  if(rs) rs.textContent=rollSpeakSummary(f,raw);
   const total=list.length;
   document.getElementById('statL').textContent=(raw||"").trim()?`${total.toLocaleString()} match${total===1?"":"es"}`:`${ledgerCount().toLocaleString()} parcels on the ${curYear} roll. Start typing.`;
   document.getElementById('statR').innerHTML=anyDemo?`<span class="demo-flag">◆ DEMO DATA. Run extract.py for the full roll</span>`:"";
-  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>Try an address, an owner's surname, a price like “over 3m”, or a school zone.</div>`;touchPanel("lookup");return;}
+  if(total===0){box.innerHTML=`<div class="empty"><div class="lead">Nothing matches.</div>RollSpeak: try <b>palmer ave</b>, <b>owned by smith</b>, <b>heathcote over 3m</b>, or <b>with pool</b>.</div>`;touchPanel("lookup");return;}
   const shown=list.slice(0,CAP);
   const chunks=shown.map((e,i)=>{let c=cardHTML(e);
     if(i===4)c+=affiliateNoticeHTML(1+Math.floor(Date.now()/864e5)%2);
@@ -2310,10 +2429,11 @@ document.getElementById('permitsFacets').addEventListener('click',e=>{
   document.querySelectorAll('#permitsFacets .fbtn').forEach(x=>x.setAttribute('aria-pressed',x===b));
   invalidatePanels("permits");
   renderPermits();});
-document.getElementById('newsFacets').addEventListener('click',e=>{
-  const b=e.target.closest("[data-news-filter]"); if(!b||!document.getElementById("newsFacets").contains(b)) return;
+document.getElementById("panel-news").addEventListener("click",e=>{
+  const b=e.target.closest("#newsFacets [data-news-filter]");
+  if(!b) return;
   e.preventDefault();
-  setNewsFilter(b.getAttribute("data-news-filter")||"all");
+  setNewsFilter(b.dataset.newsFilter||"all");
 });
 document.getElementById('quickpick').addEventListener('click',e=>{
   const b=e.target.closest('button[data-q]'); if(!b)return;
