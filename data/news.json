@@ -1,7 +1,7 @@
 {
   "meta": {
-    "updated": "2026-06-10T14:23:42Z",
-    "item_count": 111,
+    "updated": "2026-06-11T14:38:23Z",
+    "item_count": 112,
     "sources": [
       "agenda_center",
       "agenda_pdf",
@@ -91,6 +91,22 @@
       "pid": "05.08.34",
       "url": null,
       "summary": "Building permit on file at 5 HUNTINGTON AVE: Original dwelling."
+    },
+    {
+      "id": "planning-06242026-1397",
+      "source": "agenda",
+      "board_key": "planning",
+      "board": "Planning Board",
+      "date": "2026-06-24",
+      "date_label": "June 24, 2026",
+      "title": "Planning Board Regular Meeting Agenda",
+      "title_clean": "Planning Board Regular Meeting",
+      "address": null,
+      "kind": "agenda",
+      "has_minutes": false,
+      "url": "https://www.scarsdale.gov/AgendaCenter/ViewFile/Agenda/_06242026-1397",
+      "minutes_url": null,
+      "summary": "Planning Board regular session \u2014 agenda posted on the village site."
     },
     {
       "id": "historic-06232026-1394",
